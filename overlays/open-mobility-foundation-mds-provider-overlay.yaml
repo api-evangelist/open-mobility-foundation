@@ -1,0 +1,89 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist overlay for Provider (MDS 2.0)
+  version: 1.0.0
+extends: ../openapi/_original/open-mobility-foundation-mds-provider-openapi.yml
+x-generated: '2026-10-09'
+x-method: generated
+x-source: openapi/open-mobility-foundation-mds-provider-openapi.yml
+x-rationale: 'The OMF mds-openapi definitions (openapi/_original/mds-openapi/reference) ship untagged operations
+  and a bearer securityScheme that is never applied as a requirement. This overlay adds resource tags and the root
+  security requirement without mutating the original. No servers are added: MDS is a specification implemented by
+  each city/operator, so there is no single provider host.'
+actions:
+- target: $
+  description: Add top-level tags derived from the first path segment of each operation.
+  update:
+    tags:
+    - name: vehicles
+      description: MDS Provider vehicles operations
+    - name: trips
+      description: MDS Provider trips operations
+    - name: telemetry
+      description: MDS Provider telemetry operations
+    - name: events
+      description: MDS Provider events operations
+    - name: stops
+      description: MDS Provider stops operations
+    - name: reports
+      description: MDS Provider reports operations
+- target: $
+  description: Spec declares securitySchemes ['bearer'] but no root security requirement; apply it globally.
+  update:
+    security:
+    - bearer: []
+- target: $.paths['/vehicles'].get
+  description: Tag GET /vehicles by resource (vehicles) for grouping in docs and MCP tool categories.
+  update:
+    tags:
+    - vehicles
+- target: $.paths['/vehicles/{device_id}'].get
+  description: Tag GET /vehicles/{device_id} by resource (vehicles) for grouping in docs and MCP tool categories.
+  update:
+    tags:
+    - vehicles
+- target: $.paths['/vehicles/status'].get
+  description: Tag GET /vehicles/status by resource (vehicles) for grouping in docs and MCP tool categories.
+  update:
+    tags:
+    - vehicles
+- target: $.paths['/vehicles/status/{device_id}'].get
+  description: Tag GET /vehicles/status/{device_id} by resource (vehicles) for grouping in docs and MCP tool categories.
+  update:
+    tags:
+    - vehicles
+- target: $.paths['/trips'].get
+  description: Tag GET /trips by resource (trips) for grouping in docs and MCP tool categories.
+  update:
+    tags:
+    - trips
+- target: $.paths['/telemetry'].get
+  description: Tag GET /telemetry by resource (telemetry) for grouping in docs and MCP tool categories.
+  update:
+    tags:
+    - telemetry
+- target: $.paths['/events/historical'].get
+  description: Tag GET /events/historical by resource (events) for grouping in docs and MCP tool categories.
+  update:
+    tags:
+    - events
+- target: $.paths['/events/recent'].get
+  description: Tag GET /events/recent by resource (events) for grouping in docs and MCP tool categories.
+  update:
+    tags:
+    - events
+- target: $.paths['/stops'].get
+  description: Tag GET /stops by resource (stops) for grouping in docs and MCP tool categories.
+  update:
+    tags:
+    - stops
+- target: $.paths['/stops/{stop_id}'].get
+  description: Tag GET /stops/{stop_id} by resource (stops) for grouping in docs and MCP tool categories.
+  update:
+    tags:
+    - stops
+- target: $.paths['/reports/{filename}'].get
+  description: Tag GET /reports/{filename} by resource (reports) for grouping in docs and MCP tool categories.
+  update:
+    tags:
+    - reports

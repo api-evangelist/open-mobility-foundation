@@ -1,0 +1,353 @@
+openapi: 3.2.0
+info:
+  title: Metrics API
+  version: '2.0'
+  summary: Metrics API endpoints are intended to be implemented by regulatory agencies for requesting historical calculated core metrics and aggregations of MDS data.
+  contact:
+    url: https://github.com/openmobilityfoundation/mobility-data-specification
+    name: Open Mobility Foundation
+    email: info@openmobilityfoundation.org
+  license:
+    name: Creative Commons Attribution 4.0 International Public License
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/LICENSE
+  description: 'The Metrics API endpoints are intended to be implemented by regulatory agencies, their third party appointed
+
+    representatives, or city designated partners for requesting historical calculated core metrics and aggregations of MDS data.'
+tags:
+- name: Metrics
+paths:
+  /metrics:
+    get:
+      operationId: get-metrics
+      description: Get a discovery response describing the supported metrics, times, intervals, dimensions and filters.
+      summary: /metrics
+      responses:
+        '200':
+          description: Metrics discovered.
+          content:
+            application/json:
+              schema:
+                required:
+                - metrics
+                - max_intervals
+                - dimensions
+                - filters
+                properties:
+                  metrics:
+                    type: array
+                    minItems: 1
+                    items:
+                      required:
+                      - measures
+                      - since
+                      - intervals
+                      properties:
+                        measures:
+                          $ref: '#/components/schemas/measures'
+                          description: List of measure names.
+                        since:
+                          oneOf:
+                          - $ref: '#/components/schemas/data-types_iso-dayhourminute'
+                          - $ref: '#/components/schemas/data-types_timestamp'
+                          description: Earliest supported start date for fetching metrics. Minute (`mm`) must be divisible by minimum `interval`.
+                        intervals:
+                          type: array
+                          minItems: 1
+                          uniqueItems: true
+                          items:
+                            $ref: '#/components/schemas/data-types_iso-duration'
+                  max_intervals:
+                    $ref: '#/components/schemas/data-types_integer-positive'
+                    description: Maximum number intervals that can be returned.
+                  dimensions:
+                    $ref: '#/components/schemas/dimensions'
+                    description: List of supported dimensions.
+                  filters:
+                    type: array
+                    minItems: 1
+                    uniqueItems: true
+                    items:
+                      type: string
+                      examples:
+                      - provider_id
+                      - geography_id
+                      - geography_type
+                      - vehicle_type
+        '404':
+          description: Metrics not discovered.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_error'
+      tags:
+      - Metrics
+    post:
+      operationId: post-metrics
+      description: Query metrics.
+      summary: /metrics
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/query'
+      responses:
+        '200':
+          description: Metrics found.
+          content:
+            application/json:
+              schema:
+                required:
+                - id
+                - query
+                - columns
+                - rows
+                properties:
+                  id:
+                    $ref: '#/components/schemas/data-types_uuid'
+                    description: Unique id for query
+                  query:
+                    allOf:
+                    - $ref: '#/components/schemas/query'
+                    - required:
+                      - k_value
+                      properties:
+                        k_value:
+                          type: integer
+                          description: The k-anonymity value used in any data redaction.
+                          examples:
+                          - 10
+                  columns:
+                    type: array
+                    minItems: 1
+                    items:
+                      $ref: '#/components/schemas/column'
+                  rows:
+                    type: array
+                    minItems: 1
+                    items:
+                      $ref: '#/components/schemas/row'
+        '400':
+          description: Bad request.
+        '404':
+          description: Metrics not found.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_error'
+      tags:
+      - Metrics
+components:
+  schemas:
+    data-types_iso-duration:
+      title: data-types/iso-duration
+      type: string
+      description: 'An [ISO 8601 duration](https://en.wikipedia.org/wiki/ISO_8601#Durations) string, defining the amount of intervening time
+
+        in a time interval.'
+      x-stoplight:
+        id: ll9uuz5vjj9hj
+      examples:
+      - P1M
+      - PT1M
+      pattern: ^P(?!$)(\d+(?:\.\d+)?Y)?(\d+(?:\.\d+)?M)?(\d+(?:\.\d+)?W)?(\d+(?:\.\d+)?D)?(T(?=\d)(\d+(?:\.\d+)?H)?(\d+(?:\.\d+)?M)?(\d+(?:\.\d+)?S)?)?$
+    column:
+      required:
+      - name
+      - column_type
+      - data_type
+      properties:
+        name:
+          type: string
+          description: Name of metric or dimension column.
+        column_type:
+          type: string
+          description: Type of column.
+          enum:
+          - metric
+          - dimension
+        data_type:
+          type: string
+          description: Data type of column.
+          enum:
+          - datetime
+          - string
+          - integer
+          - float
+    response_error:
+      title: response/error
+      description: An error message for troubleshooting.
+      type: object
+      x-stoplight:
+        id: 90yc58ni8u0ch
+      required:
+      - error
+      - error_description
+      - error_details
+      properties:
+        error:
+          type: string
+          description: Error message string.
+        error_description:
+          type: string
+          description: Human readable error description (can be localized).
+        error_details:
+          type: array
+          description: Human readable error description (can be localized).
+          minItems: 1
+          items:
+            type: string
+    row:
+      type: array
+      minItems: 1
+      items:
+        type:
+        - string
+        - number
+    dimensions:
+      type: array
+      description: List of dimension names.
+      minItems: 1
+      uniqueItems: true
+      items:
+        type: string
+        examples:
+        - provider_id
+        - geography_id
+        - vehicle_type
+    data-types_iso-dayhourminute:
+      title: data-types/iso-dayhourminute
+      description: An ISO 8601 extended datetime representing a minute and hour of given date `YYYY-MM-DDTHH:mm`; valid for dates in 1970 and later.
+      examples:
+      - 2023-12-31T23:59
+      - 2024-01-01T01:00-01
+      pattern: (19[789]\d|[2-9]\d{3})-(0[1-9]|1[02])-([12]\d|0[1-9]|3[01])T([0-2][0-3]|[01]\d):([0-5]\d)([+-][01]\d(:[0-5]\d)?)?
+      type: string
+      x-stoplight:
+        id: 56v277zajwxm5
+    data-types_integer-positive:
+      title: data-types/integer-positive
+      description: An integer greater than or equal to 0.
+      minimum: 0
+      type: integer
+      x-stoplight:
+        id: nfkphjmpm8yay
+    data-types_uuid:
+      title: data-types/uuid
+      description: A UUID used to uniquely identity an object.
+      type: string
+      x-stoplight:
+        id: np9kodwmy2kqa
+      format: uuid
+      pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+      examples:
+      - 3c9604d6-b5ee-11e8-96f8-529269fb1459
+    data-types_timezone:
+      title: data-types/timezone
+      description: '[TZ Database Name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) (default: UTC)'
+      type: string
+      x-stoplight:
+        id: sv8rgu97fxmop
+      default: UTC
+      examples:
+      - America/Los_Angeles
+      - Europe/London
+    data-types_timestamp:
+      title: data-types/timestamp
+      description: Integer milliseconds since Unix epoch.
+      examples:
+      - 1514764800000
+      - 1681855703000
+      minimum: 1514764800000
+      multipleOf: 1
+      type: number
+      x-stoplight:
+        id: vliol1hqlxw6y
+    measures:
+      type: array
+      minItems: 1
+      uniqueItems: true
+      items:
+        type: string
+        examples:
+        - vehicles.[status].avg
+        - vehicles.[status].min
+        - vehicles.[status].max
+        - vehicles.[status].duration.sum
+        - events.[event_type].count
+        - trips.[start_loc/end_loc].count
+        - trips.[start_loc/end_loc].duration.avg
+        - trips.[start_loc/end_loc].duration.med
+        - trips.[start_loc/end_loc].duration.std
+        - trips.[start_loc/end_loc].duration.sum
+        - trips.[start_loc/end_loc].distance.avg
+        - trips.[start_loc/end_loc].distance.med
+        - trips.[start_loc/end_loc].distance.std
+        - trips.[start_loc/end_loc].distance.sum
+    query:
+      required:
+      - measures
+      - interval
+      - start_date
+      properties:
+        measures:
+          $ref: '#/components/schemas/measures'
+          description: List of measures to return.
+        interval:
+          $ref: '#/components/schemas/data-types_iso-duration'
+          description: ISO 8601 duration for metrics intervals.
+        start_date:
+          oneOf:
+          - $ref: '#/components/schemas/data-types_iso-dayhourminute'
+          - $ref: '#/components/schemas/data-types_timestamp'
+          description: ISO 8601 formatted start date or numeric timestamp to fetch metrics.
+        end_date:
+          oneOf:
+          - $ref: '#/components/schemas/data-types_iso-dayhourminute'
+          - $ref: '#/components/schemas/data-types_timestamp'
+          description: ISO 8601 formatted end date or numeric timestamp to fetch metrics.
+        timezone:
+          $ref: '#/components/schemas/data-types_timezone'
+        dimensions:
+          $ref: '#/components/schemas/dimensions'
+        filters:
+          type: array
+          description: List of dimension names.
+          uniqueItems: true
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Name of filter.
+              values:
+                type: array
+                description: List of values to filter for.
+                minItems: 1
+                uniqueItems: true
+                items:
+                  type: object
+            examples:
+            - name: geography_type
+              values:
+              - census_block
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+      description: 'MDS Metrics endpoint producers SHALL provide authorization for API endpoints via a bearer token based auth system.
+
+
+        When making requests, the endpoints expect one of two scopes `metrics:read` or `metrics:read:provider` to be present as
+
+        part of the scope claims in a JSON Web Token (JWT).
+
+
+        Further scopes and requirements may be added at the discretion of the agency, depending on their particular access control needs.'
+x-stoplight:
+  id: 7r4jdgpio4wn8
+x-bundled-from: https://github.com/openmobilityfoundation/mds-openapi/blob/v2.0/reference/metrics.yaml (commit 0c07bc3d294237dd41c6273f059efb11b8149c66); external $refs into ../models/ inlined under components.schemas, no other changes

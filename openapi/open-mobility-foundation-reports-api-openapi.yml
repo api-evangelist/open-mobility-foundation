@@ -1,0 +1,226 @@
+openapi: 3.2.0
+info:
+  title: Open Mobility Foundation Reports API
+  version: '2.0'
+  contact:
+    url: https://github.com/openmobilityfoundation/mobility-data-specification
+    name: Open Mobility Foundation
+    email: info@openmobilityfoundation.org
+  license:
+    name: Creative Commons Attribution 4.0 International Public License
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/LICENSE
+  description: 'Operations tagged Reports across 2 of this provider''s published API definitions: open-mobility-foundation-mds-agency-openapi.yml, open-mobility-foundation-mds-provider-openapi.yml. Each path carries the servers of the definition it was published in.'
+tags:
+- name: Reports
+paths:
+  /reports:
+    post:
+      operationId: post-reports
+      description: Allows an agency to register aggregated report counts in CSV structure.
+      summary: /reports
+      requestBody:
+        required: true
+        content:
+          text/csv:
+            schema:
+              $ref: '#/components/schemas/report'
+      responses:
+        '201':
+          description: Report registered.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_bulk'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/response_bulk'
+                - required:
+                  - failures
+                  properties:
+                    failures:
+                      minItems: 1
+                      items:
+                        allOf:
+                        - $ref: '#/components/schemas/response_error_bad_param'
+                        - properties:
+                            item:
+                              $ref: '#/components/schemas/report'
+        '401':
+          description: 'Unauthorized: Invalid, expired, or insufficient scope of token.'
+        '406':
+          description: MDS version in Accept header is unsupported or invalid.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_error'
+      tags:
+      - Reports
+  /reports/{filename}:
+    parameters:
+    - name: filename
+      schema:
+        type: string
+        pattern: \d{4}-\d{2}\.csv
+        examples:
+        - 2023-12.csv
+      in: path
+      required: true
+      description: The name of the report to retrieve, formatted by year and month like `YYYY-MM.csv`
+    get:
+      operationId: get-reports-filename
+      description: Reports are information that providers can send back to agencies containing aggregated data that is not contained within other MDS endpoints, like counts of special groups of riders.
+      summary: /reports/{filename}
+      responses:
+        '200':
+          description: Report found.
+          content:
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/report'
+        '401':
+          description: 'Unauthorized: Invalid, expired, or insufficient scope of token.'
+        '404':
+          description: Report not found.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_error'
+      tags:
+      - Reports
+components:
+  schemas:
+    response_bulk:
+      title: response/bulk
+      type: object
+      description: For multi-record POST and PUT calls, e.g. sending Events using the Agency API, the bulk-response structure describes a list of results.
+      x-stoplight:
+        id: sdj75536ytrso
+      required:
+      - success
+      - total
+      properties:
+        success:
+          $ref: '#/components/schemas/data-types_integer-positive'
+          description: Number of successfully written records.
+        total:
+          $ref: '#/components/schemas/data-types_integer-positive'
+          description: Total number of provided records.
+        failures:
+          type: array
+    response_error:
+      title: response/error
+      description: An error message for troubleshooting.
+      type: object
+      x-stoplight:
+        id: 90yc58ni8u0ch
+      required:
+      - error
+      - error_description
+      - error_details
+      properties:
+        error:
+          type: string
+          description: Error message string.
+        error_description:
+          type: string
+          description: Human readable error description (can be localized).
+        error_details:
+          type: array
+          description: Human readable error description (can be localized).
+          minItems: 1
+          items:
+            type: string
+    data-types_integer-positive:
+      title: data-types/integer-positive
+      description: An integer greater than or equal to 0.
+      minimum: 0
+      type: integer
+      x-stoplight:
+        id: nfkphjmpm8yay
+    report:
+      title: models/report
+      type: string
+      description: 'Reports are information that providers can send back to agencies containing aggregated data that is not contained within other MDS endpoints, like counts of special groups of riders. These supplemental reports are not a substitute for other MDS endpoints.
+
+        The authenticated reports are monthly, historic flat files that may be pre-generated by the provider.'
+      x-stoplight:
+        id: wb2h7rhv8xtur
+      pattern: ^provider_id,start_date,duration,special_group_type,geography_id,vehicle_type,trip_count,rider_count
+      examples:
+      - 'provider_id,start_date,duration,special_group_type,geography_id,vehicle_type,trip_count,rider_count
+
+        48415839-3e38-4ba5-a557-e45fb4e6a0a3,2019-09-01,P1M,all_riders,44428624-186b-4fc3-a7fb-124f487464a1,scooter,1302,983
+
+        48415839-3e38-4ba5-a557-e45fb4e6a0a3,2019-09-01,P1M,low_income,44428624-186b-4fc3-a7fb-124f487464a1,scooter,201,104
+
+        48415839-3e38-4ba5-a557-e45fb4e6a0a3,2019-09-01,P1M,all_riders,44428624-186b-4fc3-a7fb-124f487464a1,bicycle,530,200
+
+        48415839-3e38-4ba5-a557-e45fb4e6a0a3,2019-09-01,P1M,low_income,44428624-186b-4fc3-a7fb-124f487464a1,bicycle,75,26
+
+        48415839-3e38-4ba5-a557-e45fb4e6a0a3,2019-09-01,P1M,all_riders,03db06d0-3998-406a-92c7-25a83fc2784a,scooter,687,450
+
+        48415839-3e38-4ba5-a557-e45fb4e6a0a3,2019-09-01,P1M,low_income,03db06d0-3998-406a-92c7-25a83fc2784a,scooter,98,45
+
+        48415839-3e38-4ba5-a557-e45fb4e6a0a3,2019-09-01,P1M,all_riders,03db06d0-3998-406a-92c7-25a83fc2784a,bicycle,256,104
+
+        48415839-3e38-4ba5-a557-e45fb4e6a0a3,2019-09-01,P1M,low_income,03db06d0-3998-406a-92c7-25a83fc2784a,bicycle,41,16
+
+        48415839-3e38-4ba5-a557-e45fb4e6a0a3,2019-09-01,P1M,all_riders,8ad39dc3-005b-4348-9d61-c830c54c161b,scooter,201,140
+
+        48415839-3e38-4ba5-a557-e45fb4e6a0a3,2019-09-01,P1M,low_income,8ad39dc3-005b-4348-9d61-c830c54c161b,scooter,35,21
+
+        48415839-3e38-4ba5-a557-e45fb4e6a0a3,2019-09-01,P1M,all_riders,8ad39dc3-005b-4348-9d61-c830c54c161b,bicycle,103,39
+
+        48415839-3e38-4ba5-a557-e45fb4e6a0a3,2019-09-01,P1M,low_income,8ad39dc3-005b-4348-9d61-c830c54c161b,bicycle,15,-1'
+    response_error_bad_param:
+      title: response/error_bad_param
+      description: A validation error occurred.
+      type: object
+      x-stoplight:
+        id: vekidez6dfa4u
+      required:
+      - item
+      - error
+      - error_description
+      - error_details
+      properties:
+        error:
+          const: bad_param
+        error_description:
+          type: string
+          examples:
+          - A validation error occurred
+        error_details:
+          type: array
+          description: Array of parameters with errors.
+          minItems: 1
+          items:
+            type: string
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'All MDS Agency endpoints require authentication.
+
+
+        JSON Web Token ([JWT](https://jwt.io/introduction/)) is RECOMMENDED as the token format.
+
+
+        When making requests, the endpoints expect `provider_id` to be part of the claims the JWT. The token issuance,
+
+        expiration and revocation policies are at the discretion of the agency.'
+x-refined-from:
+- open-mobility-foundation-mds-agency-openapi.yml
+- open-mobility-foundation-mds-provider-openapi.yml
+x-stoplight:
+  id: f3thjnkfyv60k
+x-bundled-from: https://github.com/openmobilityfoundation/mds-openapi/blob/v2.0/reference/agency.yaml (commit 0c07bc3d294237dd41c6273f059efb11b8149c66); external $refs into ../models/ inlined under components.schemas, no other changes

@@ -1,0 +1,34 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist overlay for Metrics (MDS 2.0)
+  version: 1.0.0
+extends: ../openapi/_original/open-mobility-foundation-mds-metrics-openapi.yml
+x-generated: '2026-10-09'
+x-method: generated
+x-source: openapi/open-mobility-foundation-mds-metrics-openapi.yml
+x-rationale: 'The OMF mds-openapi definitions (openapi/_original/mds-openapi/reference) ship untagged operations
+  and a bearer securityScheme that is never applied as a requirement. This overlay adds resource tags and the root
+  security requirement without mutating the original. No servers are added: MDS is a specification implemented by
+  each city/operator, so there is no single provider host.'
+actions:
+- target: $
+  description: Add top-level tags derived from the first path segment of each operation.
+  update:
+    tags:
+    - name: metrics
+      description: MDS Metrics metrics operations
+- target: $
+  description: Spec declares securitySchemes ['bearer'] but no root security requirement; apply it globally.
+  update:
+    security:
+    - bearer: []
+- target: $.paths['/metrics'].get
+  description: Tag GET /metrics by resource (metrics) for grouping in docs and MCP tool categories.
+  update:
+    tags:
+    - metrics
+- target: $.paths['/metrics'].post
+  description: Tag POST /metrics by resource (metrics) for grouping in docs and MCP tool categories.
+  update:
+    tags:
+    - metrics

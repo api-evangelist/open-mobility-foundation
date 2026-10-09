@@ -1,0 +1,633 @@
+openapi: 3.2.0
+info:
+  title: Policy Policies API
+  version: '2.0'
+  summary: The Policy API endpoints are intended to be implemented by regulatory agencies and consumed by mobility providers.
+  contact:
+    url: https://github.com/openmobilityfoundation/mobility-data-specification
+    name: Open Mobility Foundation
+    email: info@openmobilityfoundation.org
+  license:
+    name: Creative Commons Attribution 4.0 International Public License
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/LICENSE
+  description: The Policy API endpoints are intended to be implemented by regulatory agencies and consumed by mobility providers.
+tags:
+- name: Policies
+paths:
+  /policies:
+    parameters:
+    - name: start_date
+      schema:
+        $ref: '#/components/schemas/data-types_timestamp'
+      in: query
+      required: false
+      description: Beginning date of the queried time range; the default value is the request time.
+    - name: end_date
+      schema:
+        $ref: '#/components/schemas/data-types_timestamp'
+      in: query
+      required: false
+      description: Ending date of the queried time range; the default value is null, which captures all policies that are effective in the future.
+    get:
+      operationId: get-policies
+      description: Get all policy documents, optionally between a given date range.
+      summary: /policies
+      responses:
+        '200':
+          description: Policies found.
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                - $ref: '#/components/schemas/response_version'
+                - $ref: '#/components/schemas/response_last_updated'
+                - type: object
+                  description: Policies data payload
+                  required:
+                  - policies
+                  properties:
+                    policies:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/policy'
+        '400':
+          description: Bad request.
+        '404':
+          description: Policies not found.
+        '406':
+          description: MDS version in Accept header is unsupported or invalid.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_error'
+      tags:
+      - Policies
+  /policies/{policy_id}:
+    parameters:
+    - name: policy_id
+      schema:
+        $ref: '#/components/schemas/data-types_uuid'
+      in: path
+      required: true
+      description: The `policy_id` of a Policy document.
+    get:
+      operationId: get-policies-policy_id
+      description: Get the specified policy document.
+      summary: /policies/{policy_id}
+      responses:
+        '200':
+          description: Policy document found.
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                - $ref: '#/components/schemas/response_version'
+                - $ref: '#/components/schemas/response_last_updated'
+                - type: object
+                  description: Policies data payload
+                  required:
+                  - policies
+                  properties:
+                    policies:
+                      type: array
+                      maxItems: 1
+                      minItems: 1
+                      items:
+                        $ref: '#/components/schemas/policy'
+        '400':
+          description: Bad request.
+        '404':
+          description: Policy not found.
+        '406':
+          description: MDS version in Accept header is unsupported or invalid.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_error'
+      tags:
+      - Policies
+components:
+  schemas:
+    data-types_propulsion-type:
+      title: data-types/propulsion-type
+      description: The allowed types of propulsion in MDS. Based off of `propulsion_type` in [GBFS vehicle_types](https://github.com/MobilityData/gbfs/blob/master/gbfs.md#vehicle_typesjson)
+      enum:
+      - human
+      - electric_assist
+      - electric
+      - combustion
+      - combustion_diesel
+      - hybrid
+      - hydrogen_fuel_cell
+      - plug_in_hybrid
+      type: string
+      x-stoplight:
+        id: 1ucdttnwhf2bo
+    data-types_string:
+      title: data-types/string
+      description: A length-limited string type.
+      examples:
+      - ABC123
+      maxLength: 255
+      pattern: ^(.*)$
+      type: string
+      x-stoplight:
+        id: 2vqv7166161kh
+    data-types_event-type:
+      title: data-types/event-type
+      description: Events are possible transitions between vehicle states.
+      enum:
+      - agency_drop_off
+      - agency_pick_up
+      - battery_charged
+      - battery_low
+      - changed_geographies
+      - charging_end
+      - charging_start
+      - comms_lost
+      - comms_restored
+      - compliance_pick_up
+      - customer_cancellation
+      - decommissioned
+      - driver_cancellation
+      - fueling_end
+      - fueling_start
+      - located
+      - maintenance
+      - maintenance_end
+      - maintenance_pick_up
+      - not_located
+      - off_hours
+      - on_hours
+      - order_drop_off
+      - order_pick_up
+      - passenger_cancellation
+      - provider_cancellation
+      - provider_drop_off
+      - rebalance_pick_up
+      - recommission
+      - remote_end
+      - remote_start
+      - reservation_cancel
+      - reservation_start
+      - reservation_stop
+      - service_end
+      - service_start
+      - system_resume
+      - system_suspend
+      - trip_cancel
+      - trip_end
+      - trip_enter_jurisdiction
+      - trip_leave_jurisdiction
+      - trip_pause
+      - trip_resume
+      - trip_start
+      - trip_stop
+      - unspecified
+      type: string
+      x-stoplight:
+        id: lsm5td7gknbxz
+    data-types_days:
+      title: data-types/days
+      description: An array of days of the week.
+      items:
+        $ref: '#/components/schemas/data-types_day'
+      type: array
+      uniqueItems: true
+      x-stoplight:
+        id: g7wntphhazfhv
+    data-types_uuid:
+      title: data-types/uuid
+      description: A UUID used to uniquely identity an object.
+      type: string
+      x-stoplight:
+        id: np9kodwmy2kqa
+      format: uuid
+      pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+      examples:
+      - 3c9604d6-b5ee-11e8-96f8-529269fb1459
+    data-types_mode:
+      title: data-types/modes
+      description: The modes supported in MDS.
+      type: string
+      x-stoplight:
+        id: rjul1mcjyy8y2
+      enum:
+      - car-share
+      - delivery-robots
+      - micromobility
+      - passenger-services
+    data-types_currency:
+      title: data-types/currency
+      default: USD
+      description: An [ISO 4217 Alphabetic Currency Code](https://en.wikipedia.org/wiki/ISO_4217#Active_codes) representing currency of the payee. If null, USD cents is implied.
+      examples:
+      - USD
+      - EUR
+      - GBP
+      pattern: ^[A-Z]{3}$
+      type:
+      - string
+      - 'null'
+      x-stoplight:
+        id: 85j2txhx6x32o
+    data-types_language-tag:
+      title: data-types/language-tag
+      description: An [IETF BCP 47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag string.
+      type: string
+      x-stoplight:
+        id: 5qws05ove0u6c
+      pattern: ([A-Za-z]{2,3})([-][A-Za-z]{3}){0,3}([-]([A-Za-z]{4}))?([-]([A-Za-z]{2}|[0-9]{3}))?
+      examples:
+      - en-US
+      - es-US
+    response_last_updated:
+      title: response/last_updated
+      type: object
+      x-stoplight:
+        id: z6u8eu7rlkd1j
+      required:
+      - last_updated
+      properties:
+        last_updated:
+          $ref: '#/components/schemas/data-types_timestamp'
+          description: Timestamp indicating the last time the data in this feed was updated.
+    response_error:
+      title: response/error
+      description: An error message for troubleshooting.
+      type: object
+      x-stoplight:
+        id: 90yc58ni8u0ch
+      required:
+      - error
+      - error_description
+      - error_details
+      properties:
+        error:
+          type: string
+          description: Error message string.
+        error_description:
+          type: string
+          description: Human readable error description (can be localized).
+        error_details:
+          type: array
+          description: Human readable error description (can be localized).
+          minItems: 1
+          items:
+            type: string
+    data-types_day:
+      title: data-types/day
+      description: A day of the week.
+      enum:
+      - sun
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+      - sat
+      type: string
+      x-stoplight:
+        id: g5u1fwovxmhc3
+    response_version:
+      title: response/version
+      description: Response bodies must be a UTF-8 encoded JSON object and must minimally include the MDS `version`.
+      type: object
+      x-stoplight:
+        id: ivd8jadc3rqf7
+      required:
+      - version
+      properties:
+        version:
+          $ref: '#/components/schemas/data-types_version'
+    data-types_propulsion-type-array:
+      title: data-types/propulsion-type-array
+      description: Array of propulsion types, allowing multiple values.
+      items:
+        $ref: '#/components/schemas/data-types_propulsion-type'
+      type: array
+      uniqueItems: true
+      x-stoplight:
+        id: 4ao4xw23z8wrf
+    data-types_uuid-array:
+      title: data-types/uuid-array
+      description: Array of UUID.
+      type: array
+      x-stoplight:
+        id: v932clitbqv31
+      uniqueItems: true
+      items:
+        $ref: '#/components/schemas/data-types_uuid'
+    data-types_vehicle-type-array:
+      title: data-types/vehicle-type-array
+      description: An array of `vehicle_type`.
+      type: array
+      x-stoplight:
+        id: 85v330buxsong
+      uniqueItems: true
+      items:
+        $ref: '#/components/schemas/data-types_vehicle-type'
+    data-types_iso-time:
+      title: data-types/iso-time
+      description: Time-of-day expressed as ISO 8601 `hh:mm:ss`.
+      examples:
+      - '23:59:59'
+      - 00:00:01
+      pattern: ([0-2][0-3]|[01]\d):[0-5]\d:[0-5]\d
+      type: string
+      x-stoplight:
+        id: v656sfdmwq9s0
+    policy:
+      title: models/policy
+      description: A policy describes the digital relationship between _mobility as a service_ providers and the agencies that regulate them.
+      type: object
+      x-stoplight:
+        id: yp7awu2xd5agd
+      required:
+      - name
+      - mode_id
+      - policy_id
+      - description
+      - start_date
+      - published_date
+      - rules
+      properties:
+        name:
+          $ref: '#/components/schemas/data-types_string'
+          description: Name of policy.
+        mode_id:
+          $ref: '#/components/schemas/data-types_mode'
+          description: Mode this rule should apply, see MDS mode list for options. Default `micromobility` for backwards compatibility (this default will likely be removed in a subsequent MDS release).
+          default: micromobility
+        policy_id:
+          $ref: '#/components/schemas/data-types_uuid'
+          description: Unique ID of policy.
+        provider_ids:
+          $ref: '#/components/schemas/data-types_uuid-array'
+          description: Providers for whom this policy is applicable; empty arrays and null/absent implies all Providers.
+        description:
+          $ref: '#/components/schemas/data-types_string'
+          description: Description of policy.
+        currency:
+          $ref: '#/components/schemas/data-types_currency'
+          description: An ISO 4217 Alphabetic Currency Code representing the currency of all Rules with a `rate_amount`.
+        start_date:
+          $ref: '#/components/schemas/data-types_timestamp'
+          description: Beginning date/time of policy enforcement. In order to give providers sufficient time to poll, `start_date` must be at least 20 minutes after `published_date`.
+        end_date:
+          $ref: '#/components/schemas/data-types_timestamp'
+          description: End date/time of policy enforcement.
+        published_date:
+          $ref: '#/components/schemas/data-types_timestamp'
+          description: Timestamp that the policy was published.
+        prev_policies:
+          $ref: '#/components/schemas/data-types_uuid-array'
+          description: Unique IDs of prior policies replaced by this one.
+        rules:
+          type: array
+          description: Array of applicable Rule objects
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/policy-rule'
+    data-types_version:
+      title: data-type/version
+      description: The version of MDS this data represents.
+      type: string
+      x-stoplight:
+        id: bt49ntcbcuxbh
+      pattern: ^2\.(\d|[1-9]\d+)\.(\d|[1-9]\d+)$
+      examples:
+      - 2.0.0
+    data-types_vehicle-type:
+      title: data-types/vehicle-type
+      description: The allowed types of of vehicles in MDS. Based off of `form_factor` in [GBFS vehicle_types](https://github.com/MobilityData/gbfs/blob/master/gbfs.md#vehicle_typesjson), with some additional to support MDS modes.
+      type: string
+      x-stoplight:
+        id: gbhhyditnvs5w
+      enum:
+      - bicycle
+      - bus
+      - cargo_bicycle
+      - car
+      - delivery_robot
+      - moped
+      - motorcycle
+      - scooter_standing
+      - scooter_seated
+      - truck
+      - other
+    policy-rule:
+      title: models/policy-rule
+      description: An individual rule in a policy.
+      type: object
+      x-stoplight:
+        id: dvai555b3tcm8
+      additionalProperties: false
+      required:
+      - name
+      - rule_id
+      - rule_type
+      - geographies
+      - states
+      $defs:
+        states:
+          type: object
+          description: Vehicle state to which this rule applies. Optionally provide a list of specific vehicle events as a subset of a given state for the rule to apply to. An empty list or null/absent defaults to "all" for the state.
+          propertyNames:
+            $ref: '#/components/schemas/data-types_vehicle-state'
+          patternProperties:
+            ? ''
+            : type: array
+              uniqueItems: true
+              items:
+                $ref: '#/components/schemas/data-types_event-type'
+      properties:
+        name:
+          $ref: '#/components/schemas/data-types_string'
+          description: Name of rule
+        rule_id:
+          $ref: '#/components/schemas/data-types_uuid'
+          description: Unique ID of rule
+        rule_type:
+          type: string
+          description: The type of rule
+        geographies:
+          $ref: '#/components/schemas/data-types_uuid-array'
+          description: List of Geography UUIDs (non-overlapping) specifying the covered geography.
+          minItems: 1
+        states:
+          $ref: '#/components/schemas/policy-rule/$defs/states'
+        rule_units:
+          type:
+          - string
+          - 'null'
+          description: Measured units of policy
+        vehicle_types:
+          $ref: '#/components/schemas/data-types_vehicle-type-array'
+          description: Applicable vehicle types, default "all"
+        propulsion_types:
+          $ref: '#/components/schemas/data-types_propulsion-type-array'
+          description: Applicable vehicle propulsion types, default "all"
+        minimum:
+          type:
+          - 'null'
+          - integer
+          description: Minimum value, if applicable (default 0)
+          default: 0
+        maximum:
+          type:
+          - 'null'
+          - integer
+          description: Maximum value, if applicable (default unlimited)
+        inclusive_minimum:
+          type:
+          - 'null'
+          - boolean
+          description: Whether the rule minimum is considered in-bounds (default true)
+          default: true
+        inclusive_maximum:
+          type:
+          - 'null'
+          - boolean
+          description: Whether the rule maximum is considered in-bounds (default true)
+          default: true
+        rate_amount:
+          type:
+          - 'null'
+          - integer
+          description: The amount of the rate.
+        rate_recurrence:
+          type:
+          - 'null'
+          - string
+          description: Recurrence of the rate
+        rate_applies_when:
+          type:
+          - 'null'
+          - string
+          description: Specifies when a rate is applied to a rule (defaults to `out_of_bounds`).
+          enum:
+          - in_bounds
+          - out_of_bounds
+          default: out_of_bounds
+        start_time:
+          $ref: '#/components/schemas/data-types_iso-time'
+          description: Beginning time-of-day when the rule is in effect (default 00:00:00)
+          default: 00:00:00
+        end_time:
+          $ref: '#/components/schemas/data-types_iso-time'
+          description: Ending time-of-day when the rule is in effect (default 23:59:59)
+          default: '23:59:59'
+        days:
+          $ref: '#/components/schemas/data-types_days'
+          description: Days when the rule is in effect (default all)
+        messages:
+          type:
+          - 'null'
+          - object
+          description: Message to rider user, if desired, in various languages, keyed by [BCP 47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag.
+          propertyNames:
+            $ref: '#/components/schemas/data-types_language-tag'
+          examples:
+          - en-US: Remember to stay under 10 MPH on Venice Beach on weekends!
+            es-US: ¡Recuerda mantener por debajo 10 millas por hora en Venice Beach los fines de semana!
+        value_url:
+          type:
+          - 'null'
+          - string
+          description: URL to an API endpoint that can provide dynamic information for the measured value
+          format: uri
+      oneOf:
+      - title: Device count rule
+        required:
+        - rule_units
+        properties:
+          rule_type:
+            const: count
+          rule_units:
+            type: string
+            const: devices
+          rate_recurrence:
+            enum:
+            - once_on_match
+            - once_on_unmatch
+      - title: Speed rule
+        required:
+        - rule_units
+        properties:
+          rule_type:
+            const: speed
+          rule_units:
+            type: string
+            enum:
+            - mph
+            - kph
+          rate_recurrence:
+            enum:
+            - once_on_match
+            - once_on_unmatch
+      - title: Time rule
+        required:
+        - rule_units
+        properties:
+          rule_type:
+            const: time
+          rule_units:
+            type: string
+            enum:
+            - seconds
+            - minutes
+            - hours
+            - days
+          rate_recurrence:
+            enum:
+            - each_time_unit
+            - per_complete_time_unit
+      - title: User rule
+        properties:
+          rule_type:
+            const: user
+          rule_units:
+            type: 'null'
+          rate_amount:
+            type: 'null'
+          rate_recurrence:
+            type: 'null'
+          rate_applies_when:
+            type: 'null'
+    data-types_vehicle-state:
+      title: data-types/vehicle-state
+      description: The state of a vehicle.
+      type: string
+      x-stoplight:
+        id: 3j1h7u4vvc7kr
+      enum:
+      - removed
+      - available
+      - non_operational
+      - reserved
+      - on_trip
+      - stopped
+      - non_contactable
+      - missing
+      - elsewhere
+    data-types_timestamp:
+      title: data-types/timestamp
+      description: Integer milliseconds since Unix epoch.
+      examples:
+      - 1514764800000
+      - 1681855703000
+      minimum: 1514764800000
+      multipleOf: 1
+      type: number
+      x-stoplight:
+        id: vliol1hqlxw6y
+x-stoplight:
+  id: q6wapocoxbhs1
+x-bundled-from: https://github.com/openmobilityfoundation/mds-openapi/blob/v2.0/reference/policy.yaml (commit 0c07bc3d294237dd41c6273f059efb11b8149c66); external $refs into ../models/ inlined under components.schemas, no other changes

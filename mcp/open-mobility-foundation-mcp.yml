@@ -1,0 +1,287 @@
+generated: '2026-10-09'
+method: derived
+source: 'Derived from the six MDS 2.0 OpenAPI definitions under openapi/ (captured from github.com/openmobilityfoundation/mds-openapi).
+  No official MCP server found: web search "Mobility Data Specification" MCP server (2026-10-09) returned no OMF/MDS
+  server; no AGENTS.md or llms.txt in the OMF repos (404).'
+name: Open Mobility Foundation MDS MCP (candidate)
+type: MCPServer
+status: candidate
+official: false
+deployment:
+  mode: none
+  auth: unknown
+  verified: derived
+notes: 'MDS is an open specification, not a hosted service: each city (Agency, Policy, Geography, Jurisdiction,
+  Metrics) or mobility operator (Provider) runs its own endpoint with bearer-token auth issued by that party. Any
+  MCP server would therefore be per-deployment; the tools below are a candidate surface derived from the operations.'
+tools:
+- name: agency_post_vehicles
+  operationId: post-vehicles
+  api: openapi/open-mobility-foundation-mds-agency-openapi.yml
+  method: POST
+  path: /vehicles
+  description: Register vehicles for use in the Agency's jurisdiction.
+  readOnly: false
+- name: agency_put_vehicles
+  operationId: put-vehicles
+  api: openapi/open-mobility-foundation-mds-agency-openapi.yml
+  method: PUT
+  path: /vehicles
+  description: Change vehicle information, should some aspect of the vehicle change, such as the `vehicle_id`. Each
+    vehicle must already be registered.
+  readOnly: false
+- name: agency_get_vehicles
+  operationId: get-vehicles
+  api: openapi/open-mobility-foundation-mds-agency-openapi.yml
+  method: GET
+  path: /vehicles
+  description: Get a list of vehicles in a Provider's registered fleet, with properties that do not change often.
+  readOnly: true
+- name: agency_get_vehicles_device_id
+  operationId: get-vehicles-device_id
+  api: openapi/open-mobility-foundation-mds-agency-openapi.yml
+  method: GET
+  path: /vehicles/{device_id}
+  description: Get the specified vehicle, with properties that do not change often.
+  readOnly: true
+- name: agency_get_vehicles_status
+  operationId: get-vehicles-status
+  api: openapi/open-mobility-foundation-mds-agency-openapi.yml
+  method: GET
+  path: /vehicles/status
+  description: Get a list of known vehicles, with specific vehicle status records that are updated frequently.
+  readOnly: true
+- name: agency_get_vehicles_status_device_id
+  operationId: get-vehicles-status-device_id
+  api: openapi/open-mobility-foundation-mds-agency-openapi.yml
+  method: GET
+  path: /vehicles/status/{device_id}
+  description: Get the specified vehicle, with vehicle status records that are updated frequently.
+  readOnly: true
+- name: agency_post_trips
+  operationId: post-trips
+  api: openapi/open-mobility-foundation-mds-agency-openapi.yml
+  method: POST
+  path: /trips
+  description: Send an update about one or more trips to the agency.
+  readOnly: false
+- name: agency_post_telemetry
+  operationId: post-telemetry
+  api: openapi/open-mobility-foundation-mds-agency-openapi.yml
+  method: POST
+  path: /telemetry
+  description: Send vehicle telemetry data in a batch for any number of vehicles in the fleet.
+  readOnly: false
+- name: agency_post_events
+  operationId: post-events
+  api: openapi/open-mobility-foundation-mds-agency-openapi.yml
+  method: POST
+  path: /events
+  description: Send vehicle state change events for multiple vehicles.
+  readOnly: false
+- name: agency_post_stops
+  operationId: post-stops
+  api: openapi/open-mobility-foundation-mds-agency-openapi.yml
+  method: POST
+  path: /stops
+  description: Allows an agency to register city-managed Stops, or a provider to register self-managed Stops.
+  readOnly: false
+- name: agency_put_stops
+  operationId: put-stops
+  api: openapi/open-mobility-foundation-mds-agency-openapi.yml
+  method: PUT
+  path: /stops
+  description: Update stop information. Each stop must already be registered.
+  readOnly: false
+- name: agency_get_stops
+  operationId: get-stops
+  api: openapi/open-mobility-foundation-mds-agency-openapi.yml
+  method: GET
+  path: /stops
+  description: Get a list of all stop records.
+  readOnly: true
+- name: agency_get_stops_stop_id
+  operationId: get-stops-stop_id
+  api: openapi/open-mobility-foundation-mds-agency-openapi.yml
+  method: GET
+  path: /stops/{stop_id}
+  description: Get information about the specified stop.
+  readOnly: true
+- name: agency_post_reports
+  operationId: post-reports
+  api: openapi/open-mobility-foundation-mds-agency-openapi.yml
+  method: POST
+  path: /reports
+  description: Allows an agency to register aggregated report counts in CSV structure.
+  readOnly: false
+- name: geography_get_geographies
+  operationId: get-geographies
+  api: openapi/open-mobility-foundation-mds-geography-openapi.yml
+  method: GET
+  path: /geographies
+  description: Get all geography objects.
+  readOnly: true
+- name: geography_get_geographies_geography_id
+  operationId: get-geographies-geography_id
+  api: openapi/open-mobility-foundation-mds-geography-openapi.yml
+  method: GET
+  path: /geographies/{geography_id}
+  description: Get the specified geography object.
+  readOnly: true
+- name: geography_get_geographies_json
+  operationId: get-geographies.json
+  api: openapi/open-mobility-foundation-mds-geography-openapi.yml
+  method: GET
+  path: /geographies.json
+  description: Get all geography objects in a single JSON file.
+  readOnly: true
+- name: jurisdiction_get_jurisdictions
+  operationId: get-jurisdictions
+  api: openapi/open-mobility-foundation-mds-jurisdiction-openapi.yml
+  method: GET
+  path: /jurisdictions
+  description: Get all jurisdiction objects.
+  readOnly: true
+- name: jurisdiction_get_jurisdictions_jurisdiction_id
+  operationId: get-jurisdictions-jurisdiction_id
+  api: openapi/open-mobility-foundation-mds-jurisdiction-openapi.yml
+  method: GET
+  path: /jurisdictions/{jurisdiction_id}
+  description: Get the specified jurisdiction object.
+  readOnly: true
+- name: jurisdiction_get_jurisdictions_json
+  operationId: get-jurisdictions.json
+  api: openapi/open-mobility-foundation-mds-jurisdiction-openapi.yml
+  method: GET
+  path: /jurisdictions.json
+  description: Get all jurisdiction objects in a single JSON file.
+  readOnly: true
+- name: metrics_get_metrics
+  operationId: get-metrics
+  api: openapi/open-mobility-foundation-mds-metrics-openapi.yml
+  method: GET
+  path: /metrics
+  description: Get a discovery response describing the supported metrics, times, intervals, dimensions and filters.
+  readOnly: true
+- name: metrics_post_metrics
+  operationId: post-metrics
+  api: openapi/open-mobility-foundation-mds-metrics-openapi.yml
+  method: POST
+  path: /metrics
+  description: Query metrics.
+  readOnly: false
+- name: policy_get_policies
+  operationId: get-policies
+  api: openapi/open-mobility-foundation-mds-policy-openapi.yml
+  method: GET
+  path: /policies
+  description: Get all policy documents, optionally between a given date range.
+  readOnly: true
+- name: policy_get_policies_policy_id
+  operationId: get-policies-policy_id
+  api: openapi/open-mobility-foundation-mds-policy-openapi.yml
+  method: GET
+  path: /policies/{policy_id}
+  description: Get the specified policy document.
+  readOnly: true
+- name: policy_get_policies_json
+  operationId: get-policies.json
+  api: openapi/open-mobility-foundation-mds-policy-openapi.yml
+  method: GET
+  path: /policies.json
+  description: Get all policy documents in a single JSON file.
+  readOnly: true
+- name: policy_get_value
+  operationId: get-value
+  api: openapi/open-mobility-foundation-mds-policy-openapi.yml
+  method: GET
+  path: /value
+  description: An Agency may wish to provide dynamic or global rules, e.g.
+  readOnly: true
+- name: policy_get_requirements
+  operationId: get-requirements
+  api: openapi/open-mobility-foundation-mds-policy-openapi.yml
+  method: GET
+  path: /requirements
+  description: Enumerates all of the parts of MDS, CDS, GBFS, and other specifications that an agency requires from
+  readOnly: true
+- name: provider_get_vehicles
+  operationId: get-vehicles
+  api: openapi/open-mobility-foundation-mds-provider-openapi.yml
+  method: GET
+  path: /vehicles
+  description: Get a list of known vehicles, with properties that do not change often.
+  readOnly: true
+- name: provider_get_vehicles_device_id
+  operationId: get-vehicles-device_id
+  api: openapi/open-mobility-foundation-mds-provider-openapi.yml
+  method: GET
+  path: /vehicles/{device_id}
+  description: Get the specified vehicle, with properties that do not change often.
+  readOnly: true
+- name: provider_get_vehicles_status
+  operationId: get-vehicles-status
+  api: openapi/open-mobility-foundation-mds-provider-openapi.yml
+  method: GET
+  path: /vehicles/status
+  description: Get a list of known vehicles, with specific vehicle status records that are updated frequently.
+  readOnly: true
+- name: provider_get_vehicles_status_device_id
+  operationId: get-vehicles-status-device_id
+  api: openapi/open-mobility-foundation-mds-provider-openapi.yml
+  method: GET
+  path: /vehicles/status/{device_id}
+  description: Get the specified vehicle, with specific vehicle status records that are updated frequently.
+  readOnly: true
+- name: provider_get_trips_end_time
+  operationId: get-trips-end_time
+  api: openapi/open-mobility-foundation-mds-provider-openapi.yml
+  method: GET
+  path: /trips
+  description: Get all trips with an end time occurring within the hour.
+  readOnly: true
+- name: provider_get_telemetry_telemetry_time
+  operationId: get-telemetry-telemetry_time
+  api: openapi/open-mobility-foundation-mds-provider-openapi.yml
+  method: GET
+  path: /telemetry
+  description: Get all telemetry with timestamp occurring within the hour.
+  readOnly: true
+- name: provider_get_events_historical_event_time
+  operationId: get-events-historical-event_time
+  api: openapi/open-mobility-foundation-mds-provider-openapi.yml
+  method: GET
+  path: /events/historical
+  description: Get all status changes with an event time occurring within the hour.
+  readOnly: true
+- name: provider_get_events_recent_start_time_end_time
+  operationId: get-events-recent-start_time-end_time
+  api: openapi/open-mobility-foundation-mds-provider-openapi.yml
+  method: GET
+  path: /events/recent
+  description: Get all status changes at most two weeks old.
+  readOnly: true
+- name: provider_get_stops
+  operationId: get-stops
+  api: openapi/open-mobility-foundation-mds-provider-openapi.yml
+  method: GET
+  path: /stops
+  description: Stop information should be updated on a near-realtime basis by providers who operate docked mobility
+    devices in a given municipality.
+  readOnly: true
+- name: provider_get_stops_stop_id
+  operationId: get-stops-stop_id
+  api: openapi/open-mobility-foundation-mds-provider-openapi.yml
+  method: GET
+  path: /stops/{stop_id}
+  description: Stop information should be updated on a near-realtime basis by providers who operate docked mobility
+    devices in a given municipality.
+  readOnly: true
+- name: provider_get_reports_filename
+  operationId: get-reports-filename
+  api: openapi/open-mobility-foundation-mds-provider-openapi.yml
+  method: GET
+  path: /reports/{filename}
+  description: Reports are information that providers can send back to agencies containing aggregated data that
+    is not contained within other MDS endpoints, like counts of special groups of riders.
+  readOnly: true

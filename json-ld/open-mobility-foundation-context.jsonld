@@ -1,0 +1,441 @@
+{
+  "@context": {
+    "@vocab": "https://openmobilityfoundation.org/schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "open": "https://openmobilityfoundation.org/schema#",
+    "data-types_vehicle-type": "open:data-types_vehicle-type",
+    "data-types_propulsion-type": "open:data-types_propulsion-type",
+    "modes_car-share_vehicle": "open:modes_car-share_vehicle",
+    "accessibility_attributes": {
+      "@id": "open:accessibility_attributes",
+      "@type": "@id"
+    },
+    "vehicle_attributes": {
+      "@id": "open:vehicle_attributes"
+    },
+    "modes_delivery-robots_vehicle": "open:modes_delivery-robots_vehicle",
+    "modes_delivery-robots_accessibility-attributes": "open:modes_delivery-robots_accessibility-attributes",
+    "audio_cue": {
+      "@id": "open:audio_cue",
+      "@type": "xsd:boolean"
+    },
+    "visual_cue": {
+      "@id": "open:visual_cue",
+      "@type": "xsd:boolean"
+    },
+    "remote_open": {
+      "@id": "open:remote_open",
+      "@type": "xsd:boolean"
+    },
+    "modes_micromobility_vehicle": "open:modes_micromobility_vehicle",
+    "modes_passenger-services_vehicle": "open:modes_passenger-services_vehicle",
+    "response_bulk": "open:response_bulk",
+    "success": {
+      "@id": "open:success",
+      "@type": "@id"
+    },
+    "total": {
+      "@id": "open:total",
+      "@type": "@id"
+    },
+    "failures": {
+      "@id": "open:failures",
+      "@container": "@list"
+    },
+    "response_error_bad_param": "open:response_error_bad_param",
+    "error": {
+      "@id": "open:error"
+    },
+    "error_description": {
+      "@id": "open:error_description",
+      "@type": "xsd:string"
+    },
+    "error_details": {
+      "@id": "open:error_details",
+      "@container": "@list"
+    },
+    "response_error_missing_param": "open:response_error_missing_param",
+    "response_error_already_registered": "open:response_error_already_registered",
+    "response_error": "open:response_error",
+    "response_error_unregistered": "open:response_error_unregistered",
+    "response_version": "open:response_version",
+    "version": {
+      "@id": "open:version",
+      "@type": "@id"
+    },
+    "response_paging": "open:response_paging",
+    "links": {
+      "@id": "open:links"
+    },
+    "vehicle-status": "open:vehicle-status",
+    "device_id": {
+      "@id": "open:device_id",
+      "@type": "@id"
+    },
+    "provider_id": {
+      "@id": "open:provider_id",
+      "@type": "@id"
+    },
+    "data_provider_id": {
+      "@id": "open:data_provider_id",
+      "@type": "@id"
+    },
+    "last_event": {
+      "@id": "open:last_event",
+      "@type": "@id"
+    },
+    "last_telemetry": {
+      "@id": "open:last_telemetry",
+      "@type": "@id"
+    },
+    "data-types_vehicle-state": "open:data-types_vehicle-state",
+    "data-types_event-type": "open:data-types_event-type",
+    "data-types_gps": "open:data-types_gps",
+    "altitude": {
+      "@id": "open:altitude",
+      "@type": "xsd:decimal"
+    },
+    "heading": {
+      "@id": "open:heading",
+      "@type": "xsd:decimal"
+    },
+    "horizontal_accuracy": {
+      "@id": "open:horizontal_accuracy",
+      "@type": "xsd:decimal"
+    },
+    "lat": {
+      "@id": "open:lat",
+      "@type": "xsd:decimal"
+    },
+    "lng": {
+      "@id": "open:lng",
+      "@type": "xsd:decimal"
+    },
+    "satellites": {
+      "@id": "open:satellites",
+      "@type": "@id"
+    },
+    "speed": {
+      "@id": "open:speed",
+      "@type": "xsd:decimal"
+    },
+    "vertical_accuracy": {
+      "@id": "open:vertical_accuracy",
+      "@type": "xsd:decimal"
+    },
+    "telemetry": "open:telemetry",
+    "telemetry_id": {
+      "@id": "open:telemetry_id",
+      "@type": "@id"
+    },
+    "timestamp": {
+      "@id": "open:timestamp",
+      "@type": "@id"
+    },
+    "trip_ids": {
+      "@id": "open:trip_ids"
+    },
+    "journey_id": {
+      "@id": "open:journey_id"
+    },
+    "stop_id": {
+      "@id": "open:stop_id",
+      "@type": "@id"
+    },
+    "location": {
+      "@id": "open:location",
+      "@type": "@id"
+    },
+    "location_type": {
+      "@id": "open:location_type",
+      "@type": "xsd:string"
+    },
+    "battery_percent": {
+      "@id": "open:battery_percent",
+      "@type": "@id"
+    },
+    "fuel_percent": {
+      "@id": "open:fuel_percent",
+      "@type": "@id"
+    },
+    "tipped_over": {
+      "@id": "open:tipped_over",
+      "@type": "xsd:boolean"
+    },
+    "modes_car-share_trip": "open:modes_car-share_trip",
+    "journey_attributes": {
+      "@id": "open:journey_attributes"
+    },
+    "trip_type": {
+      "@id": "open:trip_type"
+    },
+    "trip_attributes": {
+      "@id": "open:trip_attributes"
+    },
+    "fare_attributes": {
+      "@id": "open:fare_attributes"
+    },
+    "modes_delivery-robots_trip": "open:modes_delivery-robots_trip",
+    "modes_micromobility_trip": "open:modes_micromobility_trip",
+    "modes_passenger-services_trip": "open:modes_passenger-services_trip",
+    "mutable-stop": "open:mutable-stop",
+    "last_updated": {
+      "@id": "open:last_updated",
+      "@type": "@id"
+    },
+    "status": {
+      "@id": "open:status"
+    },
+    "num_vehicles_available": {
+      "@id": "open:num_vehicles_available",
+      "@type": "@id"
+    },
+    "num_vehicles_disabled": {
+      "@id": "open:num_vehicles_disabled",
+      "@type": "@id"
+    },
+    "rental_methods": {
+      "@id": "open:rental_methods",
+      "@container": "@list"
+    },
+    "num_places_available": {
+      "@id": "open:num_places_available",
+      "@type": "@id"
+    },
+    "num_places_disabled": {
+      "@id": "open:num_places_disabled",
+      "@type": "@id"
+    },
+    "devices": {
+      "@id": "open:devices",
+      "@type": "@id"
+    },
+    "response_last_updated": "open:response_last_updated",
+    "geography": "open:geography",
+    "name": {
+      "@id": "open:name",
+      "@type": "@id"
+    },
+    "description": {
+      "@id": "open:description",
+      "@type": "@id"
+    },
+    "geography_type": {
+      "@id": "open:geography_type",
+      "@type": "xsd:string"
+    },
+    "geography_id": {
+      "@id": "open:geography_id",
+      "@type": "@id"
+    },
+    "geography_json": {
+      "@id": "open:geography_json",
+      "@type": "@id"
+    },
+    "effective_date": {
+      "@id": "open:effective_date",
+      "@type": "@id"
+    },
+    "published_date": {
+      "@id": "open:published_date",
+      "@type": "@id"
+    },
+    "retire_date": {
+      "@id": "open:retire_date",
+      "@type": "@id"
+    },
+    "prev_geographies": {
+      "@id": "open:prev_geographies",
+      "@type": "@id"
+    },
+    "data-types_geojson-featurecollection": "open:data-types_geojson-featurecollection",
+    "type": {
+      "@id": "open:type",
+      "@type": "xsd:string"
+    },
+    "features": {
+      "@id": "open:features",
+      "@container": "@list"
+    },
+    "bbox": {
+      "@id": "open:bbox",
+      "@container": "@list"
+    },
+    "jurisdiction": "open:jurisdiction",
+    "jurisdiction_id": {
+      "@id": "open:jurisdiction_id",
+      "@type": "@id"
+    },
+    "agency_key": {
+      "@id": "open:agency_key",
+      "@type": "@id"
+    },
+    "agency_name": {
+      "@id": "open:agency_name",
+      "@type": "@id"
+    },
+    "mode_ids": {
+      "@id": "open:mode_ids",
+      "@container": "@list"
+    },
+    "data-types_mode": "open:data-types_mode",
+    "query": "open:query",
+    "measures": {
+      "@id": "open:measures",
+      "@type": "@id"
+    },
+    "interval": {
+      "@id": "open:interval",
+      "@type": "@id"
+    },
+    "start_date": {
+      "@id": "open:start_date"
+    },
+    "end_date": {
+      "@id": "open:end_date"
+    },
+    "timezone": {
+      "@id": "open:timezone",
+      "@type": "@id"
+    },
+    "dimensions": {
+      "@id": "open:dimensions",
+      "@type": "@id"
+    },
+    "filters": {
+      "@id": "open:filters",
+      "@container": "@list"
+    },
+    "column": "open:column",
+    "column_type": {
+      "@id": "open:column_type",
+      "@type": "xsd:string"
+    },
+    "data_type": {
+      "@id": "open:data_type",
+      "@type": "xsd:string"
+    },
+    "policy": "open:policy",
+    "mode_id": {
+      "@id": "open:mode_id",
+      "@type": "@id"
+    },
+    "policy_id": {
+      "@id": "open:policy_id",
+      "@type": "@id"
+    },
+    "provider_ids": {
+      "@id": "open:provider_ids",
+      "@type": "@id"
+    },
+    "currency": {
+      "@id": "open:currency",
+      "@type": "@id"
+    },
+    "prev_policies": {
+      "@id": "open:prev_policies",
+      "@type": "@id"
+    },
+    "rules": {
+      "@id": "open:rules",
+      "@container": "@list"
+    },
+    "policy-rule": "open:policy-rule",
+    "rule_id": {
+      "@id": "open:rule_id",
+      "@type": "@id"
+    },
+    "rule_type": {
+      "@id": "open:rule_type",
+      "@type": "xsd:string"
+    },
+    "geographies": {
+      "@id": "open:geographies",
+      "@type": "@id"
+    },
+    "states": {
+      "@id": "open:states",
+      "@type": "@id"
+    },
+    "rule_units": {
+      "@id": "open:rule_units",
+      "@type": "xsd:string"
+    },
+    "vehicle_types": {
+      "@id": "open:vehicle_types",
+      "@type": "@id"
+    },
+    "propulsion_types": {
+      "@id": "open:propulsion_types",
+      "@type": "@id"
+    },
+    "minimum": {
+      "@id": "open:minimum"
+    },
+    "maximum": {
+      "@id": "open:maximum"
+    },
+    "inclusive_minimum": {
+      "@id": "open:inclusive_minimum"
+    },
+    "inclusive_maximum": {
+      "@id": "open:inclusive_maximum"
+    },
+    "rate_amount": {
+      "@id": "open:rate_amount"
+    },
+    "rate_recurrence": {
+      "@id": "open:rate_recurrence"
+    },
+    "rate_applies_when": {
+      "@id": "open:rate_applies_when"
+    },
+    "start_time": {
+      "@id": "open:start_time",
+      "@type": "@id"
+    },
+    "end_time": {
+      "@id": "open:end_time",
+      "@type": "@id"
+    },
+    "days": {
+      "@id": "open:days",
+      "@type": "@id"
+    },
+    "messages": {
+      "@id": "open:messages"
+    },
+    "value_url": {
+      "@id": "open:value_url",
+      "@type": "@id"
+    },
+    "data-types_day": "open:data-types_day",
+    "requirements": "open:requirements",
+    "metadata": {
+      "@id": "open:metadata",
+      "@type": "@id"
+    },
+    "programs": {
+      "@id": "open:programs",
+      "@container": "@list"
+    },
+    "response_ttl": "open:response_ttl",
+    "ttl": {
+      "@id": "open:ttl",
+      "@type": "@id"
+    }
+  },
+  "@type": "schema:Dataset",
+  "schema:name": "Open Mobility Foundation API JSON-LD context",
+  "schema:description": "A JSON-LD @context for the objects Open Mobility Foundation's own API contract declares: one class per component schema, one property per declared field, typed from the contract. Derived by script (derive-json-ld.py, 2026-10-09) from openapi/open-mobility-foundation-mds-agency-openapi.yml, openapi/open-mobility-foundation-mds-geography-openapi.yml, openapi/open-mobility-foundation-mds-jurisdiction-openapi.yml.",
+  "dcterms:created": "2026-10-09",
+  "dcterms:source": [
+    "openapi/open-mobility-foundation-mds-agency-openapi.yml",
+    "openapi/open-mobility-foundation-mds-geography-openapi.yml",
+    "openapi/open-mobility-foundation-mds-jurisdiction-openapi.yml",
+    "openapi/open-mobility-foundation-mds-metrics-openapi.yml",
+    "openapi/open-mobility-foundation-mds-policy-openapi.yml"
+  ]
+}

@@ -1,0 +1,54 @@
+title: models/policy
+description: A policy describes the digital relationship between _mobility as a service_ providers and the agencies that regulate them.
+type: object
+
+x-stoplight:
+  id: yp7awu2xd5agd
+
+required:
+  - name
+  - mode_id
+  - policy_id
+  - description
+  - start_date
+  - published_date
+  - rules
+
+properties:
+  name:
+    $ref: ./data-types/string.yaml
+    description: Name of policy.
+  mode_id:
+    $ref: ./data-types/mode.yaml
+    description: Mode this rule should apply, see MDS mode list for options. Default `micromobility` for backwards compatibility (this default will likely be removed in a subsequent MDS release).
+    default: micromobility
+  policy_id:
+    $ref: ./data-types/uuid.yaml
+    description: Unique ID of policy.
+  provider_ids:
+    $ref: ./data-types/uuid-array.yaml
+    description: Providers for whom this policy is applicable; empty arrays and null/absent implies all Providers.
+  description:
+    $ref: ./data-types/string.yaml
+    description: Description of policy.
+  currency:
+    $ref: ./data-types/currency.yaml
+    description: An ISO 4217 Alphabetic Currency Code representing the currency of all Rules with a `rate_amount`.
+  start_date:
+    $ref: ./data-types/timestamp.yaml
+    description: Beginning date/time of policy enforcement. In order to give providers sufficient time to poll, `start_date` must be at least 20 minutes after `published_date`.
+  end_date:
+    $ref: ./data-types/timestamp.yaml
+    description: End date/time of policy enforcement.
+  published_date:
+    $ref: ./data-types/timestamp.yaml
+    description: Timestamp that the policy was published.
+  prev_policies:
+    $ref: ./data-types/uuid-array.yaml
+    description: Unique IDs of prior policies replaced by this one.
+  rules:
+    type: array
+    description: Array of applicable Rule objects
+    minItems: 1
+    items:
+      $ref: ./policy-rule.yaml

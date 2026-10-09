@@ -1,0 +1,44 @@
+generated: '2026-10-09'
+method: searched
+source: https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/general-information.md#responses
+format: custom-json
+envelope:
+  fields:
+    error: Error message string
+    error_description: Human readable error description (can be localized)
+    error_details: Array of error details
+  bulk:
+    success: Number of successfully written records
+    total: Total number of provided records
+    failures: Array of failure details (item, error, error_description, error_details)
+problems:
+- status: 400
+  title: Bad request
+  type: null
+  description: ''
+  remediation: null
+- status: 401
+  title: Unauthorized
+  type: null
+  description: Invalid, expired, or insufficient scope of token.
+  remediation: null
+- status: 404
+  title: Not Found
+  type: null
+  description: Object does not exist, returned on GET or POST operations if the object does not exist.
+  remediation: null
+- status: 406
+  title: Not Acceptable
+  type: null
+  description: MDS version in Accept header is unsupported or invalid.
+  remediation: null
+- status: 409
+  title: Conflict
+  type: null
+  description: POST operations when an object already exists and an update is not possible.
+  remediation: null
+- status: 500
+  title: Internal server error
+  type: null
+  description: The answer should contain an application/json body with an error message for troubleshooting.
+  remediation: null

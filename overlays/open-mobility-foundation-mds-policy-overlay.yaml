@@ -1,0 +1,47 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist overlay for Policy (MDS 2.0)
+  version: 1.0.0
+extends: ../openapi/_original/open-mobility-foundation-mds-policy-openapi.yml
+x-generated: '2026-10-09'
+x-method: generated
+x-source: openapi/open-mobility-foundation-mds-policy-openapi.yml
+x-rationale: 'The OMF mds-openapi definitions (openapi/_original/mds-openapi/reference) ship untagged operations.
+  This overlay adds resource tags without mutating the original. No servers are added: MDS is a specification implemented
+  by each city/operator, so there is no single provider host.'
+actions:
+- target: $
+  description: Add top-level tags derived from the first path segment of each operation.
+  update:
+    tags:
+    - name: policies
+      description: MDS Policy policies operations
+    - name: value
+      description: MDS Policy value operations
+    - name: requirements
+      description: MDS Policy requirements operations
+- target: $.paths['/policies'].get
+  description: Tag GET /policies by resource (policies) for grouping in docs and MCP tool categories.
+  update:
+    tags:
+    - policies
+- target: $.paths['/policies/{policy_id}'].get
+  description: Tag GET /policies/{policy_id} by resource (policies) for grouping in docs and MCP tool categories.
+  update:
+    tags:
+    - policies
+- target: $.paths['/policies.json'].get
+  description: Tag GET /policies.json by resource (policies) for grouping in docs and MCP tool categories.
+  update:
+    tags:
+    - policies
+- target: $.paths['/value'].get
+  description: Tag GET /value by resource (value) for grouping in docs and MCP tool categories.
+  update:
+    tags:
+    - value
+- target: $.paths['/requirements'].get
+  description: Tag GET /requirements by resource (requirements) for grouping in docs and MCP tool categories.
+  update:
+    tags:
+    - requirements

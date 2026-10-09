@@ -1,0 +1,1066 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/open-mobility-foundation/main/json-schema/open-mobility-foundation-event-schema.json",
+  "title": "models/event",
+  "description": "Events represent changes in [Vehicle Status](./vehicle-status.yaml).",
+  "x-generated": "2026-10-09",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/event",
+  "type": "object",
+  "x-stoplight": {
+    "id": "34niv0zuhmwmg"
+  },
+  "required": [
+    "device_id",
+    "provider_id",
+    "event_id",
+    "vehicle_state",
+    "event_types",
+    "timestamp"
+  ],
+  "allOf": [
+    {
+      "properties": {
+        "device_id": {
+          "$ref": "#/$defs/data-types_uuid",
+          "description": "A unique device ID in UUID format."
+        },
+        "provider_id": {
+          "$ref": "#/$defs/data-types_uuid",
+          "description": "A UUID for the Provider, unique within MDS. See MDS [provider list](https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/providers.csv)."
+        },
+        "data_provider_id": {
+          "$ref": "#/$defs/data-types_uuid",
+          "description": "If different than `provider_id`, a UUID for the data solution provider managing the data feed in this endpoint."
+        },
+        "event_id": {
+          "$ref": "#/$defs/data-types_uuid",
+          "description": "A unique event ID in UUID format."
+        },
+        "vehicle_state": {
+          "$ref": "#/$defs/data-types_vehicle-state",
+          "description": "The state of the vehicle as of this event."
+        },
+        "event_types": {
+          "$ref": "#/$defs/data-types_event-type-array",
+          "description": "Vehicle event types for state change."
+        },
+        "timestamp": {
+          "$ref": "#/$defs/data-types_timestamp",
+          "description": "Date/time that event occurred."
+        },
+        "publication_time": {
+          "$ref": "#/$defs/data-types_timestamp",
+          "description": "Date/time event became available through the status changes endpoint."
+        },
+        "location": {
+          "$ref": "#/$defs/data-types_gps",
+          "description": "Location of the event."
+        },
+        "event_geographies": {
+          "$ref": "#/$defs/data-types_uuid-array",
+          "description": "Array of Geography UUIDs consisting of every Geography that contains the location of the status change. See Geography Driven Events. Required if location is not present."
+        },
+        "battery_percent": {
+          "$ref": "#/$defs/data-types_integer-positive",
+          "description": "Percent battery charge of vehicle, expressed between 0 and 100.",
+          "maximum": 100
+        },
+        "fuel_percent": {
+          "$ref": "#/$defs/data-types_integer-positive",
+          "description": "Percent fuel in vehicle, expressed between 0 and 100.",
+          "maximum": 100
+        },
+        "trip_ids": {
+          "$ref": "#/$defs/data-types_uuid-array",
+          "description": "Trip UUIDs (foreign key to /trips endpoint), conditionally required for different modes."
+        },
+        "associated_ticket": {
+          "$ref": "#/$defs/data-types_string",
+          "description": "Identifier for an associated ticket inside an Agency-maintained 311 or CRM system."
+        }
+      }
+    },
+    {
+      "oneOf": [
+        {
+          "title": "modes/car-share",
+          "$ref": "#/$defs/modes_car-share_event"
+        },
+        {
+          "title": "modes/delivery-robots",
+          "$ref": "#/$defs/modes_delivery-robots_event"
+        },
+        {
+          "title": "modes/micromobility",
+          "$ref": "#/$defs/modes_micromobility_event"
+        },
+        {
+          "title": "modes/passenger-services",
+          "$ref": "#/$defs/modes_passenger-services_event"
+        }
+      ]
+    },
+    {
+      "anyOf": [
+        {
+          "title": "Location-based event",
+          "required": [
+            "location"
+          ]
+        },
+        {
+          "title": "Geography-driven event",
+          "required": [
+            "event_geographies"
+          ],
+          "properties": {
+            "event_geographies": {
+              "minItems": 1
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "$defs": {
+    "data-types_event-type": {
+      "title": "data-types/event-type",
+      "description": "Events are possible transitions between vehicle states.",
+      "enum": [
+        "agency_drop_off",
+        "agency_pick_up",
+        "battery_charged",
+        "battery_low",
+        "changed_geographies",
+        "charging_end",
+        "charging_start",
+        "comms_lost",
+        "comms_restored",
+        "compliance_pick_up",
+        "customer_cancellation",
+        "decommissioned",
+        "driver_cancellation",
+        "fueling_end",
+        "fueling_start",
+        "located",
+        "maintenance",
+        "maintenance_end",
+        "maintenance_pick_up",
+        "not_located",
+        "off_hours",
+        "on_hours",
+        "order_drop_off",
+        "order_pick_up",
+        "passenger_cancellation",
+        "provider_cancellation",
+        "provider_drop_off",
+        "rebalance_pick_up",
+        "recommission",
+        "remote_end",
+        "remote_start",
+        "reservation_cancel",
+        "reservation_start",
+        "reservation_stop",
+        "service_end",
+        "service_start",
+        "system_resume",
+        "system_suspend",
+        "trip_cancel",
+        "trip_end",
+        "trip_enter_jurisdiction",
+        "trip_leave_jurisdiction",
+        "trip_pause",
+        "trip_resume",
+        "trip_start",
+        "trip_stop",
+        "unspecified"
+      ],
+      "type": "string",
+      "x-stoplight": {
+        "id": "lsm5td7gknbxz"
+      }
+    },
+    "data-types_event-type-array": {
+      "title": "data-types/event-type-array",
+      "description": "Array of events indicating a change to a vehicle's state.",
+      "items": {
+        "$ref": "#/$defs/data-types_event-type"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true,
+      "x-stoplight": {
+        "id": "1dq8fejw6intb"
+      }
+    },
+    "data-types_gps": {
+      "title": "data-types/gps",
+      "properties": {
+        "altitude": {
+          "description": "Altitude above mean sea level in meters.",
+          "type": "number"
+        },
+        "heading": {
+          "description": "Degrees - clockwise starting at 0 degrees at true North.",
+          "type": "number"
+        },
+        "horizontal_accuracy": {
+          "description": "Horizontal accuracy in meters.",
+          "type": "number"
+        },
+        "lat": {
+          "description": "Latitude coordinate.",
+          "maximum": 90,
+          "minimum": -90,
+          "type": "number"
+        },
+        "lng": {
+          "description": "Longitude coordinate.",
+          "maximum": 180,
+          "minimum": -180,
+          "type": "number"
+        },
+        "satellites": {
+          "$ref": "#/$defs/data-types_integer-positive",
+          "description": "Number of GPS or GNSS satellites."
+        },
+        "speed": {
+          "description": "Estimated speed in meters / sec as reported by the GPS chipset.",
+          "type": "number"
+        },
+        "vertical_accuracy": {
+          "description": "Vertical accuracy in meters.",
+          "type": "number"
+        }
+      },
+      "required": [
+        "lat",
+        "lng"
+      ],
+      "type": "object",
+      "x-stoplight": {
+        "id": "8aooo5ag7x7vh"
+      }
+    },
+    "data-types_integer-positive": {
+      "title": "data-types/integer-positive",
+      "description": "An integer greater than or equal to 0.",
+      "minimum": 0,
+      "type": "integer",
+      "x-stoplight": {
+        "id": "nfkphjmpm8yay"
+      }
+    },
+    "data-types_string": {
+      "title": "data-types/string",
+      "description": "A length-limited string type.",
+      "maxLength": 255,
+      "pattern": "^(.*)$",
+      "type": "string",
+      "x-stoplight": {
+        "id": "2vqv7166161kh"
+      }
+    },
+    "data-types_timestamp": {
+      "title": "data-types/timestamp",
+      "description": "Integer milliseconds since Unix epoch.",
+      "minimum": 1514764800000,
+      "multipleOf": 1,
+      "type": "number",
+      "x-stoplight": {
+        "id": "vliol1hqlxw6y"
+      }
+    },
+    "data-types_uuid": {
+      "title": "data-types/uuid",
+      "description": "A UUID used to uniquely identity an object.",
+      "type": "string",
+      "x-stoplight": {
+        "id": "np9kodwmy2kqa"
+      },
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "data-types_uuid-array": {
+      "title": "data-types/uuid-array",
+      "description": "Array of UUID.",
+      "type": "array",
+      "x-stoplight": {
+        "id": "v932clitbqv31"
+      },
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/data-types_uuid"
+      }
+    },
+    "data-types_vehicle-state": {
+      "title": "data-types/vehicle-state",
+      "description": "The state of a vehicle.",
+      "type": "string",
+      "x-stoplight": {
+        "id": "3j1h7u4vvc7kr"
+      },
+      "enum": [
+        "removed",
+        "available",
+        "non_operational",
+        "reserved",
+        "on_trip",
+        "stopped",
+        "non_contactable",
+        "missing",
+        "elsewhere"
+      ]
+    },
+    "modes_car-share_event": {
+      "title": "modes/car-share/event",
+      "description": "Event definition for the `car-share` mode.",
+      "type": "object",
+      "x-stoplight": {
+        "id": "0jy8uoz32ksy8"
+      },
+      "oneOf": [
+        {
+          "title": "vehicle_state - removed",
+          "properties": {
+            "vehicle_state": {
+              "const": "removed"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_restored",
+                  "decommissioned",
+                  "maintenance",
+                  "maintenance_pick_up"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - available",
+          "properties": {
+            "vehicle_state": {
+              "const": "available"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_restored",
+                  "driver_cancellation",
+                  "customer_cancellation",
+                  "provider_cancellation",
+                  "service_start",
+                  "trip_end",
+                  "trip_enter_jurisdiction"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - non_operational",
+          "properties": {
+            "vehicle_state": {
+              "const": "non_operational"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_restored",
+                  "maintenance_end",
+                  "recommissioned",
+                  "service_end",
+                  "trip_enter_jurisdiction"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - reserved",
+          "properties": {
+            "vehicle_state": {
+              "const": "reserved"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_restored",
+                  "reservation_start",
+                  "trip_enter_jurisdiction"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - on_trip",
+          "properties": {
+            "vehicle_state": {
+              "const": "on_trip"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_restored",
+                  "trip_enter_jurisdiction",
+                  "trip_resume",
+                  "trip_start"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - non_contactable",
+          "properties": {
+            "vehicle_state": {
+              "const": "non_contactable"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_lost"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - stopped",
+          "properties": {
+            "vehicle_state": {
+              "const": "stopped"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "charging_end",
+                  "charging_start",
+                  "comms_restored",
+                  "fueling_end",
+                  "fueling_start",
+                  "remote_end",
+                  "remote_start",
+                  "reservation_stop",
+                  "trip_stop"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - elsewhere",
+          "properties": {
+            "vehicle_state": {
+              "const": "elsewhere"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_restored",
+                  "trip_leave_jurisdiction"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "if": {
+        "properties": {
+          "event_types": {
+            "contains": [
+              "customer_cancellation",
+              "driver_cancellation",
+              "provider_cancellation",
+              "reservation_start",
+              "reservation_stop",
+              "trip_end",
+              "trip_enter_jurisdiction",
+              "trip_leave_jurisdiction",
+              "trip_resume",
+              "trip_start",
+              "trip_stop"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "trip_ids": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    "modes_delivery-robots_event": {
+      "title": "modes/delivery-robots/event",
+      "description": "Event definition for the `delivery-robots` mode.",
+      "type": "object",
+      "x-stoplight": {
+        "id": "sksecq6lesbxa"
+      },
+      "oneOf": [
+        {
+          "title": "vehicle_state - removed",
+          "properties": {
+            "vehicle_state": {
+              "const": "removed"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_restored",
+                  "decommissioned",
+                  "located",
+                  "maintenance_pick_up"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - available",
+          "properties": {
+            "vehicle_state": {
+              "const": "available"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_restored",
+                  "customer_cancellation",
+                  "driver_cancellation",
+                  "located",
+                  "provider_cancellation",
+                  "service_start",
+                  "trip_end",
+                  "trip_enter_jurisdiction"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - non_operational",
+          "properties": {
+            "vehicle_state": {
+              "const": "non_operational"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_restored",
+                  "located",
+                  "maintenance",
+                  "maintenance_end",
+                  "recommissioned",
+                  "service_end",
+                  "trip_enter_jurisdiction"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - reserved",
+          "properties": {
+            "vehicle_state": {
+              "const": "reserved"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_restored",
+                  "located",
+                  "reservation_start",
+                  "trip_enter_jurisdiction"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - on_trip",
+          "properties": {
+            "vehicle_state": {
+              "const": "on_trip"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_restored",
+                  "located",
+                  "trip_enter_jurisdiction",
+                  "trip_resume",
+                  "trip_start"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - stopped",
+          "properties": {
+            "vehicle_state": {
+              "const": "stopped"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_restored",
+                  "located",
+                  "order_drop_off",
+                  "order_pick_up",
+                  "reservation_stop",
+                  "trip_pause"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - non_contactable",
+          "properties": {
+            "vehicle_state": {
+              "const": "non_contactable"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_lost"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - missing",
+          "properties": {
+            "vehicle_state": {
+              "const": "missing"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "not_located"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - elsewhere",
+          "properties": {
+            "vehicle_state": {
+              "const": "elsewhere"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_restored",
+                  "located",
+                  "trip_leave_jurisdiction"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "if": {
+        "properties": {
+          "event_types": {
+            "contains": [
+              "customer_cancellation",
+              "driver_cancellation",
+              "provider_cancellation",
+              "reservation_start",
+              "reservation_stop",
+              "trip_end",
+              "trip_enter_jurisdiction",
+              "trip_leave_jurisdiction",
+              "trip_pause",
+              "trip_resume",
+              "trip_start"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "trip_ids": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    "modes_micromobility_event": {
+      "title": "modes/micromobility/event",
+      "description": "Event definition for the `micromobility` mode.",
+      "type": "object",
+      "x-stoplight": {
+        "id": "ii72nhqky41mp"
+      },
+      "oneOf": [
+        {
+          "title": "vehicle_state - removed",
+          "properties": {
+            "vehicle_state": {
+              "const": "removed"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "agency_pick_up",
+                  "comms_restored",
+                  "compliance_pick_up",
+                  "decommissioned",
+                  "located",
+                  "maintenance_pick_up",
+                  "rebalance_pick_up",
+                  "unspecified"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - available",
+          "properties": {
+            "vehicle_state": {
+              "const": "available"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "agency_drop_off",
+                  "battery_charged",
+                  "comms_restored",
+                  "located",
+                  "maintenance",
+                  "on_hours",
+                  "provider_drop_off",
+                  "reservation_cancel",
+                  "system_resume",
+                  "trip_cancel",
+                  "trip_end",
+                  "unspecified"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - non_operational",
+          "properties": {
+            "vehicle_state": {
+              "const": "non_operational"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "battery_low",
+                  "comms_restored",
+                  "located",
+                  "maintenance",
+                  "off_hours",
+                  "system_suspend",
+                  "unspecified"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - reserved",
+          "properties": {
+            "vehicle_state": {
+              "const": "reserved"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_restored",
+                  "located",
+                  "reservation_start",
+                  "unspecified"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - on_trip",
+          "properties": {
+            "vehicle_state": {
+              "const": "on_trip"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "changed_geographies",
+                  "comms_restored",
+                  "located",
+                  "trip_enter_jurisdiction",
+                  "trip_start",
+                  "unspecified"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - non_contactable",
+          "properties": {
+            "vehicle_state": {
+              "const": "non_contactable"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_lost",
+                  "unspecified"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - missing",
+          "properties": {
+            "vehicle_state": {
+              "const": "missing"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "not_located",
+                  "unspecified"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - elsewhere",
+          "properties": {
+            "vehicle_state": {
+              "const": "elsewhere"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_restored",
+                  "located",
+                  "trip_leave_jurisdiction",
+                  "unspecified"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "if": {
+        "properties": {
+          "event_types": {
+            "contains": [
+              "trip_cancel",
+              "trip_end",
+              "trip_enter_jurisdiction",
+              "trip_leave_jurisdiction",
+              "trip_start"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "trip_ids": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    "modes_passenger-services_event": {
+      "title": "modes/passenger-services/event",
+      "description": "Event definition for the `passenger-services` mode.",
+      "type": "object",
+      "x-stoplight": {
+        "id": "diqnymt2vyq3m"
+      },
+      "oneOf": [
+        {
+          "title": "vehicle_state - removed",
+          "properties": {
+            "vehicle_state": {
+              "const": "removed"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_restored",
+                  "decommissioned",
+                  "maintenance_pick_up"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - available",
+          "properties": {
+            "vehicle_state": {
+              "const": "available"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_restored",
+                  "driver_cancellation",
+                  "passenger_cancellation",
+                  "provider_cancellation",
+                  "service_start",
+                  "trip_end",
+                  "trip_enter_jurisdiction"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - non_operational",
+          "properties": {
+            "vehicle_state": {
+              "const": "non_operational"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_restored",
+                  "maintenance",
+                  "maintenance_end",
+                  "recommissioned",
+                  "service_end",
+                  "trip_enter_jurisdiction"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - reserved",
+          "properties": {
+            "vehicle_state": {
+              "const": "reserved"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_restored",
+                  "reservation_start",
+                  "trip_enter_jurisdiction"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - on_trip",
+          "properties": {
+            "vehicle_state": {
+              "const": "on_trip"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_restored",
+                  "trip_enter_jurisdiction",
+                  "trip_resume",
+                  "trip_start"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - non_contactable",
+          "properties": {
+            "vehicle_state": {
+              "const": "non_contactable"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_lost"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - stopped",
+          "properties": {
+            "vehicle_state": {
+              "const": "stopped"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_restored",
+                  "reservation_stop",
+                  "trip_stop"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "title": "vehicle_state - elsewhere",
+          "properties": {
+            "vehicle_state": {
+              "const": "elsewhere"
+            },
+            "event_types": {
+              "items": {
+                "enum": [
+                  "comms_restored",
+                  "trip_leave_jurisdiction"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "if": {
+        "properties": {
+          "event_types": {
+            "contains": [
+              "driver_cancellation",
+              "passenger_cancellation",
+              "provider_cancellation",
+              "reservation_start",
+              "reservation_stop",
+              "trip_end",
+              "trip_enter_jurisdiction",
+              "trip_leave_jurisdiction",
+              "trip_resume",
+              "trip_start",
+              "trip_stop"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "trip_ids": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  }
+}

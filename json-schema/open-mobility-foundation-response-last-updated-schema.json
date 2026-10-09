@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/open-mobility-foundation/main/json-schema/open-mobility-foundation-response-last-updated-schema.json",
+  "title": "response/last_updated",
+  "x-generated": "2026-10-09",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/open-mobility-foundation-mds-policy-openapi.yml#/components/schemas/response_last_updated",
+  "type": "object",
+  "x-stoplight": {
+    "id": "z6u8eu7rlkd1j"
+  },
+  "required": [
+    "last_updated"
+  ],
+  "properties": {
+    "last_updated": {
+      "$ref": "#/$defs/data-types_timestamp",
+      "description": "Timestamp indicating the last time the data in this feed was updated."
+    }
+  },
+  "$defs": {
+    "data-types_timestamp": {
+      "title": "data-types/timestamp",
+      "description": "Integer milliseconds since Unix epoch.",
+      "minimum": 1514764800000,
+      "multipleOf": 1,
+      "type": "number",
+      "x-stoplight": {
+        "id": "vliol1hqlxw6y"
+      }
+    }
+  }
+}

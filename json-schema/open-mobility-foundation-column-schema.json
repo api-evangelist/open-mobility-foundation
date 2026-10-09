@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/open-mobility-foundation/main/json-schema/open-mobility-foundation-column-schema.json",
+  "title": "column",
+  "x-generated": "2026-10-09",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/open-mobility-foundation-mds-metrics-openapi.yml#/components/schemas/column",
+  "required": [
+    "name",
+    "column_type",
+    "data_type"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of metric or dimension column."
+    },
+    "column_type": {
+      "type": "string",
+      "description": "Type of column.",
+      "enum": [
+        "metric",
+        "dimension"
+      ]
+    },
+    "data_type": {
+      "type": "string",
+      "description": "Data type of column.",
+      "enum": [
+        "datetime",
+        "string",
+        "integer",
+        "float"
+      ]
+    }
+  }
+}

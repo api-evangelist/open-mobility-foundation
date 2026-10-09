@@ -1,0 +1,37 @@
+generated: '2026-10-09'
+method: searched
+source: https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/general-information.md#authorization
+summary:
+  types:
+  - http
+schemes:
+- name: bearer
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  description: 'All MDS Agency endpoints require authentication.
+
+
+    JSON Web Token ([JWT](https://jwt.io/introduction/)) is RECOMMENDED as the token format.
+
+
+    When making requests, the endpoints expect `provider_id` to be part of the claims the JWT. The token issuance,
+
+    expiration and revocation policies are at the discretion of the agency.'
+  sources:
+  - openapi/open-mobility-foundation-mds-agency-openapi.yml
+  - openapi/open-mobility-foundation-mds-metrics-openapi.yml
+  - openapi/open-mobility-foundation-mds-provider-openapi.yml
+docs: https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/general-information.md#authorization
+notes:
+- All MDS Provider, Agency, and Metrics APIs require authentication; Policy, Geography and Jurisdiction APIs must
+  be unauthenticated and public (per General Information).
+- Authorization header carries "Bearer <token>"; JWT (RFC 7519) is RECOMMENDED as the token format.
+- OAuth 2.0's client_credentials grant type (RFC 6749 section 4.4) is RECOMMENDED as the authentication and authorization
+  scheme; producers MAY define token scopes.
+- 'MDS is a specification with no fixed server: each regulatory agency or mobility provider hosts its own implementation
+  and issues its own tokens.'
+public_apis:
+- policy
+- geography
+- jurisdiction

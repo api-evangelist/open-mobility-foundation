@@ -1,0 +1,23 @@
+# harvested from https://github.com/openmobilityfoundation/mds-openapi/blob/0c07bc3d294237dd41c6273f059efb11b8149c66/.spectral.yaml on 2026-10-09 — a Spectral ruleset published in the provider's own GitHub repository (openmobilityfoundation/mds-openapi); found by GitHub code search, fetched verbatim
+x-method: harvested
+x-stamped: 2026-10-09
+x-source-url: https://github.com/openmobilityfoundation/mds-openapi/blob/0c07bc3d294237dd41c6273f059efb11b8149c66/.spectral.yaml
+extends:
+  - "spectral:oas"
+
+rules:
+  oas3-api-servers: off
+
+  openapi-tags: off
+
+  operation-tags: off
+
+  paths-snake-case:
+    description: Paths should be snake-case.
+    message: "{{property}} should be snake-case (lower-case and separated with underscore)"
+    severity: warn
+    given: $.paths[*]~
+    then:
+      function: pattern
+      functionOptions:
+        match: "^(\/|[a-z0-9_.]+|{[a-zA-Z0-9_]+})+$"

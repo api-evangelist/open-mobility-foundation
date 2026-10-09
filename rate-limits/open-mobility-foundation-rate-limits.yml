@@ -1,0 +1,9 @@
+generated: '2026-10-09'
+method: none
+source: https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/general-information.md
+name: Open Mobility Foundation MDS rate limits
+limit_count: 0
+limits: []
+note: MDS General Information defines no rate limits, rate-limit headers or 429 behaviour; MDS is a specification
+  and limits are set by each implementing agency or provider. Pagination guidance says the maximum page[size] "should
+  be documented in their API documentation".

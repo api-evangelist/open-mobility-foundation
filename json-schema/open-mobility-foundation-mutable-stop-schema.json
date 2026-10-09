@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/open-mobility-foundation/main/json-schema/open-mobility-foundation-mutable-stop-schema.json",
+  "title": "models/mutable-stop",
+  "description": "The fields of a Stop that can be changed in the Agency API.",
+  "x-generated": "2026-10-09",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/mutable-stop",
+  "type": "object",
+  "x-stoplight": {
+    "id": "xs6ehwfn5b629"
+  },
+  "required": [
+    "stop_id",
+    "last_updated"
+  ],
+  "properties": {
+    "stop_id": {
+      "$ref": "#/$defs/data-types_uuid",
+      "description": "UUID for the stop."
+    },
+    "last_updated": {
+      "$ref": "#/$defs/data-types_timestamp",
+      "description": "Date/Time of the the stop was last updated."
+    },
+    "status": {
+      "type": "object",
+      "required": [
+        "is_installed",
+        "is_renting",
+        "is_returning"
+      ],
+      "properties": {
+        "is_installed": {
+          "type": "boolean",
+          "description": "See GBFS [station_status.json](https://github.com/NABSA/gbfs/blob/master/gbfs.md#station_statusjson)"
+        },
+        "is_renting": {
+          "type": "boolean",
+          "description": "See GBFS [station_status.json](https://github.com/NABSA/gbfs/blob/master/gbfs.md#station_statusjson)"
+        },
+        "is_returning": {
+          "type": "boolean",
+          "description": "See GBFS [station_status.json](https://github.com/NABSA/gbfs/blob/master/gbfs.md#station_statusjson)"
+        }
+      },
+      "description": "The status of the stop."
+    },
+    "num_vehicles_available": {
+      "$ref": "#/$defs/data-types_vehicle-type-counts",
+      "description": "How many vehicles are available per [`vehicle_type`](./data-types/vehicle-type.yaml) at this stop?."
+    },
+    "num_vehicles_disabled": {
+      "$ref": "#/$defs/data-types_vehicle-type-counts",
+      "description": "How many vehicles are unavailable/reserved per [`vehicle_type`](./data-types/vehicle-type.yaml) at this stop?."
+    },
+    "rental_methods": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "key",
+          "creditcard",
+          "paypass",
+          "applepay",
+          "androidpay",
+          "transitcard",
+          "accountnumber",
+          "phone"
+        ]
+      },
+      "description": "List of payment methods accepted at stop, see [GBFS Rental Methods](https://github.com/NABSA/gbfs/blob/master/gbfs.md#station_informationjson)."
+    },
+    "num_places_available": {
+      "$ref": "#/$defs/data-types_vehicle-type-counts",
+      "description": "How many places are free to be populated with vehicles per [`vehicle_type`](./data-types/vehicle-type.yaml) at this stop?"
+    },
+    "num_places_disabled": {
+      "$ref": "#/$defs/data-types_vehicle-type-counts",
+      "description": "How many places are disabled and unable to accept vehicles per [`vehicle_type`](./data-types/vehicle-type.yaml) at this stop?"
+    },
+    "devices": {
+      "$ref": "#/$defs/data-types_uuid-array",
+      "description": "List of `device_id` for [vehicles](./vehicle.yaml) currently at this stop."
+    }
+  },
+  "$defs": {
+    "data-types_integer-positive": {
+      "title": "data-types/integer-positive",
+      "description": "An integer greater than or equal to 0.",
+      "minimum": 0,
+      "type": "integer",
+      "x-stoplight": {
+        "id": "nfkphjmpm8yay"
+      }
+    },
+    "data-types_timestamp": {
+      "title": "data-types/timestamp",
+      "description": "Integer milliseconds since Unix epoch.",
+      "minimum": 1514764800000,
+      "multipleOf": 1,
+      "type": "number",
+      "x-stoplight": {
+        "id": "vliol1hqlxw6y"
+      }
+    },
+    "data-types_uuid": {
+      "title": "data-types/uuid",
+      "description": "A UUID used to uniquely identity an object.",
+      "type": "string",
+      "x-stoplight": {
+        "id": "np9kodwmy2kqa"
+      },
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "data-types_uuid-array": {
+      "title": "data-types/uuid-array",
+      "description": "Array of UUID.",
+      "type": "array",
+      "x-stoplight": {
+        "id": "v932clitbqv31"
+      },
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/data-types_uuid"
+      }
+    },
+    "data-types_vehicle-type": {
+      "title": "data-types/vehicle-type",
+      "description": "The allowed types of of vehicles in MDS. Based off of `form_factor` in [GBFS vehicle_types](https://github.com/MobilityData/gbfs/blob/master/gbfs.md#vehicle_typesjson), with some additional to support MDS modes.",
+      "type": "string",
+      "x-stoplight": {
+        "id": "gbhhyditnvs5w"
+      },
+      "enum": [
+        "bicycle",
+        "bus",
+        "cargo_bicycle",
+        "car",
+        "delivery_robot",
+        "moped",
+        "motorcycle",
+        "scooter_standing",
+        "scooter_seated",
+        "truck",
+        "other"
+      ]
+    },
+    "data-types_vehicle-type-counts": {
+      "title": "data-types/vehicle-type-counts",
+      "description": "A dictionary of vehicle counts, keyed by [`vehicle_type`](./vehicle-type.yaml).",
+      "type": "object",
+      "x-stoplight": {
+        "id": "isobk3kg3rr8r"
+      },
+      "additionalProperties": false,
+      "propertyNames": {
+        "$ref": "#/$defs/data-types_vehicle-type"
+      },
+      "patternProperties": {
+        "": {
+          "$ref": "#/$defs/data-types_integer-positive"
+        }
+      }
+    }
+  }
+}

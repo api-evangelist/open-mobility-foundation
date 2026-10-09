@@ -1,0 +1,7 @@
+generated: '2026-10-09'
+method: none
+source: https://registry.npmjs.org/mds-core
+packages: []
+note: No first-party OMF client library found. npm "mds-core" (0.17.6) is an unrelated Markdown Document Schema
+  package (repo sommelo1/mds). npm @mds-core/mds-types and @mds-core/mds-api-server returned 404; PyPI mds-provider
+  returned 404. OMF ships OpenAPI definitions in openmobilityfoundation/mds-openapi rather than SDKs.

@@ -1,0 +1,59 @@
+generated: '2026-10-09'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 3
+  own: 2
+  other_domain: 0
+  platform: 1
+  roles:
+  - api
+  - docs
+  - website
+hosts:
+- host: api.openmobilityfoundation.org
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: openmobilityfoundation.org
+  role: api
+  relation: own
+- host: github.com
+  found_by:
+  - pointer
+  - apis[]
+  - vendor-detect
+  types:
+  - Deprecation
+  - Documentation
+  - GitHubOrganization
+  - SpectralRules
+  serves:
+  - docs
+  - hosting
+  vendor: github-pages
+  registrable_domain: github.com
+  role: docs
+  relation: platform
+- host: www.openmobilityfoundation.org
+  found_by:
+  - pointer
+  - probed
+  - contract-discovery
+  - well-known
+  - vendor-detect
+  types:
+  - Website
+  - Blog
+  - Newsroom
+  - Support
+  - TermsOfService
+  - PrivacyPolicy
+  serves:
+  - hosting
+  vendor: wpengine
+  registrable_domain: openmobilityfoundation.org
+  role: website
+  relation: own

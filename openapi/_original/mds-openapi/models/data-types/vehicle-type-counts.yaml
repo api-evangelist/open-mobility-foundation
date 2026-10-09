@@ -1,0 +1,15 @@
+title: data-types/vehicle-type-counts
+description: A dictionary of vehicle counts, keyed by [`vehicle_type`](./vehicle-type.yaml).
+type: object
+
+x-stoplight:
+  id: isobk3kg3rr8r
+
+additionalProperties: false
+
+propertyNames:
+  $ref: ./vehicle-type.yaml
+
+patternProperties:
+  "": # i.e. match all properties
+    $ref: ./integer-positive.yaml

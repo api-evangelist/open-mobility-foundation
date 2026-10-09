@@ -1,0 +1,455 @@
+openapi: 3.2.0
+info:
+  title: Policy Requirements API
+  version: '2.0'
+  summary: The Policy API endpoints are intended to be implemented by regulatory agencies and consumed by mobility providers.
+  contact:
+    url: https://github.com/openmobilityfoundation/mobility-data-specification
+    name: Open Mobility Foundation
+    email: info@openmobilityfoundation.org
+  license:
+    name: Creative Commons Attribution 4.0 International Public License
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/LICENSE
+  description: The Policy API endpoints are intended to be implemented by regulatory agencies and consumed by mobility providers.
+tags:
+- name: Requirements
+paths:
+  /requirements:
+    get:
+      operationId: get-requirements
+      description: 'Enumerates all of the parts of MDS, CDS, GBFS, and other specifications that an agency requires from
+
+        providers for certain programs, including APIs, endpoints, and optional fields, as well as information for providers
+
+        about the APIs the agency is hosting.'
+      summary: /requirements
+      responses:
+        '200':
+          description: Requirements found.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Requirements data payload
+                required:
+                - requirements
+                properties:
+                  requirements:
+                    $ref: '#/components/schemas/requirements'
+        '404':
+          description: Requirements not found.
+        '406':
+          description: MDS version in Accept header is unsupported or invalid.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_error'
+      tags:
+      - Requirements
+components:
+  schemas:
+    data-types_iso-duration:
+      title: data-types/iso-duration
+      type: string
+      description: 'An [ISO 8601 duration](https://en.wikipedia.org/wiki/ISO_8601#Durations) string, defining the amount of intervening time
+
+        in a time interval.'
+      x-stoplight:
+        id: ll9uuz5vjj9hj
+      examples:
+      - P1M
+      - PT1M
+      pattern: ^P(?!$)(\d+(?:\.\d+)?Y)?(\d+(?:\.\d+)?M)?(\d+(?:\.\d+)?W)?(\d+(?:\.\d+)?D)?(T(?=\d)(\d+(?:\.\d+)?H)?(\d+(?:\.\d+)?M)?(\d+(?:\.\d+)?S)?)?$
+    data-types_string:
+      title: data-types/string
+      description: A length-limited string type.
+      examples:
+      - ABC123
+      maxLength: 255
+      pattern: ^(.*)$
+      type: string
+      x-stoplight:
+        id: 2vqv7166161kh
+    requirements:
+      title: models/requirements
+      description: Enumerates all of the parts of MDS, CDS, GBFS, and other specifications that an agency requires from providers for certain programs.
+      type: object
+      x-stoplight:
+        id: aymm62fj9psek
+      $defs:
+        metadata:
+          additionalProperties: false
+          required:
+          - mds_release
+          - file_version
+          - last_updated
+          - max_update_interval
+          - agency_id
+          - agency_name
+          - agency_timezone
+          - agency_language
+          - agency_currency
+          - agency_website_url
+          - url
+          properties:
+            mds_release:
+              $ref: '#/components/schemas/data-types_version'
+              description: Release of MDS that the requirements data feed aligns to, based on official MDS releases.
+            file_version:
+              $ref: '#/components/schemas/data-types_integer-positive'
+              description: Version of this file. Increment 1 with each modification.
+            last_updated:
+              $ref: '#/components/schemas/data-types_timestamp'
+              description: When this `file_version` was last updated.
+            max_update_interval:
+              $ref: '#/components/schemas/data-types_iso-duration'
+              description: The expected maximum frequency with which this file could be updated.
+            agency_id:
+              $ref: '#/components/schemas/data-types_uuid'
+              description: UUID of the agency this file applies to.
+            agency_name:
+              $ref: '#/components/schemas/data-types_string'
+              description: Name of the agency this file applies to.
+            agency_timezone:
+              $ref: '#/components/schemas/data-types_timezone'
+              description: Used for dates and times in Requirements and across all MDS endpoints.
+            agency_language:
+              $ref: '#/components/schemas/data-types_language-tag'
+              description: The language used across all MDS endpoints.
+            agency_currency:
+              $ref: '#/components/schemas/data-types_currency'
+              description: Currency used for all monetary values across all MDS endpoints.
+            agency_website_url:
+              type: string
+              format: uri
+              description: URL of the agency's general transportation page.
+            url:
+              type: string
+              format: uri
+              description: URL of this file on the agency's website.
+        program:
+          additionalProperties: false
+          required:
+          - description
+          - program_website_url
+          - provider_ids
+          - start_date
+          - end_date
+          - required_data_specs
+          properties:
+            description:
+              $ref: '#/components/schemas/data-types_string'
+              description: Simple agency program description of this combination of MDS, providers, vehicles, and time frame.
+            program_website_url:
+              type: string
+              format: uri
+              description: URL of the agency's transportation policy page.
+            program_document_url:
+              type: string
+              format: uri
+              description: URL of the agency's operating permit rules that mention data requirements.
+            provider_ids:
+              $ref: '#/components/schemas/data-types_uuid-array'
+              description: Array of provider UUIDs that apply to this group of requirements.
+              minItems: 1
+            vehicle_type:
+              $ref: '#/components/schemas/data-types_vehicle-type-array'
+              description: Array of Vehicle Types that apply to this requirement. If absent it applies to all vehicle types.
+            start_date:
+              $ref: '#/components/schemas/data-types_timestamp'
+              description: Beginning date/time of requirements.
+            end_date:
+              $ref: '#/components/schemas/data-types_timestamp'
+              description: End date/time of requirements. Can be null. Keep data at least one year past `end_date` before removing.
+            required_data_specs:
+              type: array
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/requirements/$defs/data_spec'
+        data_spec:
+          required:
+          - data_spec_name
+          - version
+          properties:
+            data_spec_name:
+              $ref: '#/components/schemas/data-types_string'
+              description: Name of the data spec required.
+              examples:
+              - MDS
+              - CDS
+              - GBFS
+            version:
+              $ref: '#/components/schemas/data-types_string'
+              description: Version number of the data spec required.
+              examples:
+              - 2.0.0
+              - v1.2
+            mode_id:
+              $ref: '#/components/schemas/data-types_mode'
+              description: The mode list shortname for MDS.
+            required_apis:
+              type: array
+              description: Name of the Requirement APIs that need to be served by providers.
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/requirements/$defs/required_api'
+            available_apis:
+              type: array
+              description: Name of the Requirement APIs that are being served by agencies.
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/requirements/$defs/available_api'
+            use_cases:
+              type: array
+              description: The list of policy uses cases that this data standard's information covers for your program.
+              minItems: 1
+              items:
+                type: object
+                additionalProperties: false
+                required:
+                - external_url
+                - ids
+                properties:
+                  external_url:
+                    type: string
+                    format: uri
+                    description: An HTTP reference list or database of use cases.
+                  ids:
+                    type: array
+                    description: Identifiers for each applicable use case in the external source.
+                    minItems: 1
+                    uniqueItems: true
+                    items:
+                      type: string
+          anyOf:
+          - title: Required API
+            required:
+            - required_apis
+          - title: Available API
+            required:
+            - available_apis
+        required_api:
+          additionalProperties: false
+          required:
+          - api_name
+          - required_endpoints
+          properties:
+            api_name:
+              $ref: '#/components/schemas/data-types_string'
+              description: Name of the applicable API required.
+            required_endpoints:
+              type: array
+              description: Array of optional endpoints required by the agency.
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/requirements/$defs/required_endpoint'
+        available_api:
+          additionalProperties: false
+          required:
+          - api_name
+          - available_endpoints
+          properties:
+            api_name:
+              $ref: '#/components/schemas/data-types_string'
+              description: Name of the applicable API required.
+            available_endpoints:
+              type: array
+              description: Array of endpoints provided by the agency.
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/requirements/$defs/available_endpoint'
+        required_endpoint:
+          additionalProperties: false
+          required:
+          - endpoint_name
+          properties:
+            endpoint_name:
+              $ref: '#/components/schemas/data-types_string'
+              description: Name of the endpoint under the API.
+            required_fields:
+              type: array
+              description: Array of optional field names required by the agency.
+              items:
+                type: string
+            disallowed_fields:
+              type: array
+              description: Array of optional field names which must not be returned by in the endpoint, even if required in MDS.
+              items:
+                type: string
+        available_endpoint:
+          additionalProperties: false
+          required:
+          - endpoint_name
+          properties:
+            endpoint_name:
+              $ref: '#/components/schemas/data-types_string'
+              description: Name of the endpoint under the API.
+            available_fields:
+              type: array
+              description: Array of optional field names provided by the agency.
+              items:
+                type: string
+            url:
+              type: string
+              format: uri
+              description: Location of API endpoint url. Required if the API is unauthenticated and public, optional if endpoint is authenticated and private.
+      additionalProperties: false
+      required:
+      - metadata
+      - programs
+      properties:
+        metadata:
+          $ref: '#/components/schemas/requirements/$defs/metadata'
+          description: Contains metadata applicable to the agency.
+        programs:
+          type: array
+          description: Contains information about an agency's programs, with links to policy documents.
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/requirements/$defs/program'
+    data-types_uuid:
+      title: data-types/uuid
+      description: A UUID used to uniquely identity an object.
+      type: string
+      x-stoplight:
+        id: np9kodwmy2kqa
+      format: uuid
+      pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+      examples:
+      - 3c9604d6-b5ee-11e8-96f8-529269fb1459
+    data-types_mode:
+      title: data-types/modes
+      description: The modes supported in MDS.
+      type: string
+      x-stoplight:
+        id: rjul1mcjyy8y2
+      enum:
+      - car-share
+      - delivery-robots
+      - micromobility
+      - passenger-services
+    data-types_currency:
+      title: data-types/currency
+      default: USD
+      description: An [ISO 4217 Alphabetic Currency Code](https://en.wikipedia.org/wiki/ISO_4217#Active_codes) representing currency of the payee. If null, USD cents is implied.
+      examples:
+      - USD
+      - EUR
+      - GBP
+      pattern: ^[A-Z]{3}$
+      type:
+      - string
+      - 'null'
+      x-stoplight:
+        id: 85j2txhx6x32o
+    data-types_timezone:
+      title: data-types/timezone
+      description: '[TZ Database Name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) (default: UTC)'
+      type: string
+      x-stoplight:
+        id: sv8rgu97fxmop
+      default: UTC
+      examples:
+      - America/Los_Angeles
+      - Europe/London
+    data-types_language-tag:
+      title: data-types/language-tag
+      description: An [IETF BCP 47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag string.
+      type: string
+      x-stoplight:
+        id: 5qws05ove0u6c
+      pattern: ([A-Za-z]{2,3})([-][A-Za-z]{3}){0,3}([-]([A-Za-z]{4}))?([-]([A-Za-z]{2}|[0-9]{3}))?
+      examples:
+      - en-US
+      - es-US
+    response_error:
+      title: response/error
+      description: An error message for troubleshooting.
+      type: object
+      x-stoplight:
+        id: 90yc58ni8u0ch
+      required:
+      - error
+      - error_description
+      - error_details
+      properties:
+        error:
+          type: string
+          description: Error message string.
+        error_description:
+          type: string
+          description: Human readable error description (can be localized).
+        error_details:
+          type: array
+          description: Human readable error description (can be localized).
+          minItems: 1
+          items:
+            type: string
+    data-types_uuid-array:
+      title: data-types/uuid-array
+      description: Array of UUID.
+      type: array
+      x-stoplight:
+        id: v932clitbqv31
+      uniqueItems: true
+      items:
+        $ref: '#/components/schemas/data-types_uuid'
+    data-types_vehicle-type-array:
+      title: data-types/vehicle-type-array
+      description: An array of `vehicle_type`.
+      type: array
+      x-stoplight:
+        id: 85v330buxsong
+      uniqueItems: true
+      items:
+        $ref: '#/components/schemas/data-types_vehicle-type'
+    data-types_integer-positive:
+      title: data-types/integer-positive
+      description: An integer greater than or equal to 0.
+      minimum: 0
+      type: integer
+      x-stoplight:
+        id: nfkphjmpm8yay
+    data-types_version:
+      title: data-type/version
+      description: The version of MDS this data represents.
+      type: string
+      x-stoplight:
+        id: bt49ntcbcuxbh
+      pattern: ^2\.(\d|[1-9]\d+)\.(\d|[1-9]\d+)$
+      examples:
+      - 2.0.0
+    data-types_vehicle-type:
+      title: data-types/vehicle-type
+      description: The allowed types of of vehicles in MDS. Based off of `form_factor` in [GBFS vehicle_types](https://github.com/MobilityData/gbfs/blob/master/gbfs.md#vehicle_typesjson), with some additional to support MDS modes.
+      type: string
+      x-stoplight:
+        id: gbhhyditnvs5w
+      enum:
+      - bicycle
+      - bus
+      - cargo_bicycle
+      - car
+      - delivery_robot
+      - moped
+      - motorcycle
+      - scooter_standing
+      - scooter_seated
+      - truck
+      - other
+    data-types_timestamp:
+      title: data-types/timestamp
+      description: Integer milliseconds since Unix epoch.
+      examples:
+      - 1514764800000
+      - 1681855703000
+      minimum: 1514764800000
+      multipleOf: 1
+      type: number
+      x-stoplight:
+        id: vliol1hqlxw6y
+x-stoplight:
+  id: q6wapocoxbhs1
+x-bundled-from: https://github.com/openmobilityfoundation/mds-openapi/blob/v2.0/reference/policy.yaml (commit 0c07bc3d294237dd41c6273f059efb11b8149c66); external $refs into ../models/ inlined under components.schemas, no other changes

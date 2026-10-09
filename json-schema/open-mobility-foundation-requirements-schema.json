@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/open-mobility-foundation/main/json-schema/open-mobility-foundation-requirements-schema.json",
+  "title": "models/requirements",
+  "description": "Enumerates all of the parts of MDS, CDS, GBFS, and other specifications that an agency requires from providers for certain programs.",
+  "x-generated": "2026-10-09",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/open-mobility-foundation-mds-policy-openapi.yml#/components/schemas/requirements",
+  "type": "object",
+  "x-stoplight": {
+    "id": "aymm62fj9psek"
+  },
+  "$defs": {
+    "data-types_currency": {
+      "title": "data-types/currency",
+      "default": "USD",
+      "description": "An [ISO 4217 Alphabetic Currency Code](https://en.wikipedia.org/wiki/ISO_4217#Active_codes) representing currency of the payee. If null, USD cents is implied.",
+      "pattern": "^[A-Z]{3}$",
+      "type": [
+        "string",
+        "null"
+      ],
+      "x-stoplight": {
+        "id": "85j2txhx6x32o"
+      }
+    },
+    "data-types_integer-positive": {
+      "title": "data-types/integer-positive",
+      "description": "An integer greater than or equal to 0.",
+      "minimum": 0,
+      "type": "integer",
+      "x-stoplight": {
+        "id": "nfkphjmpm8yay"
+      }
+    },
+    "data-types_iso-duration": {
+      "title": "data-types/iso-duration",
+      "type": "string",
+      "description": "An [ISO 8601 duration](https://en.wikipedia.org/wiki/ISO_8601#Durations) string, defining the amount of intervening time\nin a time interval.",
+      "x-stoplight": {
+        "id": "ll9uuz5vjj9hj"
+      },
+      "pattern": "^P(?!$)(\\d+(?:\\.\\d+)?Y)?(\\d+(?:\\.\\d+)?M)?(\\d+(?:\\.\\d+)?W)?(\\d+(?:\\.\\d+)?D)?(T(?=\\d)(\\d+(?:\\.\\d+)?H)?(\\d+(?:\\.\\d+)?M)?(\\d+(?:\\.\\d+)?S)?)?$"
+    },
+    "data-types_language-tag": {
+      "title": "data-types/language-tag",
+      "description": "An [IETF BCP 47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag string.",
+      "type": "string",
+      "x-stoplight": {
+        "id": "5qws05ove0u6c"
+      },
+      "pattern": "([A-Za-z]{2,3})([-][A-Za-z]{3}){0,3}([-]([A-Za-z]{4}))?([-]([A-Za-z]{2}|[0-9]{3}))?"
+    },
+    "data-types_mode": {
+      "title": "data-types/modes",
+      "description": "The modes supported in MDS.",
+      "type": "string",
+      "x-stoplight": {
+        "id": "rjul1mcjyy8y2"
+      },
+      "enum": [
+        "car-share",
+        "delivery-robots",
+        "micromobility",
+        "passenger-services"
+      ]
+    },
+    "data-types_string": {
+      "title": "data-types/string",
+      "description": "A length-limited string type.",
+      "maxLength": 255,
+      "pattern": "^(.*)$",
+      "type": "string",
+      "x-stoplight": {
+        "id": "2vqv7166161kh"
+      }
+    },
+    "data-types_timestamp": {
+      "title": "data-types/timestamp",
+      "description": "Integer milliseconds since Unix epoch.",
+      "minimum": 1514764800000,
+      "multipleOf": 1,
+      "type": "number",
+      "x-stoplight": {
+        "id": "vliol1hqlxw6y"
+      }
+    },
+    "data-types_timezone": {
+      "title": "data-types/timezone",
+      "description": "[TZ Database Name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) (default: UTC)",
+      "type": "string",
+      "x-stoplight": {
+        "id": "sv8rgu97fxmop"
+      },
+      "default": "UTC"
+    },
+    "data-types_uuid": {
+      "title": "data-types/uuid",
+      "description": "A UUID used to uniquely identity an object.",
+      "type": "string",
+      "x-stoplight": {
+        "id": "np9kodwmy2kqa"
+      },
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "data-types_uuid-array": {
+      "title": "data-types/uuid-array",
+      "description": "Array of UUID.",
+      "type": "array",
+      "x-stoplight": {
+        "id": "v932clitbqv31"
+      },
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/data-types_uuid"
+      }
+    },
+    "data-types_vehicle-type": {
+      "title": "data-types/vehicle-type",
+      "description": "The allowed types of of vehicles in MDS. Based off of `form_factor` in [GBFS vehicle_types](https://github.com/MobilityData/gbfs/blob/master/gbfs.md#vehicle_typesjson), with some additional to support MDS modes.",
+      "type": "string",
+      "x-stoplight": {
+        "id": "gbhhyditnvs5w"
+      },
+      "enum": [
+        "bicycle",
+        "bus",
+        "cargo_bicycle",
+        "car",
+        "delivery_robot",
+        "moped",
+        "motorcycle",
+        "scooter_standing",
+        "scooter_seated",
+        "truck",
+        "other"
+      ]
+    },
+    "data-types_vehicle-type-array": {
+      "title": "data-types/vehicle-type-array",
+      "description": "An array of `vehicle_type`.",
+      "type": "array",
+      "x-stoplight": {
+        "id": "85v330buxsong"
+      },
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/data-types_vehicle-type"
+      }
+    },
+    "data-types_version": {
+      "title": "data-type/version",
+      "description": "The version of MDS this data represents.",
+      "type": "string",
+      "x-stoplight": {
+        "id": "bt49ntcbcuxbh"
+      },
+      "pattern": "^2\\.(\\d|[1-9]\\d+)\\.(\\d|[1-9]\\d+)$"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "metadata",
+    "programs"
+  ],
+  "properties": {
+    "metadata": {
+      "$ref": "#/$defs/metadata",
+      "description": "Contains metadata applicable to the agency."
+    },
+    "programs": {
+      "type": "array",
+      "description": "Contains information about an agency's programs, with links to policy documents.",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/program"
+      }
+    }
+  }
+}

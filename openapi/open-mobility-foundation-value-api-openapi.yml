@@ -1,0 +1,81 @@
+openapi: 3.2.0
+info:
+  title: Policy Value API
+  version: '2.0'
+  summary: The Policy API endpoints are intended to be implemented by regulatory agencies and consumed by mobility providers.
+  contact:
+    url: https://github.com/openmobilityfoundation/mobility-data-specification
+    name: Open Mobility Foundation
+    email: info@openmobilityfoundation.org
+  license:
+    name: Creative Commons Attribution 4.0 International Public License
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/LICENSE
+  description: The Policy API endpoints are intended to be implemented by regulatory agencies and consumed by mobility providers.
+tags:
+- name: Value
+paths:
+  /value:
+    get:
+      operationId: get-value
+      description: 'An Agency may wish to provide dynamic or global rules, e.g.
+
+
+        > "Within 300 yards of the stadium, 1000 total extra scooters may be deployed, across all Provider(s)."
+
+
+        In this case, compliance is not computable from the information available to a single Provider. The Agency may provide
+
+        an endpoint to get the current count of vehicles in the service-area, so that individual Providers could decide whether
+
+        adding some number to those present is allowed.'
+      summary: /value
+      responses:
+        '200':
+          description: Value found.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - value
+                - timestamp
+                - policy_id
+                properties:
+                  value:
+                    type: integer
+                    description: Value of whatever the rule measures.
+                  timestamp:
+                    $ref: '#/components/schemas/data-types_timestamp'
+                    description: Timestamp the value was recorded.
+                  policy_id:
+                    $ref: '#/components/schemas/data-types_uuid'
+                    description: Relevant `policy_id` for reference.
+      tags:
+      - Value
+components:
+  schemas:
+    data-types_uuid:
+      title: data-types/uuid
+      description: A UUID used to uniquely identity an object.
+      type: string
+      x-stoplight:
+        id: np9kodwmy2kqa
+      format: uuid
+      pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+      examples:
+      - 3c9604d6-b5ee-11e8-96f8-529269fb1459
+    data-types_timestamp:
+      title: data-types/timestamp
+      description: Integer milliseconds since Unix epoch.
+      examples:
+      - 1514764800000
+      - 1681855703000
+      minimum: 1514764800000
+      multipleOf: 1
+      type: number
+      x-stoplight:
+        id: vliol1hqlxw6y
+x-stoplight:
+  id: q6wapocoxbhs1
+x-bundled-from: https://github.com/openmobilityfoundation/mds-openapi/blob/v2.0/reference/policy.yaml (commit 0c07bc3d294237dd41c6273f059efb11b8149c66); external $refs into ../models/ inlined under components.schemas, no other changes

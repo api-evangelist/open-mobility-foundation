@@ -1,0 +1,381 @@
+generated: '2026-10-09'
+method: derived
+generator: derive-vocabulary.py
+source:
+- openapi/open-mobility-foundation-mds-agency-openapi.yml
+- openapi/open-mobility-foundation-mds-geography-openapi.yml
+- openapi/open-mobility-foundation-mds-jurisdiction-openapi.yml
+- openapi/open-mobility-foundation-mds-metrics-openapi.yml
+- openapi/open-mobility-foundation-mds-policy-openapi.yml
+vocabulary:
+  name: Open Mobility Foundation Domain Vocabulary
+  description: 'Terms declared by Open Mobility Foundation''s own API contract: its resource groups, objects and enumerations, with the contract''s
+    definitions. Derived, not authored.'
+  version: '2026-10-09'
+  terms:
+  - term: models/vehicle
+    definition: Vehicle object in MDS.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/vehicle
+  - term: data-types/uuid
+    definition: A UUID used to uniquely identity an object.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/data-types_uuid
+  - term: data-types/string
+    definition: A length-limited string type.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/data-types_string
+  - term: data-types/vehicle-type
+    definition: The allowed types of of vehicles in MDS. Based off of `form_factor` in [GBFS vehicle_types](https://github.com/MobilityData/gbfs/blob/master/gbfs.md#vehicle_typesjson),
+      with some additional to support MDS modes.
+    tags:
+    - Enumeration
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/data-types_vehicle-type
+  - term: data-types/propulsion-type-array
+    definition: Array of propulsion types, allowing multiple values.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/data-types_propulsion-type-array
+  - term: data-types/propulsion-type
+    definition: The allowed types of propulsion in MDS. Based off of `propulsion_type` in [GBFS vehicle_types](https://github.com/MobilityData/gbfs/blob/master/gbfs.md#vehicle_typesjson)
+    tags:
+    - Enumeration
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/data-types_propulsion-type
+  - term: data-types/integer-positive
+    definition: An integer greater than or equal to 0.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/data-types_integer-positive
+  - term: modes/car-share/vehicle
+    definition: Vehicle definition for the `car-share` mode.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/modes_car-share_vehicle
+  - term: modes/car-share/accessibility-attributes
+    definition: Accessibility options definition for the `car-share` mode.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/modes_car-share_accessibility-attributes
+  - term: data-types/minimum-year
+    definition: Represents a minimum for fields that capture a year as an integer. Derived from Unix timestamp 0.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/data-types_minimum-year
+  - term: data-types/iso-date
+    definition: Date expressed as ISO 8601 `YYYY-MM-DD`; valid for dates in 1970 and later.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/data-types_iso-date
+  - term: modes/delivery-robots/vehicle
+    definition: Vehicle definition for the `delivery-robots` mode.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/modes_delivery-robots_vehicle
+  - term: modes/delivery-robots/accessibility-attributes
+    definition: Accessibility options definition for the `delivery-robots` mode.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/modes_delivery-robots_accessibility-attributes
+  - term: modes/micromobility/vehicle
+    definition: Vehicle definition for the `micromobility` mode.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/modes_micromobility_vehicle
+  - term: modes/micromobility/accessibility-attributes
+    definition: Accessibility options definition for the `micromobility` mode.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/modes_micromobility_accessibility-attributes
+  - term: modes/passenger-services/vehicle
+    definition: Vehicle definition for the `passenger-services` mode.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/modes_passenger-services_vehicle
+  - term: modes/passenger-services/accessibility-attributes
+    definition: Accessibility options definition for the `passenger-services` mode.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/modes_passenger-services_accessibility-attributes
+  - term: response/bulk
+    definition: For multi-record POST and PUT calls, e.g. sending Events using the Agency API, the bulk-response structure describes a list of
+      results.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/response_bulk
+  - term: response/error_bad_param
+    definition: A validation error occurred.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/response_error_bad_param
+  - term: response/error_missing_param
+    definition: A required parameter is missing.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/response_error_missing_param
+  - term: response/error_already_registered
+    definition: An item with that identifier is already registered.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/response_error_already_registered
+  - term: response/error
+    definition: An error message for troubleshooting.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/response_error
+  - term: response/error_unregistered
+    definition: An item with that identifier is not registered.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/response_error_unregistered
+  - term: response/version
+    definition: Response bodies must be a UTF-8 encoded JSON object and must minimally include the MDS `version`.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/response_version
+  - term: data-type/version
+    definition: The version of MDS this data represents.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/data-types_version
+  - term: response/paging
+    definition: 'Object declared by the contract with fields: links.'
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/response_paging
+  - term: models/vehicles-status
+    definition: A vehicle status record represents the current or last-known event and telemetry from a [vehicle](./vehicle.yaml).
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/vehicle-status
+  - term: models/event
+    definition: Events represent changes in [Vehicle Status](./vehicle-status.yaml).
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/event
+  - term: data-types/vehicle-state
+    definition: The state of a vehicle.
+    tags:
+    - Enumeration
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/data-types_vehicle-state
+  - term: data-types/event-type-array
+    definition: Array of events indicating a change to a vehicle's state.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/data-types_event-type-array
+  - term: data-types/event-type
+    definition: Events are possible transitions between vehicle states.
+    tags:
+    - Enumeration
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/data-types_event-type
+  - term: data-types/timestamp
+    definition: Integer milliseconds since Unix epoch.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/data-types_timestamp
+  - term: data-types/gps
+    definition: 'Object declared by the contract with fields: altitude, heading, horizontal_accuracy, lat, lng, satellites, speed, vertical_accuracy.'
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/data-types_gps
+  - term: data-types/uuid-array
+    definition: Array of UUID.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/data-types_uuid-array
+  - term: modes/car-share/event
+    definition: Event definition for the `car-share` mode.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/modes_car-share_event
+  - term: modes/delivery-robots/event
+    definition: Event definition for the `delivery-robots` mode.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/modes_delivery-robots_event
+  - term: modes/micromobility/event
+    definition: Event definition for the `micromobility` mode.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/modes_micromobility_event
+  - term: modes/passenger-services/event
+    definition: Event definition for the `passenger-services` mode.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/modes_passenger-services_event
+  - term: models/telemetry
+    definition: A standard point of vehicle telemetry. References to latitude and longitude imply coordinates encoded in the [WGS 84 (EPSG:4326)](https://en.wikipedia.org/wiki/World_Geodetic_System)
+      standard GPS or GNSS projection expressed as [Decimal Degrees](https://en.wikipedia.org/wiki/Decimal_degrees).
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/telemetry
+  - term: models/trip
+    definition: A trip represents a journey taken by a _mobility as a service_ customer with a geo-tagged start and stop point.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/trip
+  - term: data-types/currency-cost
+    definition: Represents an optional cost defined in a [`currency`](./currency.yaml).
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/data-types_currency-cost
+  - term: data-types/currency
+    definition: An [ISO 4217 Alphabetic Currency Code](https://en.wikipedia.org/wiki/ISO_4217#Active_codes) representing currency of the payee.
+      If null, USD cents is implied.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/data-types_currency
+  - term: modes/care-share/trip
+    definition: Trip definition for the `car-share` mode.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/modes_car-share_trip
+  - term: modes/delivery-robots/trip
+    definition: Trip definition for the `delivery-robots` mode.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/modes_delivery-robots_trip
+  - term: modes/micromobility/trip
+    definition: Trip definition for the `micromobility` mode.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/modes_micromobility_trip
+  - term: modes/passenger-services/trip
+    definition: Trip definition for the `passenger-services` mode.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/modes_passenger-services_trip
+  - term: models/stop
+    definition: Stops describe vehicle trip start and end locations in a pre-designated physical place. They can vary from docking stations with
+      or without charging, corrals with lock-to railings, or suggested parking areas marked with spray paint. Stops are used in both [Provider](../reference/provider.yaml)
+      and [Agency](#) telemetry data.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/stop
+  - term: data-types/vehicle-type-counts
+    definition: A dictionary of vehicle counts, keyed by [`vehicle_type`](./vehicle-type.yaml).
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/data-types_vehicle-type-counts
+  - term: models/mutable-stop
+    definition: The fields of a Stop that can be changed in the Agency API.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/mutable-stop
+  - term: models/report
+    definition: Reports are information that providers can send back to agencies containing aggregated data that is not contained within other
+      MDS endpoints, like counts of special groups of riders. These supplemental reports are not a substitute for other MDS endpoints. The authenticated
+      reports are monthly, historic flat files that may be pre-generated by the provider.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/report
+  - term: response/last_updated
+    definition: 'Object declared by the contract with fields: last_updated.'
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-geography-openapi.yml#/components/schemas/response_last_updated
+  - term: models/geography
+    definition: A Geography object is a description of geographical information, e.g. a multi-polygon, represented via GeoJSON.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-geography-openapi.yml#/components/schemas/geography
+  - term: data-types/geojson-featurecollection
+    definition: 'Object declared by the contract with fields: type, features, bbox.'
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-geography-openapi.yml#/components/schemas/data-types_geojson-featurecollection
+  - term: models/jurisdiction
+    definition: 'A jurisdiction is: * A representation of an agency''s authority to the outside world * Human-readable name * Uniquely identified
+      * Purview to make rules over physical boundaries and modal boundaries (e.g. a jurisdiction could be for taxis only) * A way of tracking
+      revisions in an agency''s authority'
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-jurisdiction-openapi.yml#/components/schemas/jurisdiction
+  - term: data-types/modes
+    definition: The modes supported in MDS.
+    tags:
+    - Enumeration
+    source: openapi/open-mobility-foundation-mds-jurisdiction-openapi.yml#/components/schemas/data-types_mode
+  - term: dimensions
+    definition: List of dimension names.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-metrics-openapi.yml#/components/schemas/dimensions
+  - term: query
+    definition: 'Object declared by the contract with fields: measures, interval, start_date, end_date, timezone, dimensions, filters.'
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-metrics-openapi.yml#/components/schemas/query
+  - term: column
+    definition: 'Object declared by the contract with fields: name, column_type, data_type.'
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-metrics-openapi.yml#/components/schemas/column
+  - term: data-types/iso-duration
+    definition: An [ISO 8601 duration](https://en.wikipedia.org/wiki/ISO_8601#Durations) string, defining the amount of intervening time in a
+      time interval.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-metrics-openapi.yml#/components/schemas/data-types_iso-duration
+  - term: data-types/iso-dayhourminute
+    definition: An ISO 8601 extended datetime representing a minute and hour of given date `YYYY-MM-DDTHH:mm`; valid for dates in 1970 and later.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-metrics-openapi.yml#/components/schemas/data-types_iso-dayhourminute
+  - term: data-types/timezone
+    definition: '[TZ Database Name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) (default: UTC)'
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-metrics-openapi.yml#/components/schemas/data-types_timezone
+  - term: models/policy
+    definition: A policy describes the digital relationship between _mobility as a service_ providers and the agencies that regulate them.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-policy-openapi.yml#/components/schemas/policy
+  - term: models/policy-rule
+    definition: An individual rule in a policy.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-policy-openapi.yml#/components/schemas/policy-rule
+  - term: data-types/vehicle-type-array
+    definition: An array of `vehicle_type`.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-policy-openapi.yml#/components/schemas/data-types_vehicle-type-array
+  - term: data-types/iso-time
+    definition: Time-of-day expressed as ISO 8601 `hh:mm:ss`.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-policy-openapi.yml#/components/schemas/data-types_iso-time
+  - term: data-types/days
+    definition: An array of days of the week.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-policy-openapi.yml#/components/schemas/data-types_days
+  - term: data-types/day
+    definition: A day of the week.
+    tags:
+    - Enumeration
+    source: openapi/open-mobility-foundation-mds-policy-openapi.yml#/components/schemas/data-types_day
+  - term: data-types/language-tag
+    definition: An [IETF BCP 47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag string.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-policy-openapi.yml#/components/schemas/data-types_language-tag
+  - term: models/requirements
+    definition: Enumerates all of the parts of MDS, CDS, GBFS, and other specifications that an agency requires from providers for certain programs.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-policy-openapi.yml#/components/schemas/requirements
+  - term: response/ttl
+    definition: 'Object declared by the contract with fields: ttl.'
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-provider-openapi.yml#/components/schemas/response_ttl
+  - term: data-types/iso-dayhour
+    definition: An ISO 8601 extended datetime representing an UTC hour between 00 and 23 `YYYY-MM-DDTHH`; valid for dates in 1970 and later.
+    tags:
+    - Object
+    source: openapi/open-mobility-foundation-mds-provider-openapi.yml#/components/schemas/data-types_iso-dayhour

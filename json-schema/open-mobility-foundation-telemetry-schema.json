@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/open-mobility-foundation/main/json-schema/open-mobility-foundation-telemetry-schema.json",
+  "title": "models/telemetry",
+  "description": "A standard point of vehicle telemetry. References to latitude and longitude imply coordinates encoded in the\n[WGS 84 (EPSG:4326)](https://en.wikipedia.org/wiki/World_Geodetic_System) standard GPS or GNSS projection expressed\nas [Decimal Degrees](https://en.wikipedia.org/wiki/Decimal_degrees).",
+  "x-generated": "2026-10-09",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/telemetry",
+  "type": "object",
+  "x-stoplight": {
+    "id": "47oju05zyh09f"
+  },
+  "required": [
+    "device_id",
+    "provider_id",
+    "telemetry_id",
+    "timestamp",
+    "trip_ids",
+    "journey_id",
+    "location"
+  ],
+  "properties": {
+    "device_id": {
+      "$ref": "#/$defs/data-types_uuid",
+      "description": "A unique device ID in UUID format."
+    },
+    "provider_id": {
+      "$ref": "#/$defs/data-types_uuid",
+      "description": "A UUID for the Provider, unique within MDS. See MDS [provider list](https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/providers.csv)."
+    },
+    "data_provider_id": {
+      "$ref": "#/$defs/data-types_uuid",
+      "description": "If different than `provider_id`, a UUID for the data solution provider managing the data feed in this endpoint."
+    },
+    "telemetry_id": {
+      "$ref": "#/$defs/data-types_uuid",
+      "description": "ID used for uniquely-identifying a Telemetry entry."
+    },
+    "timestamp": {
+      "$ref": "#/$defs/data-types_timestamp",
+      "description": "Date/time that event occurred."
+    },
+    "trip_ids": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/data-types_uuid-array",
+          "minItems": 1,
+          "description": "If telemetry occurred during a trip, the ID of the trip(s)."
+        },
+        {
+          "type": "null",
+          "description": "If not in a trip, null."
+        }
+      ]
+    },
+    "journey_id": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/data-types_uuid",
+          "description": "If telemetry occurred during a trip and journeys are used for the mode, the ID of the journey."
+        },
+        {
+          "type": "null",
+          "description": "If not in a trip, null."
+        }
+      ]
+    },
+    "stop_id": {
+      "$ref": "#/$defs/data-types_uuid",
+      "description": "Stop that the vehicle is currently located at."
+    },
+    "location": {
+      "$ref": "#/$defs/data-types_gps",
+      "description": "Telemetry position data."
+    },
+    "location_type": {
+      "type": "string",
+      "enum": [
+        "street",
+        "sidewalk",
+        "crosswalk",
+        "garage",
+        "bike_lane"
+      ]
+    },
+    "battery_percent": {
+      "$ref": "#/$defs/data-types_integer-positive",
+      "description": "Percent battery charge of vehicle, expressed between 0 and 100.",
+      "maximum": 100
+    },
+    "fuel_percent": {
+      "$ref": "#/$defs/data-types_integer-positive",
+      "description": "Percent fuel in vehicle, expressed between 0 and 100.",
+      "maximum": 100
+    },
+    "tipped_over": {
+      "type": "boolean",
+      "description": "If detectable and known, is the device tipped over or not?",
+      "default": false
+    }
+  },
+  "$defs": {
+    "data-types_gps": {
+      "title": "data-types/gps",
+      "properties": {
+        "altitude": {
+          "description": "Altitude above mean sea level in meters.",
+          "type": "number"
+        },
+        "heading": {
+          "description": "Degrees - clockwise starting at 0 degrees at true North.",
+          "type": "number"
+        },
+        "horizontal_accuracy": {
+          "description": "Horizontal accuracy in meters.",
+          "type": "number"
+        },
+        "lat": {
+          "description": "Latitude coordinate.",
+          "maximum": 90,
+          "minimum": -90,
+          "type": "number"
+        },
+        "lng": {
+          "description": "Longitude coordinate.",
+          "maximum": 180,
+          "minimum": -180,
+          "type": "number"
+        },
+        "satellites": {
+          "$ref": "#/$defs/data-types_integer-positive",
+          "description": "Number of GPS or GNSS satellites."
+        },
+        "speed": {
+          "description": "Estimated speed in meters / sec as reported by the GPS chipset.",
+          "type": "number"
+        },
+        "vertical_accuracy": {
+          "description": "Vertical accuracy in meters.",
+          "type": "number"
+        }
+      },
+      "required": [
+        "lat",
+        "lng"
+      ],
+      "type": "object",
+      "x-stoplight": {
+        "id": "8aooo5ag7x7vh"
+      }
+    },
+    "data-types_integer-positive": {
+      "title": "data-types/integer-positive",
+      "description": "An integer greater than or equal to 0.",
+      "minimum": 0,
+      "type": "integer",
+      "x-stoplight": {
+        "id": "nfkphjmpm8yay"
+      }
+    },
+    "data-types_timestamp": {
+      "title": "data-types/timestamp",
+      "description": "Integer milliseconds since Unix epoch.",
+      "minimum": 1514764800000,
+      "multipleOf": 1,
+      "type": "number",
+      "x-stoplight": {
+        "id": "vliol1hqlxw6y"
+      }
+    },
+    "data-types_uuid": {
+      "title": "data-types/uuid",
+      "description": "A UUID used to uniquely identity an object.",
+      "type": "string",
+      "x-stoplight": {
+        "id": "np9kodwmy2kqa"
+      },
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "data-types_uuid-array": {
+      "title": "data-types/uuid-array",
+      "description": "Array of UUID.",
+      "type": "array",
+      "x-stoplight": {
+        "id": "v932clitbqv31"
+      },
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/data-types_uuid"
+      }
+    }
+  }
+}

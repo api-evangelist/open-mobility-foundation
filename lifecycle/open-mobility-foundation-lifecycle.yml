@@ -1,0 +1,25 @@
+generated: '2026-10-09'
+method: searched
+source: https://github.com/openmobilityfoundation/governance/blob/main/technical/ReleaseGuidelines.md
+versioning:
+  scheme: semver MAJOR.MINOR.PATCH (since MDS 1.0.0)
+  negotiation: 'Accept: application/vnd.mds+json;version=X.Y (major.minor only); 406 Not Acceptable on unsupported
+    version'
+  docs: https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/general-information.md#versioning
+  current_release: 2.1.0
+  release_cycle: Each specification operates on an approximately 14+ week release cycle for both major updates (0.x)
+    and patches (0.x.y).
+deprecation:
+  policy: The OMF supports specification releases for 2 years. ... Releases that are 2 years or older are deprecated.
+  adoption_guidance: We strongly recommend adopting the latest release into production within 6 months for major
+    releases, and 4 months for minor releases.
+  concurrent_releases: MDS maintains two concurrent official MINOR releases.
+  sunset_headers: false
+  docs: https://github.com/openmobilityfoundation/governance/blob/main/technical/ReleaseGuidelines.md#ongoing-version-support
+support_lifetime:
+  stated_period: The OMF supports specification releases for 2 years.
+  source: https://github.com/openmobilityfoundation/governance/blob/main/technical/ReleaseGuidelines.md
+deprecated_operations: []
+status_page: null
+sla: null
+note: MDS is a specification; uptime/SLA and status pages belong to each implementing agency or provider.

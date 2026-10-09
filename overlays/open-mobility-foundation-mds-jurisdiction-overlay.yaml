@@ -1,0 +1,34 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist overlay for Jurisdiction (MDS 2.0)
+  version: 1.0.0
+extends: ../openapi/_original/open-mobility-foundation-mds-jurisdiction-openapi.yml
+x-generated: '2026-10-09'
+x-method: generated
+x-source: openapi/open-mobility-foundation-mds-jurisdiction-openapi.yml
+x-rationale: 'The OMF mds-openapi definitions (openapi/_original/mds-openapi/reference) ship untagged operations.
+  This overlay adds resource tags without mutating the original. No servers are added: MDS is a specification implemented
+  by each city/operator, so there is no single provider host.'
+actions:
+- target: $
+  description: Add top-level tags derived from the first path segment of each operation.
+  update:
+    tags:
+    - name: jurisdictions
+      description: MDS Jurisdiction jurisdictions operations
+- target: $.paths['/jurisdictions'].get
+  description: Tag GET /jurisdictions by resource (jurisdictions) for grouping in docs and MCP tool categories.
+  update:
+    tags:
+    - jurisdictions
+- target: $.paths['/jurisdictions/{jurisdiction_id}'].get
+  description: Tag GET /jurisdictions/{jurisdiction_id} by resource (jurisdictions) for grouping in docs and MCP
+    tool categories.
+  update:
+    tags:
+    - jurisdictions
+- target: $.paths['/jurisdictions.json'].get
+  description: Tag GET /jurisdictions.json by resource (jurisdictions) for grouping in docs and MCP tool categories.
+  update:
+    tags:
+    - jurisdictions

@@ -1,0 +1,33 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist overlay for Geography (MDS 2.0)
+  version: 1.0.0
+extends: ../openapi/_original/open-mobility-foundation-mds-geography-openapi.yml
+x-generated: '2026-10-09'
+x-method: generated
+x-source: openapi/open-mobility-foundation-mds-geography-openapi.yml
+x-rationale: 'The OMF mds-openapi definitions (openapi/_original/mds-openapi/reference) ship untagged operations.
+  This overlay adds resource tags without mutating the original. No servers are added: MDS is a specification implemented
+  by each city/operator, so there is no single provider host.'
+actions:
+- target: $
+  description: Add top-level tags derived from the first path segment of each operation.
+  update:
+    tags:
+    - name: geographies
+      description: MDS Geography geographies operations
+- target: $.paths['/geographies'].get
+  description: Tag GET /geographies by resource (geographies) for grouping in docs and MCP tool categories.
+  update:
+    tags:
+    - geographies
+- target: $.paths['/geographies/{geography_id}'].get
+  description: Tag GET /geographies/{geography_id} by resource (geographies) for grouping in docs and MCP tool categories.
+  update:
+    tags:
+    - geographies
+- target: $.paths['/geographies.json'].get
+  description: Tag GET /geographies.json by resource (geographies) for grouping in docs and MCP tool categories.
+  update:
+    tags:
+    - geographies

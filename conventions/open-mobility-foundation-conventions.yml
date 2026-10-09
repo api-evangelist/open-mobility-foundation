@@ -1,0 +1,92 @@
+generated: '2026-10-09'
+method: searched
+source: https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/general-information.md
+description: Cross-cutting conventions defined by the Mobility Data Specification (MDS) General Information document.
+  MDS is a specification; every agency/provider hosts its own implementation.
+base_url: null
+api_style: REST/JSON (CSV for /reports)
+authentication:
+  style: 'Authorization: Bearer <token>; JWT RECOMMENDED; OAuth 2.0 client_credentials RECOMMENDED'
+  docs: https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/general-information.md#authorization
+  see: authentication/open-mobility-foundation-authentication.yml
+idempotency:
+  coverage: none
+  header: null
+  note: MDS defines no idempotency key or replay-protection mechanism. The documented response codes say 409 Conflict
+    is returned for "POST operations when an object already exists and an update is not possible" (natural-key duplicate
+    rejection, not an idempotency mechanism).
+  docs: https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/general-information.md#responses
+pagination:
+  style: page-based (JSON:API)
+  params:
+  - page[number]
+  - page[size]
+  defaults:
+    page[number]: 1
+    page[size]: 1000 (recommended)
+  response_fields:
+  - links.first
+  - links.last
+  - links.prev
+  - links.next
+  note: At a minimum a paginated payload must include a next key, set to null on the last page. Producers should
+    support page[size] of at least 500.
+  docs: https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/general-information.md#pagination
+versioning:
+  style: media-type parameter
+  header: 'Accept: application/vnd.mds+json;version=2.0'
+  csv_media_type: text/vnd.mds+csv
+  on_unsupported: 406 Not Acceptable
+  fallbacks:
+    provider: '0.2'
+    agency: '0.3'
+    policy: '0.4'
+  docs: https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/general-information.md#versioning
+  see: lifecycle/open-mobility-foundation-lifecycle.yml
+error_envelope:
+  fields:
+  - error
+  - error_description
+  - error_details
+  bulk_response_fields:
+  - success
+  - total
+  - failures
+  docs: https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/general-information.md#error-messages
+  see: errors/open-mobility-foundation-problem-types.yml
+timestamps: integer milliseconds since Unix epoch (see General Information Timestamps)
+rate_limits:
+  documented: false
+  see: rate-limits/open-mobility-foundation-rate-limits.yml
+reversibility:
+  state: none
+  note: The Agency API write surface (post-vehicles, put-vehicles, post-trips, post-telemetry, post-events, post-stops,
+    put-stops) and post-metrics define no cancel/undo/delete/restore operation and no reversal window. put-vehicles
+    and put-stops update existing records but are not documented as reversals.
+  surfaces:
+  - operation: post-vehicles
+    reversal: null
+    window: null
+  - operation: put-vehicles
+    reversal: null
+    window: null
+  - operation: post-trips
+    reversal: null
+    window: null
+  - operation: post-telemetry
+    reversal: null
+    window: null
+  - operation: post-events
+    reversal: null
+    window: null
+  - operation: post-stops
+    reversal: null
+    window: null
+  - operation: put-stops
+    reversal: null
+    window: null
+other_conventions:
+- Policy, Geography and Jurisdiction APIs must be unauthenticated and public.
+- A public GBFS feed is required for micromobility and fleet modes, and GOFS for passenger mode (MDS README).
+- Bulk POST/PUT returns a bulk-response with per-item failure details; on failure, stop processing the batch and
+  return an error code relevant to the first error.

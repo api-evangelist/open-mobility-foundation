@@ -1,0 +1,584 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/open-mobility-foundation/main/json-schema/open-mobility-foundation-policy-schema.json",
+  "title": "models/policy",
+  "description": "A policy describes the digital relationship between _mobility as a service_ providers and the agencies that regulate them.",
+  "x-generated": "2026-10-09",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/open-mobility-foundation-mds-policy-openapi.yml#/components/schemas/policy",
+  "type": "object",
+  "x-stoplight": {
+    "id": "yp7awu2xd5agd"
+  },
+  "required": [
+    "name",
+    "mode_id",
+    "policy_id",
+    "description",
+    "start_date",
+    "published_date",
+    "rules"
+  ],
+  "properties": {
+    "name": {
+      "$ref": "#/$defs/data-types_string",
+      "description": "Name of policy."
+    },
+    "mode_id": {
+      "$ref": "#/$defs/data-types_mode",
+      "description": "Mode this rule should apply, see MDS mode list for options. Default `micromobility` for backwards compatibility (this default will likely be removed in a subsequent MDS release).",
+      "default": "micromobility"
+    },
+    "policy_id": {
+      "$ref": "#/$defs/data-types_uuid",
+      "description": "Unique ID of policy."
+    },
+    "provider_ids": {
+      "$ref": "#/$defs/data-types_uuid-array",
+      "description": "Providers for whom this policy is applicable; empty arrays and null/absent implies all Providers."
+    },
+    "description": {
+      "$ref": "#/$defs/data-types_string",
+      "description": "Description of policy."
+    },
+    "currency": {
+      "$ref": "#/$defs/data-types_currency",
+      "description": "An ISO 4217 Alphabetic Currency Code representing the currency of all Rules with a `rate_amount`."
+    },
+    "start_date": {
+      "$ref": "#/$defs/data-types_timestamp",
+      "description": "Beginning date/time of policy enforcement. In order to give providers sufficient time to poll, `start_date` must be at least 20 minutes after `published_date`."
+    },
+    "end_date": {
+      "$ref": "#/$defs/data-types_timestamp",
+      "description": "End date/time of policy enforcement."
+    },
+    "published_date": {
+      "$ref": "#/$defs/data-types_timestamp",
+      "description": "Timestamp that the policy was published."
+    },
+    "prev_policies": {
+      "$ref": "#/$defs/data-types_uuid-array",
+      "description": "Unique IDs of prior policies replaced by this one."
+    },
+    "rules": {
+      "type": "array",
+      "description": "Array of applicable Rule objects",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/policy-rule"
+      }
+    }
+  },
+  "$defs": {
+    "data-types_currency": {
+      "title": "data-types/currency",
+      "default": "USD",
+      "description": "An [ISO 4217 Alphabetic Currency Code](https://en.wikipedia.org/wiki/ISO_4217#Active_codes) representing currency of the payee. If null, USD cents is implied.",
+      "pattern": "^[A-Z]{3}$",
+      "type": [
+        "string",
+        "null"
+      ],
+      "x-stoplight": {
+        "id": "85j2txhx6x32o"
+      }
+    },
+    "data-types_day": {
+      "title": "data-types/day",
+      "description": "A day of the week.",
+      "enum": [
+        "sun",
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat"
+      ],
+      "type": "string",
+      "x-stoplight": {
+        "id": "g5u1fwovxmhc3"
+      }
+    },
+    "data-types_days": {
+      "title": "data-types/days",
+      "description": "An array of days of the week.",
+      "items": {
+        "$ref": "#/$defs/data-types_day"
+      },
+      "type": "array",
+      "uniqueItems": true,
+      "x-stoplight": {
+        "id": "g7wntphhazfhv"
+      }
+    },
+    "data-types_event-type": {
+      "title": "data-types/event-type",
+      "description": "Events are possible transitions between vehicle states.",
+      "enum": [
+        "agency_drop_off",
+        "agency_pick_up",
+        "battery_charged",
+        "battery_low",
+        "changed_geographies",
+        "charging_end",
+        "charging_start",
+        "comms_lost",
+        "comms_restored",
+        "compliance_pick_up",
+        "customer_cancellation",
+        "decommissioned",
+        "driver_cancellation",
+        "fueling_end",
+        "fueling_start",
+        "located",
+        "maintenance",
+        "maintenance_end",
+        "maintenance_pick_up",
+        "not_located",
+        "off_hours",
+        "on_hours",
+        "order_drop_off",
+        "order_pick_up",
+        "passenger_cancellation",
+        "provider_cancellation",
+        "provider_drop_off",
+        "rebalance_pick_up",
+        "recommission",
+        "remote_end",
+        "remote_start",
+        "reservation_cancel",
+        "reservation_start",
+        "reservation_stop",
+        "service_end",
+        "service_start",
+        "system_resume",
+        "system_suspend",
+        "trip_cancel",
+        "trip_end",
+        "trip_enter_jurisdiction",
+        "trip_leave_jurisdiction",
+        "trip_pause",
+        "trip_resume",
+        "trip_start",
+        "trip_stop",
+        "unspecified"
+      ],
+      "type": "string",
+      "x-stoplight": {
+        "id": "lsm5td7gknbxz"
+      }
+    },
+    "data-types_iso-time": {
+      "title": "data-types/iso-time",
+      "description": "Time-of-day expressed as ISO 8601 `hh:mm:ss`.",
+      "pattern": "([0-2][0-3]|[01]\\d):[0-5]\\d:[0-5]\\d",
+      "type": "string",
+      "x-stoplight": {
+        "id": "v656sfdmwq9s0"
+      }
+    },
+    "data-types_language-tag": {
+      "title": "data-types/language-tag",
+      "description": "An [IETF BCP 47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag string.",
+      "type": "string",
+      "x-stoplight": {
+        "id": "5qws05ove0u6c"
+      },
+      "pattern": "([A-Za-z]{2,3})([-][A-Za-z]{3}){0,3}([-]([A-Za-z]{4}))?([-]([A-Za-z]{2}|[0-9]{3}))?"
+    },
+    "data-types_mode": {
+      "title": "data-types/modes",
+      "description": "The modes supported in MDS.",
+      "type": "string",
+      "x-stoplight": {
+        "id": "rjul1mcjyy8y2"
+      },
+      "enum": [
+        "car-share",
+        "delivery-robots",
+        "micromobility",
+        "passenger-services"
+      ]
+    },
+    "data-types_propulsion-type": {
+      "title": "data-types/propulsion-type",
+      "description": "The allowed types of propulsion in MDS. Based off of `propulsion_type` in [GBFS vehicle_types](https://github.com/MobilityData/gbfs/blob/master/gbfs.md#vehicle_typesjson)",
+      "enum": [
+        "human",
+        "electric_assist",
+        "electric",
+        "combustion",
+        "combustion_diesel",
+        "hybrid",
+        "hydrogen_fuel_cell",
+        "plug_in_hybrid"
+      ],
+      "type": "string",
+      "x-stoplight": {
+        "id": "1ucdttnwhf2bo"
+      }
+    },
+    "data-types_propulsion-type-array": {
+      "title": "data-types/propulsion-type-array",
+      "description": "Array of propulsion types, allowing multiple values.",
+      "items": {
+        "$ref": "#/$defs/data-types_propulsion-type"
+      },
+      "type": "array",
+      "uniqueItems": true,
+      "x-stoplight": {
+        "id": "4ao4xw23z8wrf"
+      }
+    },
+    "data-types_string": {
+      "title": "data-types/string",
+      "description": "A length-limited string type.",
+      "maxLength": 255,
+      "pattern": "^(.*)$",
+      "type": "string",
+      "x-stoplight": {
+        "id": "2vqv7166161kh"
+      }
+    },
+    "data-types_timestamp": {
+      "title": "data-types/timestamp",
+      "description": "Integer milliseconds since Unix epoch.",
+      "minimum": 1514764800000,
+      "multipleOf": 1,
+      "type": "number",
+      "x-stoplight": {
+        "id": "vliol1hqlxw6y"
+      }
+    },
+    "data-types_uuid": {
+      "title": "data-types/uuid",
+      "description": "A UUID used to uniquely identity an object.",
+      "type": "string",
+      "x-stoplight": {
+        "id": "np9kodwmy2kqa"
+      },
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "data-types_uuid-array": {
+      "title": "data-types/uuid-array",
+      "description": "Array of UUID.",
+      "type": "array",
+      "x-stoplight": {
+        "id": "v932clitbqv31"
+      },
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/data-types_uuid"
+      }
+    },
+    "data-types_vehicle-state": {
+      "title": "data-types/vehicle-state",
+      "description": "The state of a vehicle.",
+      "type": "string",
+      "x-stoplight": {
+        "id": "3j1h7u4vvc7kr"
+      },
+      "enum": [
+        "removed",
+        "available",
+        "non_operational",
+        "reserved",
+        "on_trip",
+        "stopped",
+        "non_contactable",
+        "missing",
+        "elsewhere"
+      ]
+    },
+    "data-types_vehicle-type": {
+      "title": "data-types/vehicle-type",
+      "description": "The allowed types of of vehicles in MDS. Based off of `form_factor` in [GBFS vehicle_types](https://github.com/MobilityData/gbfs/blob/master/gbfs.md#vehicle_typesjson), with some additional to support MDS modes.",
+      "type": "string",
+      "x-stoplight": {
+        "id": "gbhhyditnvs5w"
+      },
+      "enum": [
+        "bicycle",
+        "bus",
+        "cargo_bicycle",
+        "car",
+        "delivery_robot",
+        "moped",
+        "motorcycle",
+        "scooter_standing",
+        "scooter_seated",
+        "truck",
+        "other"
+      ]
+    },
+    "data-types_vehicle-type-array": {
+      "title": "data-types/vehicle-type-array",
+      "description": "An array of `vehicle_type`.",
+      "type": "array",
+      "x-stoplight": {
+        "id": "85v330buxsong"
+      },
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/data-types_vehicle-type"
+      }
+    },
+    "policy-rule": {
+      "title": "models/policy-rule",
+      "description": "An individual rule in a policy.",
+      "type": "object",
+      "x-stoplight": {
+        "id": "dvai555b3tcm8"
+      },
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "rule_id",
+        "rule_type",
+        "geographies",
+        "states"
+      ],
+      "$defs": {
+        "states": {
+          "type": "object",
+          "description": "Vehicle state to which this rule applies. Optionally provide a list of specific vehicle events as a subset of a given state for the rule to apply to. An empty list or null/absent defaults to \"all\" for the state.",
+          "propertyNames": {
+            "$ref": "#/$defs/data-types_vehicle-state"
+          },
+          "patternProperties": {
+            "": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/$defs/data-types_event-type"
+              }
+            }
+          }
+        }
+      },
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/data-types_string",
+          "description": "Name of rule"
+        },
+        "rule_id": {
+          "$ref": "#/$defs/data-types_uuid",
+          "description": "Unique ID of rule"
+        },
+        "rule_type": {
+          "type": "string",
+          "description": "The type of rule"
+        },
+        "geographies": {
+          "$ref": "#/$defs/data-types_uuid-array",
+          "description": "List of Geography UUIDs (non-overlapping) specifying the covered geography.",
+          "minItems": 1
+        },
+        "states": {
+          "$ref": "#/$defs/states"
+        },
+        "rule_units": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Measured units of policy"
+        },
+        "vehicle_types": {
+          "$ref": "#/$defs/data-types_vehicle-type-array",
+          "description": "Applicable vehicle types, default \"all\""
+        },
+        "propulsion_types": {
+          "$ref": "#/$defs/data-types_propulsion-type-array",
+          "description": "Applicable vehicle propulsion types, default \"all\""
+        },
+        "minimum": {
+          "type": [
+            "null",
+            "integer"
+          ],
+          "description": "Minimum value, if applicable (default 0)",
+          "default": 0
+        },
+        "maximum": {
+          "type": [
+            "null",
+            "integer"
+          ],
+          "description": "Maximum value, if applicable (default unlimited)"
+        },
+        "inclusive_minimum": {
+          "type": [
+            "null",
+            "boolean"
+          ],
+          "description": "Whether the rule minimum is considered in-bounds (default true)",
+          "default": true
+        },
+        "inclusive_maximum": {
+          "type": [
+            "null",
+            "boolean"
+          ],
+          "description": "Whether the rule maximum is considered in-bounds (default true)",
+          "default": true
+        },
+        "rate_amount": {
+          "type": [
+            "null",
+            "integer"
+          ],
+          "description": "The amount of the rate."
+        },
+        "rate_recurrence": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Recurrence of the rate"
+        },
+        "rate_applies_when": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Specifies when a rate is applied to a rule (defaults to `out_of_bounds`).",
+          "enum": [
+            "in_bounds",
+            "out_of_bounds"
+          ],
+          "default": "out_of_bounds"
+        },
+        "start_time": {
+          "$ref": "#/$defs/data-types_iso-time",
+          "description": "Beginning time-of-day when the rule is in effect (default 00:00:00)",
+          "default": "00:00:00"
+        },
+        "end_time": {
+          "$ref": "#/$defs/data-types_iso-time",
+          "description": "Ending time-of-day when the rule is in effect (default 23:59:59)",
+          "default": "23:59:59"
+        },
+        "days": {
+          "$ref": "#/$defs/data-types_days",
+          "description": "Days when the rule is in effect (default all)"
+        },
+        "messages": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "description": "Message to rider user, if desired, in various languages, keyed by [BCP 47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag.",
+          "propertyNames": {
+            "$ref": "#/$defs/data-types_language-tag"
+          }
+        },
+        "value_url": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "URL to an API endpoint that can provide dynamic information for the measured value",
+          "format": "uri"
+        }
+      },
+      "oneOf": [
+        {
+          "title": "Device count rule",
+          "required": [
+            "rule_units"
+          ],
+          "properties": {
+            "rule_type": {
+              "const": "count"
+            },
+            "rule_units": {
+              "type": "string",
+              "const": "devices"
+            },
+            "rate_recurrence": {
+              "enum": [
+                "once_on_match",
+                "once_on_unmatch"
+              ]
+            }
+          }
+        },
+        {
+          "title": "Speed rule",
+          "required": [
+            "rule_units"
+          ],
+          "properties": {
+            "rule_type": {
+              "const": "speed"
+            },
+            "rule_units": {
+              "type": "string",
+              "enum": [
+                "mph",
+                "kph"
+              ]
+            },
+            "rate_recurrence": {
+              "enum": [
+                "once_on_match",
+                "once_on_unmatch"
+              ]
+            }
+          }
+        },
+        {
+          "title": "Time rule",
+          "required": [
+            "rule_units"
+          ],
+          "properties": {
+            "rule_type": {
+              "const": "time"
+            },
+            "rule_units": {
+              "type": "string",
+              "enum": [
+                "seconds",
+                "minutes",
+                "hours",
+                "days"
+              ]
+            },
+            "rate_recurrence": {
+              "enum": [
+                "each_time_unit",
+                "per_complete_time_unit"
+              ]
+            }
+          }
+        },
+        {
+          "title": "User rule",
+          "properties": {
+            "rule_type": {
+              "const": "user"
+            },
+            "rule_units": {
+              "type": "null"
+            },
+            "rate_amount": {
+              "type": "null"
+            },
+            "rate_recurrence": {
+              "type": "null"
+            },
+            "rate_applies_when": {
+              "type": "null"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,39 @@
+generated: '2026-10-09'
+method: searched
+source: https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/general-information.md
+standards:
+- id: json:api
+  conforms: partial
+  evidence: 'General Information Pagination: "it must comply with the page-based pagination convention defined by the JSON:API specification"
+    (page[number], page[size], links.first/last/prev/next). https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/general-information.md#pagination'
+- id: pagination
+  conforms: true
+  evidence: https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/general-information.md#pagination
+- id: oauth2
+  conforms: recommended
+  evidence: '"OAuth 2.0''s client_credentials grant type (outlined in RFC6749) is RECOMMENDED" https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/general-information.md#oauth-20'
+- id: jwt
+  conforms: recommended
+  evidence: '"JSON Web Token (JWT) is RECOMMENDED as the token format." https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/general-information.md#json-web-tokens'
+- id: rfc9457
+  conforms: false
+  evidence: Errors use a custom {error, error_description, error_details} envelope, not application/problem+json. https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/general-information.md#error-messages
+- id: idempotency
+  conforms: false
+  evidence: No idempotency key defined in MDS General Information.
+- id: gbfs
+  conforms: true
+  kind: domain-standard
+  evidence: 'MDS README: "All MDS compatible Provider and/or Agency feeds must also expose a public GBFS feed for the micromobility and fleet
+    modes, and GOFS for passenger mode." https://github.com/openmobilityfoundation/mobility-data-specification#gbfs-requirement'
+- id: geojson
+  conforms: true
+  kind: domain-standard
+  evidence: Geography API returns GeoJSON FeatureCollections (openapi/_original/mds-openapi/models/data-types/geojson-featurecollection.yaml).
+- id: mds
+  conforms: true
+  kind: domain-standard
+  evidence: OMF is the steward of the Mobility Data Specification itself; the six OpenAPI files under openapi/ are the MDS 2.0 reference contracts.
+- id: openapi-3.1
+  conforms: true
+  evidence: the document declares 3.1.0

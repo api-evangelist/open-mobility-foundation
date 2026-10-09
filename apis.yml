@@ -1,23 +1,1054 @@
 aid: open-mobility-foundation
+
 name: Open Mobility Foundation
-description: 'Open Mobility Foundation is a company surfaced via the API Evangelist harvest backlog (source:
-  spectral-ruleset-github) and added to the network as a stub for full-pipeline profiling.'
+
+description: The Open Mobility Foundation (OMF) is a city-governed, open source foundation that stewards open data standards such as the Mobility
+  Data Specification (MDS) and the Curb Data Specification (CDS), used by cities and their technology partners to manage shared mobility (scooters,
+  bike share, car share, taxis, TNCs, AVs, delivery robots) and digitize public space and curbs. It brings together public and private sector
+  stakeholders to develop the standards, OpenAPI definitions and tools for the public right-of-way.
+
+image: https://www.openmobilityfoundation.org/wp-content/uploads/2022/03/OMF-Logo-Final-R.png
+
 url: https://raw.githubusercontent.com/api-evangelist/open-mobility-foundation/refs/heads/main/apis.yml
+
 x-type: company
+
 x-source: harvest:spectral-ruleset-github
-x-tier: stub
-x-tier-reason: harvest
+
+x-tier: profiled
+x-tier-reason: enrichment pass 2026-10-09 (modular-v1; was harvest)
+
 specificationVersion: '0.20'
+
 created: '2026-10-09'
+
 modified: '2026-10-09'
+
 tags:
 - Company
-apis: []
+- Mobility
+- Open Source
+- Open Standards
+- Transportation
+- Cities
+- Micromobility
+- Data Specifications
+
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+
 common:
+- type: AgenticAccess
+  url: agentic-access/open-mobility-foundation-agentic-access.yml
+- type: Spectral
+  url: rules/open-mobility-foundation-rules.yml
+- type: Spectral
+  url: rules/open-mobility-foundation-mds-openapi-spectral-rules.yml
+- type: JSONLD
+  url: json-ld/open-mobility-foundation-context.jsonld
+- type: Vocabulary
+  url: vocabulary/open-mobility-foundation-vocabulary.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DataModel
+  url: data-model/open-mobility-foundation-data-model.yml
+- type: ChangeLog
+  url: changelog/open-mobility-foundation-changelog.yml
+- type: Conventions
+  url: conventions/open-mobility-foundation-conventions.yml
+- type: OAuthScopes
+  url: scopes/open-mobility-foundation-scopes.yml
+- type: Deprecation
+  url: https://github.com/openmobilityfoundation/governance/blob/main/technical/ReleaseGuidelines.md#ongoing-version-support
+- type: Lifecycle
+  url: lifecycle/open-mobility-foundation-lifecycle.yml
+- type: ErrorCatalog
+  url: errors/open-mobility-foundation-problem-types.yml
+- type: Conformance
+  url: conformance/open-mobility-foundation-conformance.yml
+- type: Overlay
+  url: overlays/open-mobility-foundation-mds-agency-overlay.yaml
+- type: Hosts
+  url: hosts/open-mobility-foundation-hosts.yml
+- type: Vendors
+  url: vendors/open-mobility-foundation-vendors.yml
+- type: Authentication
+  url: authentication/open-mobility-foundation-authentication.yml
+- type: DomainSecurity
+  url: security/open-mobility-foundation-domain-security.yml
 - type: Website
   url: https://www.openmobilityfoundation.org/
+- type: Documentation
+  url: https://github.com/openmobilityfoundation/mobility-data-specification
+- type: GitHubOrganization
+  url: https://github.com/openmobilityfoundation
+- type: Blog
+  url: https://www.openmobilityfoundation.org/blog/
+- type: Newsroom
+  url: https://www.openmobilityfoundation.org/press
+- type: Support
+  url: https://www.openmobilityfoundation.org/get-in-touch/
+- type: TermsOfService
+  url: https://www.openmobilityfoundation.org/terms-and-conditions/
+- type: PrivacyPolicy
+  url: https://www.openmobilityfoundation.org/privacy-policy/
+- type: SpectralRules
+  url: https://github.com/openmobilityfoundation/mds-openapi/blob/0c07bc3d294237dd41c6273f059efb11b8149c66/.spectral.yaml
+
+apis:
+- aid: open-mobility-foundation:open-mobility-foundation-events-api
+  name: Open Mobility Foundation Events API
+  description: The Events API from Open Mobility Foundation — 3 operation(s) for events.
+  humanURL: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  tags:
+  - Events
+  properties:
+  - type: OpenAPI
+    url: openapi/open-mobility-foundation-events-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-trip-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-event-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-telemetry-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-mutable-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-vehicle-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/provider
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-report-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/metrics
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-query-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-measures-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-duration-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-dayhourminute-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-column-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-uuid-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/policy
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-requirements-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-policy-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-version-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-last-updated-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-timestamp-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/jurisdiction
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-jurisdiction-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/geography
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-geography-schema.json
+- aid: open-mobility-foundation:open-mobility-foundation-geographies-api
+  name: Open Mobility Foundation Geographies API
+  description: The Geographies API from Open Mobility Foundation — 2 operation(s) for geographies.
+  humanURL: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  tags:
+  - Geographies
+  properties:
+  - type: OpenAPI
+    url: openapi/open-mobility-foundation-geographies-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-trip-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-event-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-telemetry-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-mutable-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-vehicle-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/provider
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-report-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/metrics
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-query-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-measures-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-duration-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-dayhourminute-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-column-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-uuid-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/policy
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-requirements-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-policy-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-version-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-last-updated-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-timestamp-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/jurisdiction
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-jurisdiction-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/geography
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-geography-schema.json
+- aid: open-mobility-foundation:open-mobility-foundation-geographies-json-api
+  name: Open Mobility Foundation Geographies.json API
+  description: >-
+    The Geographies.json API from Open Mobility Foundation — 1 operation(s) for geographies.json.
+  humanURL: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  tags:
+  - Geographies.json
+  properties:
+  - type: OpenAPI
+    url: openapi/open-mobility-foundation-geographies-json-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-trip-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-event-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-telemetry-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-mutable-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-vehicle-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/provider
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-report-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/metrics
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-query-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-measures-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-duration-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-dayhourminute-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-column-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-uuid-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/policy
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-requirements-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-policy-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-version-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-last-updated-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-timestamp-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/jurisdiction
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-jurisdiction-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/geography
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-geography-schema.json
+- aid: open-mobility-foundation:open-mobility-foundation-jurisdictions-api
+  name: Open Mobility Foundation Jurisdictions API
+  description: The Jurisdictions API from Open Mobility Foundation — 2 operation(s) for jurisdictions.
+  humanURL: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  tags:
+  - Jurisdictions
+  properties:
+  - type: OpenAPI
+    url: openapi/open-mobility-foundation-jurisdictions-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-trip-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-event-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-telemetry-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-mutable-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-vehicle-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/provider
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-report-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/metrics
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-query-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-measures-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-duration-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-dayhourminute-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-column-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-uuid-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/policy
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-requirements-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-policy-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-version-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-last-updated-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-timestamp-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/jurisdiction
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-jurisdiction-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/geography
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-geography-schema.json
+- aid: open-mobility-foundation:open-mobility-foundation-jurisdictions-json-api
+  name: Open Mobility Foundation Jurisdictions.json API
+  description: >-
+    The Jurisdictions.json API from Open Mobility Foundation — 1 operation(s) for jurisdictions.json.
+  humanURL: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  tags:
+  - Jurisdictions.json
+  properties:
+  - type: OpenAPI
+    url: openapi/open-mobility-foundation-jurisdictions-json-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-trip-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-event-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-telemetry-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-mutable-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-vehicle-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/provider
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-report-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/metrics
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-query-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-measures-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-duration-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-dayhourminute-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-column-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-uuid-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/policy
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-requirements-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-policy-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-version-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-last-updated-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-timestamp-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/jurisdiction
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-jurisdiction-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/geography
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-geography-schema.json
+- aid: open-mobility-foundation:open-mobility-foundation-metrics-api
+  name: Open Mobility Foundation Metrics API
+  description: The Metrics API from Open Mobility Foundation — 1 operation(s) for metrics.
+  humanURL: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  tags:
+  - Metrics
+  properties:
+  - type: OpenAPI
+    url: openapi/open-mobility-foundation-metrics-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-trip-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-event-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-telemetry-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-mutable-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-vehicle-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/provider
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-report-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/metrics
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-query-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-measures-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-duration-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-dayhourminute-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-column-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-uuid-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/policy
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-requirements-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-policy-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-version-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-last-updated-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-timestamp-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/jurisdiction
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-jurisdiction-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/geography
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-geography-schema.json
+- aid: open-mobility-foundation:open-mobility-foundation-policies-api
+  name: Open Mobility Foundation Policies API
+  description: The Policies API from Open Mobility Foundation — 2 operation(s) for policies.
+  humanURL: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  tags:
+  - Policies
+  properties:
+  - type: OpenAPI
+    url: openapi/open-mobility-foundation-policies-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-trip-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-event-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-telemetry-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-mutable-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-vehicle-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/provider
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-report-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/metrics
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-query-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-measures-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-duration-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-dayhourminute-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-column-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-uuid-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/policy
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-requirements-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-policy-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-version-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-last-updated-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-timestamp-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/jurisdiction
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-jurisdiction-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/geography
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-geography-schema.json
+- aid: open-mobility-foundation:open-mobility-foundation-policies-json-api
+  name: Open Mobility Foundation Policies.json API
+  description: The Policies.json API from Open Mobility Foundation — 1 operation(s) for policies.json.
+  humanURL: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  tags:
+  - Policies.json
+  properties:
+  - type: OpenAPI
+    url: openapi/open-mobility-foundation-policies-json-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-trip-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-event-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-telemetry-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-mutable-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-vehicle-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/provider
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-report-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/metrics
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-query-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-measures-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-duration-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-dayhourminute-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-column-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-uuid-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/policy
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-requirements-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-policy-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-version-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-last-updated-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-timestamp-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/jurisdiction
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-jurisdiction-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/geography
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-geography-schema.json
+- aid: open-mobility-foundation:open-mobility-foundation-reports-api
+  name: Open Mobility Foundation Reports API
+  description: The Reports API from Open Mobility Foundation — 2 operation(s) for reports.
+  humanURL: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  tags:
+  - Reports
+  properties:
+  - type: OpenAPI
+    url: openapi/open-mobility-foundation-reports-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-trip-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-event-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-telemetry-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-mutable-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-vehicle-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/provider
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-report-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/metrics
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-query-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-measures-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-duration-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-dayhourminute-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-column-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-uuid-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/policy
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-requirements-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-policy-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-version-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-last-updated-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-timestamp-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/jurisdiction
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-jurisdiction-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/geography
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-geography-schema.json
+- aid: open-mobility-foundation:open-mobility-foundation-requirements-api
+  name: Open Mobility Foundation Requirements API
+  description: The Requirements API from Open Mobility Foundation — 1 operation(s) for requirements.
+  humanURL: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  tags:
+  - Requirements
+  properties:
+  - type: OpenAPI
+    url: openapi/open-mobility-foundation-requirements-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-trip-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-event-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-telemetry-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-mutable-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-vehicle-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/provider
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-report-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/metrics
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-query-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-measures-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-duration-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-dayhourminute-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-column-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-uuid-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/policy
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-requirements-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-policy-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-version-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-last-updated-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-timestamp-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/jurisdiction
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-jurisdiction-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/geography
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-geography-schema.json
+- aid: open-mobility-foundation:open-mobility-foundation-stops-api
+  name: Open Mobility Foundation Stops API
+  description: The Stops API from Open Mobility Foundation — 2 operation(s) for stops.
+  humanURL: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  tags:
+  - Stops
+  properties:
+  - type: OpenAPI
+    url: openapi/open-mobility-foundation-stops-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-trip-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-event-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-telemetry-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-mutable-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-vehicle-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/provider
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-report-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/metrics
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-query-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-measures-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-duration-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-dayhourminute-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-column-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-uuid-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/policy
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-requirements-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-policy-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-version-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-last-updated-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-timestamp-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/jurisdiction
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-jurisdiction-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/geography
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-geography-schema.json
+- aid: open-mobility-foundation:open-mobility-foundation-telemetry-api
+  name: Open Mobility Foundation Telemetry API
+  description: The Telemetry API from Open Mobility Foundation — 1 operation(s) for telemetry.
+  humanURL: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  tags:
+  - Telemetry
+  properties:
+  - type: OpenAPI
+    url: openapi/open-mobility-foundation-telemetry-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-trip-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-event-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-telemetry-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-mutable-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-vehicle-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/provider
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-report-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/metrics
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-query-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-measures-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-duration-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-dayhourminute-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-column-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-uuid-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/policy
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-requirements-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-policy-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-version-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-last-updated-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-timestamp-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/jurisdiction
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-jurisdiction-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/geography
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-geography-schema.json
+- aid: open-mobility-foundation:open-mobility-foundation-trips-api
+  name: Open Mobility Foundation Trips API
+  description: The Trips API from Open Mobility Foundation — 1 operation(s) for trips.
+  humanURL: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  tags:
+  - Trips
+  properties:
+  - type: OpenAPI
+    url: openapi/open-mobility-foundation-trips-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-trip-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-event-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-telemetry-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-mutable-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-vehicle-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/provider
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-report-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/metrics
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-query-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-measures-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-duration-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-dayhourminute-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-column-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-uuid-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/policy
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-requirements-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-policy-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-version-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-last-updated-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-timestamp-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/jurisdiction
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-jurisdiction-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/geography
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-geography-schema.json
+- aid: open-mobility-foundation:open-mobility-foundation-value-api
+  name: Open Mobility Foundation Value API
+  description: The Value API from Open Mobility Foundation — 1 operation(s) for value.
+  humanURL: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  tags:
+  - Value
+  properties:
+  - type: OpenAPI
+    url: openapi/open-mobility-foundation-value-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-trip-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-event-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-telemetry-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-mutable-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-vehicle-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/provider
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-report-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/metrics
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-query-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-measures-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-duration-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-dayhourminute-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-column-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-uuid-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/policy
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-requirements-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-policy-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-version-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-last-updated-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-timestamp-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/jurisdiction
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-jurisdiction-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/geography
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-geography-schema.json
+- aid: open-mobility-foundation:open-mobility-foundation-vehicles-api
+  name: Open Mobility Foundation Vehicles API
+  description: The Vehicles API from Open Mobility Foundation — 4 operation(s) for vehicles.
+  humanURL: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  tags:
+  - Vehicles
+  properties:
+  - type: OpenAPI
+    url: openapi/open-mobility-foundation-vehicles-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/agency
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-trip-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-event-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-telemetry-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-mutable-stop-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-vehicle-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/provider
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-report-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/metrics
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-query-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-measures-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-duration-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-iso-dayhourminute-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-column-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-uuid-schema.json
+  - type: Documentation
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/policy
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-requirements-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-policy-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-version-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-response-last-updated-schema.json
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-data-types-timestamp-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/jurisdiction
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-jurisdiction-schema.json
+  - type: Documentation
+    url: >-
+      https://github.com/openmobilityfoundation/mobility-data-specification/tree/main/geography
+  - type: JSONSchema
+    url: json-schema/open-mobility-foundation-geography-schema.json
+x-enrichment:
+  date: '2026-10-09'
+  status: enriched
+  artifacts_added: 133
+  pass: modular-v1
+  engine: identity=anthropic,contract=anthropic,surfaces=anthropic,docs=anthropic,regulatory=anthropic

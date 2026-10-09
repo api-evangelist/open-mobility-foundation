@@ -1,0 +1,571 @@
+openapi: 3.2.0
+info:
+  title: Geography Geographies.json API
+  version: '2.0'
+  summary: Providers query the Geography API to get information about geographical regions for regulatory and other purposes.
+  contact:
+    url: https://github.com/openmobilityfoundation/mobility-data-specification
+    name: Open Mobility Foundation
+    email: info@openmobilityfoundation.org
+  license:
+    name: Creative Commons Attribution 4.0 International Public License
+    url: https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/LICENSE
+  description: 'This specification contains a collection of RESTful APIs used to read Geographies
+
+    (descriptions of geographical information, e.g.'
+tags:
+- name: Geographies.json
+paths:
+  /geographies.json:
+    get:
+      operationId: get-geographies.json
+      description: Get all geography objects in a single JSON file.
+      summary: /geographies.json
+      responses:
+        '200':
+          description: Geographies found.
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                - $ref: '#/components/schemas/response_version'
+                - $ref: '#/components/schemas/response_last_updated'
+                - type: object
+                  description: Geographies data payload
+                  required:
+                  - geographies
+                  properties:
+                    geographies:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/geography'
+        '404':
+          description: Geographies not found.
+        '406':
+          description: MDS version in Accept header is unsupported or invalid.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_error'
+      tags:
+      - Geographies.json
+components:
+  schemas:
+    data-types_uuid-array:
+      title: data-types/uuid-array
+      description: Array of UUID.
+      type: array
+      x-stoplight:
+        id: v932clitbqv31
+      uniqueItems: true
+      items:
+        $ref: '#/components/schemas/data-types_uuid'
+    data-types_string:
+      title: data-types/string
+      description: A length-limited string type.
+      examples:
+      - ABC123
+      maxLength: 255
+      pattern: ^(.*)$
+      type: string
+      x-stoplight:
+        id: 2vqv7166161kh
+    data-types_version:
+      title: data-type/version
+      description: The version of MDS this data represents.
+      type: string
+      x-stoplight:
+        id: bt49ntcbcuxbh
+      pattern: ^2\.(\d|[1-9]\d+)\.(\d|[1-9]\d+)$
+      examples:
+      - 2.0.0
+    response_error:
+      title: response/error
+      description: An error message for troubleshooting.
+      type: object
+      x-stoplight:
+        id: 90yc58ni8u0ch
+      required:
+      - error
+      - error_description
+      - error_details
+      properties:
+        error:
+          type: string
+          description: Error message string.
+        error_description:
+          type: string
+          description: Human readable error description (can be localized).
+        error_details:
+          type: array
+          description: Human readable error description (can be localized).
+          minItems: 1
+          items:
+            type: string
+    response_version:
+      title: response/version
+      description: Response bodies must be a UTF-8 encoded JSON object and must minimally include the MDS `version`.
+      type: object
+      x-stoplight:
+        id: ivd8jadc3rqf7
+      required:
+      - version
+      properties:
+        version:
+          $ref: '#/components/schemas/data-types_version'
+    data-types_geojson-featurecollection:
+      $schema: http://json-schema.org/draft-07/schema#
+      $id: https://geojson.org/schema/FeatureCollection.json
+      title: data-types/geojson-featurecollection
+      type: object
+      x-stoplight:
+        id: r1pr3zusc93mb
+      required:
+      - type
+      - features
+      properties:
+        type:
+          type: string
+          enum:
+          - FeatureCollection
+        features:
+          type: array
+          items:
+            title: GeoJSON Feature
+            type: object
+            required:
+            - type
+            - properties
+            - geometry
+            properties:
+              type:
+                type: string
+                enum:
+                - Feature
+              id:
+                oneOf:
+                - type: number
+                - type: string
+              properties:
+                oneOf:
+                - type: 'null'
+                - type: object
+              geometry:
+                oneOf:
+                - type: 'null'
+                - title: GeoJSON Point
+                  type: object
+                  required:
+                  - type
+                  - coordinates
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - Point
+                    coordinates:
+                      type: array
+                      minItems: 2
+                      items:
+                        type: number
+                    bbox:
+                      type: array
+                      minItems: 4
+                      items:
+                        type: number
+                - title: GeoJSON LineString
+                  type: object
+                  required:
+                  - type
+                  - coordinates
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - LineString
+                    coordinates:
+                      type: array
+                      minItems: 2
+                      items:
+                        type: array
+                        minItems: 2
+                        items:
+                          type: number
+                    bbox:
+                      type: array
+                      minItems: 4
+                      items:
+                        type: number
+                - title: GeoJSON Polygon
+                  type: object
+                  required:
+                  - type
+                  - coordinates
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - Polygon
+                    coordinates:
+                      type: array
+                      items:
+                        type: array
+                        minItems: 4
+                        items:
+                          type: array
+                          minItems: 2
+                          items:
+                            type: number
+                    bbox:
+                      type: array
+                      minItems: 4
+                      items:
+                        type: number
+                - title: GeoJSON MultiPoint
+                  type: object
+                  required:
+                  - type
+                  - coordinates
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - MultiPoint
+                    coordinates:
+                      type: array
+                      items:
+                        type: array
+                        minItems: 2
+                        items:
+                          type: number
+                    bbox:
+                      type: array
+                      minItems: 4
+                      items:
+                        type: number
+                - title: GeoJSON MultiLineString
+                  type: object
+                  required:
+                  - type
+                  - coordinates
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - MultiLineString
+                    coordinates:
+                      type: array
+                      items:
+                        type: array
+                        minItems: 2
+                        items:
+                          type: array
+                          minItems: 2
+                          items:
+                            type: number
+                    bbox:
+                      type: array
+                      minItems: 4
+                      items:
+                        type: number
+                - title: GeoJSON MultiPolygon
+                  type: object
+                  required:
+                  - type
+                  - coordinates
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - MultiPolygon
+                    coordinates:
+                      type: array
+                      items:
+                        type: array
+                        items:
+                          type: array
+                          minItems: 4
+                          items:
+                            type: array
+                            minItems: 2
+                            items:
+                              type: number
+                    bbox:
+                      type: array
+                      minItems: 4
+                      items:
+                        type: number
+                - title: GeoJSON GeometryCollection
+                  type: object
+                  required:
+                  - type
+                  - geometries
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - GeometryCollection
+                    geometries:
+                      type: array
+                      items:
+                        oneOf:
+                        - title: GeoJSON Point
+                          type: object
+                          required:
+                          - type
+                          - coordinates
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                              - Point
+                            coordinates:
+                              type: array
+                              minItems: 2
+                              items:
+                                type: number
+                            bbox:
+                              type: array
+                              minItems: 4
+                              items:
+                                type: number
+                        - title: GeoJSON LineString
+                          type: object
+                          required:
+                          - type
+                          - coordinates
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                              - LineString
+                            coordinates:
+                              type: array
+                              minItems: 2
+                              items:
+                                type: array
+                                minItems: 2
+                                items:
+                                  type: number
+                            bbox:
+                              type: array
+                              minItems: 4
+                              items:
+                                type: number
+                        - title: GeoJSON Polygon
+                          type: object
+                          required:
+                          - type
+                          - coordinates
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                              - Polygon
+                            coordinates:
+                              type: array
+                              items:
+                                type: array
+                                minItems: 4
+                                items:
+                                  type: array
+                                  minItems: 2
+                                  items:
+                                    type: number
+                            bbox:
+                              type: array
+                              minItems: 4
+                              items:
+                                type: number
+                        - title: GeoJSON MultiPoint
+                          type: object
+                          required:
+                          - type
+                          - coordinates
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                              - MultiPoint
+                            coordinates:
+                              type: array
+                              items:
+                                type: array
+                                minItems: 2
+                                items:
+                                  type: number
+                            bbox:
+                              type: array
+                              minItems: 4
+                              items:
+                                type: number
+                        - title: GeoJSON MultiLineString
+                          type: object
+                          required:
+                          - type
+                          - coordinates
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                              - MultiLineString
+                            coordinates:
+                              type: array
+                              items:
+                                type: array
+                                minItems: 2
+                                items:
+                                  type: array
+                                  minItems: 2
+                                  items:
+                                    type: number
+                            bbox:
+                              type: array
+                              minItems: 4
+                              items:
+                                type: number
+                        - title: GeoJSON MultiPolygon
+                          type: object
+                          required:
+                          - type
+                          - coordinates
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                              - MultiPolygon
+                            coordinates:
+                              type: array
+                              items:
+                                type: array
+                                items:
+                                  type: array
+                                  minItems: 4
+                                  items:
+                                    type: array
+                                    minItems: 2
+                                    items:
+                                      type: number
+                            bbox:
+                              type: array
+                              minItems: 4
+                              items:
+                                type: number
+                    bbox:
+                      type: array
+                      minItems: 4
+                      items:
+                        type: number
+              bbox:
+                type: array
+                minItems: 4
+                items:
+                  type: number
+        bbox:
+          type: array
+          minItems: 4
+          items:
+            type: number
+    data-types_uuid:
+      title: data-types/uuid
+      description: A UUID used to uniquely identity an object.
+      type: string
+      x-stoplight:
+        id: np9kodwmy2kqa
+      format: uuid
+      pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+      examples:
+      - 3c9604d6-b5ee-11e8-96f8-529269fb1459
+    geography:
+      title: models/geography
+      description: A Geography object is a description of geographical information, e.g. a multi-polygon, represented via GeoJSON.
+      type: object
+      x-stoplight:
+        id: zk1g7bjjxke2l
+      additionalProperties: false
+      required:
+      - name
+      - geography_id
+      - geography_json
+      - published_date
+      properties:
+        name:
+          $ref: '#/components/schemas/data-types_string'
+          description: Name of geography
+        description:
+          $ref: '#/components/schemas/data-types_string'
+          description: Description of geography.
+        geography_type:
+          type: string
+          description: The type of geography.
+          examples:
+          - municipal_boundary
+          - policy_zone
+          - county_boundary
+          - stop
+          - council_district
+          - political_district
+          - neighborhood
+          - market_area
+          - opportunity_zone
+          - overlay_district
+          - post_code
+          - traffic_zone
+          - property_line
+          - right_of_way
+          - census_block
+          - census_block_group
+          - census_tract
+        geography_id:
+          $ref: '#/components/schemas/data-types_uuid'
+          description: Unique ID of geography.
+        geography_json:
+          $ref: '#/components/schemas/data-types_geojson-featurecollection'
+          description: The [GeoJSON `FeatureCollection`](https://geojson.org/) that defines the geographical coordinates.
+        effective_date:
+          $ref: '#/components/schemas/data-types_timestamp'
+          description: The date at which a Geography is considered 'live'. Must be at or after `published_date`.
+        published_date:
+          $ref: '#/components/schemas/data-types_timestamp'
+          description: Timestamp at which the geography was published i.e. made immutable.
+        retire_date:
+          $ref: '#/components/schemas/data-types_timestamp'
+          description: 'Time that the geography is slated to retire. Once the retire date
+
+            is passed, new policies can no longer reference it and old policies
+
+            referencing it should be updated. Retired geographies should continue
+
+            to be returned in the geographies list. Must be after effective_date.'
+        prev_geographies:
+          $ref: '#/components/schemas/data-types_uuid-array'
+          description: Unique IDs of prior geographies replaced by this one.
+          uniqueItems: true
+    data-types_timestamp:
+      title: data-types/timestamp
+      description: Integer milliseconds since Unix epoch.
+      examples:
+      - 1514764800000
+      - 1681855703000
+      minimum: 1514764800000
+      multipleOf: 1
+      type: number
+      x-stoplight:
+        id: vliol1hqlxw6y
+    response_last_updated:
+      title: response/last_updated
+      type: object
+      x-stoplight:
+        id: z6u8eu7rlkd1j
+      required:
+      - last_updated
+      properties:
+        last_updated:
+          $ref: '#/components/schemas/data-types_timestamp'
+          description: Timestamp indicating the last time the data in this feed was updated.
+x-stoplight:
+  id: rbnz5mewkvb8i
+x-bundled-from: https://github.com/openmobilityfoundation/mds-openapi/blob/v2.0/reference/geography.yaml (commit 0c07bc3d294237dd41c6273f059efb11b8149c66); external $refs into ../models/ inlined under components.schemas, no other changes

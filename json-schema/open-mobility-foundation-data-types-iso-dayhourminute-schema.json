@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/open-mobility-foundation/main/json-schema/open-mobility-foundation-data-types-iso-dayhourminute-schema.json",
+  "title": "data-types/iso-dayhourminute",
+  "description": "An ISO 8601 extended datetime representing a minute and hour of given date `YYYY-MM-DDTHH:mm`; valid for dates in 1970 and later.",
+  "x-generated": "2026-10-09",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/open-mobility-foundation-mds-metrics-openapi.yml#/components/schemas/data-types_iso-dayhourminute",
+  "pattern": "(19[789]\\d|[2-9]\\d{3})-(0[1-9]|1[02])-([12]\\d|0[1-9]|3[01])T([0-2][0-3]|[01]\\d):([0-5]\\d)([+-][01]\\d(:[0-5]\\d)?)?",
+  "type": "string",
+  "x-stoplight": {
+    "id": "56v277zajwxm5"
+  }
+}

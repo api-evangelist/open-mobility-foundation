@@ -1,0 +1,750 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/open-mobility-foundation/main/json-schema/open-mobility-foundation-trip-schema.json",
+  "title": "models/trip",
+  "description": "A trip represents a journey taken by a _mobility as a service_ customer with a geo-tagged start and stop point.",
+  "x-generated": "2026-10-09",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/open-mobility-foundation-mds-agency-openapi.yml#/components/schemas/trip",
+  "type": "object",
+  "x-stoplight": {
+    "id": "6s0dm1r2gk9x0"
+  },
+  "required": [
+    "provider_id",
+    "device_id",
+    "trip_id",
+    "start_time",
+    "end_time",
+    "start_location",
+    "end_location",
+    "duration",
+    "distance"
+  ],
+  "allOf": [
+    {
+      "properties": {
+        "provider_id": {
+          "$ref": "#/$defs/data-types_uuid",
+          "description": "A UUID for the Provider, unique within MDS. See MDS [provider list](https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/providers.csv)."
+        },
+        "data_provider_id": {
+          "$ref": "#/$defs/data-types_uuid",
+          "description": "If different than `provider_id`, a UUID for the data solution provider managing the data feed in this endpoint."
+        },
+        "device_id": {
+          "$ref": "#/$defs/data-types_uuid",
+          "description": "A unique device ID in UUID format."
+        },
+        "trip_id": {
+          "$ref": "#/$defs/data-types_uuid",
+          "description": "A unique ID for each trip"
+        },
+        "trip_type": {
+          "type": "string"
+        },
+        "trip_attributes": {
+          "type": "object"
+        },
+        "fare_attributes": {
+          "type": "object"
+        },
+        "start_time": {
+          "$ref": "#/$defs/data-types_timestamp",
+          "description": "Start of the passenger/driver trip."
+        },
+        "end_time": {
+          "$ref": "#/$defs/data-types_timestamp",
+          "description": "End of the passenger/driver trip."
+        },
+        "start_location": {
+          "$ref": "#/$defs/data-types_gps",
+          "description": "Location of the start of the trip."
+        },
+        "end_location": {
+          "$ref": "#/$defs/data-types_gps",
+          "description": "Location of the end of the trip."
+        },
+        "duration": {
+          "$ref": "#/$defs/data-types_integer-positive",
+          "description": "Trip duration, in seconds."
+        },
+        "distance": {
+          "$ref": "#/$defs/data-types_integer-positive",
+          "description": "Trip distance, in meters."
+        },
+        "publication_time": {
+          "$ref": "#/$defs/data-types_timestamp",
+          "description": "Date/time that trip became available through the trips endpoint."
+        },
+        "accessibility_attributes": {
+          "type": [
+            "array",
+            "object"
+          ]
+        },
+        "parking_verification_url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri",
+          "description": "A URL to a photo (or other evidence) of proper vehicle parking at the end of a trip, provided by customer or operator."
+        },
+        "parking_category": {
+          "type": "string",
+          "description": "The type of parking location detected or provided and the end of a trip. Note that `other_valid` covers any other\nallowed parking location beyond what is enumerated, and `invalid` is any improper parking based on agency parking rules.",
+          "enum": [
+            "corral",
+            "curb",
+            "rack",
+            "other_valid",
+            "invalid"
+          ]
+        },
+        "standard_cost": {
+          "$ref": "#/$defs/data-types_currency-cost",
+          "description": "The cost, in the currency defined in `currency`, that it would cost to perform that trip in the standard operation of the System."
+        },
+        "actual_cost": {
+          "$ref": "#/$defs/data-types_currency-cost",
+          "description": "The actual cost, in the currency defined in `currency`, paid by the customer of the _mobility as a service_ provider."
+        },
+        "currency": {
+          "$ref": "#/$defs/data-types_currency"
+        }
+      }
+    },
+    {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/modes_car-share_trip"
+        },
+        {
+          "$ref": "#/$defs/modes_delivery-robots_trip"
+        },
+        {
+          "$ref": "#/$defs/modes_micromobility_trip"
+        },
+        {
+          "$ref": "#/$defs/modes_passenger-services_trip"
+        }
+      ]
+    }
+  ],
+  "$defs": {
+    "data-types_currency": {
+      "title": "data-types/currency",
+      "default": "USD",
+      "description": "An [ISO 4217 Alphabetic Currency Code](https://en.wikipedia.org/wiki/ISO_4217#Active_codes) representing currency of the payee. If null, USD cents is implied.",
+      "pattern": "^[A-Z]{3}$",
+      "type": [
+        "string",
+        "null"
+      ],
+      "x-stoplight": {
+        "id": "85j2txhx6x32o"
+      }
+    },
+    "data-types_currency-cost": {
+      "title": "data-types/currency-cost",
+      "description": "Represents an optional cost defined in a [`currency`](./currency.yaml).",
+      "x-stoplight": {
+        "id": "1l6vqu5tyd5at"
+      },
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "data-types_gps": {
+      "title": "data-types/gps",
+      "properties": {
+        "altitude": {
+          "description": "Altitude above mean sea level in meters.",
+          "type": "number"
+        },
+        "heading": {
+          "description": "Degrees - clockwise starting at 0 degrees at true North.",
+          "type": "number"
+        },
+        "horizontal_accuracy": {
+          "description": "Horizontal accuracy in meters.",
+          "type": "number"
+        },
+        "lat": {
+          "description": "Latitude coordinate.",
+          "maximum": 90,
+          "minimum": -90,
+          "type": "number"
+        },
+        "lng": {
+          "description": "Longitude coordinate.",
+          "maximum": 180,
+          "minimum": -180,
+          "type": "number"
+        },
+        "satellites": {
+          "$ref": "#/$defs/data-types_integer-positive",
+          "description": "Number of GPS or GNSS satellites."
+        },
+        "speed": {
+          "description": "Estimated speed in meters / sec as reported by the GPS chipset.",
+          "type": "number"
+        },
+        "vertical_accuracy": {
+          "description": "Vertical accuracy in meters.",
+          "type": "number"
+        }
+      },
+      "required": [
+        "lat",
+        "lng"
+      ],
+      "type": "object",
+      "x-stoplight": {
+        "id": "8aooo5ag7x7vh"
+      }
+    },
+    "data-types_integer-positive": {
+      "title": "data-types/integer-positive",
+      "description": "An integer greater than or equal to 0.",
+      "minimum": 0,
+      "type": "integer",
+      "x-stoplight": {
+        "id": "nfkphjmpm8yay"
+      }
+    },
+    "data-types_string": {
+      "title": "data-types/string",
+      "description": "A length-limited string type.",
+      "maxLength": 255,
+      "pattern": "^(.*)$",
+      "type": "string",
+      "x-stoplight": {
+        "id": "2vqv7166161kh"
+      }
+    },
+    "data-types_timestamp": {
+      "title": "data-types/timestamp",
+      "description": "Integer milliseconds since Unix epoch.",
+      "minimum": 1514764800000,
+      "multipleOf": 1,
+      "type": "number",
+      "x-stoplight": {
+        "id": "vliol1hqlxw6y"
+      }
+    },
+    "data-types_uuid": {
+      "title": "data-types/uuid",
+      "description": "A UUID used to uniquely identity an object.",
+      "type": "string",
+      "x-stoplight": {
+        "id": "np9kodwmy2kqa"
+      },
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "modes_car-share_accessibility-attributes": {
+      "title": "modes/car-share/accessibility-attributes",
+      "description": "Accessibility options definition for the `car-share` mode.",
+      "type": "array",
+      "x-stoplight": {
+        "id": "e9mpudr8layzh"
+      },
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "wheelchair_accessible"
+        ]
+      }
+    },
+    "modes_car-share_trip": {
+      "title": "modes/care-share/trip",
+      "description": "Trip definition for the `car-share` mode.",
+      "type": "object",
+      "x-stoplight": {
+        "id": "lhj9vmnhh6uk8"
+      },
+      "required": [
+        "trip_type"
+      ],
+      "properties": {
+        "journey_id": {
+          "$ref": "#/$defs/data-types_uuid",
+          "description": "A unique journey ID for associating collections of trips. The journey_id field shall have a consistent value in\noverlapping trips for a single reservation period, e.g. trips taken by a customer between ignition states over the\nduration of their reservation. A reservation is the duration the customer has continuous exclusive access to the vehicle\nwhether parked or in motion. Journeys may be point-to-point or multi-segment."
+        },
+        "journey_attributes": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "reservation_id": {
+              "$ref": "#/$defs/data-types_uuid",
+              "description": "A unique identifier for an entire car share reservation, tied across multiple journeys and therefore trips."
+            }
+          }
+        },
+        "trip_type": {
+          "enum": [
+            "private",
+            "reservation",
+            "empty"
+          ]
+        },
+        "trip_attributes": {
+          "required": [
+            "reservation_type",
+            "passenger_count",
+            "requested_time",
+            "quoted_trip_start_time"
+          ],
+          "properties": {
+            "reservation_type": {
+              "enum": [
+                "phone_dispatch",
+                "phone",
+                "text",
+                "app"
+              ]
+            },
+            "app_name": {
+              "$ref": "#/$defs/data-types_string",
+              "description": "Name of the app used to reserve the trip which could be provider's app or 3rd party app."
+            },
+            "permit_license_number": {
+              "$ref": "#/$defs/data-types_string",
+              "description": "The permit license number of the organization that dispatched the vehicle."
+            },
+            "driver_id": {
+              "$ref": "#/$defs/data-types_string",
+              "description": "Universal identifier of a specific driver, static across operators, like a driver's license number, for company employees in `reservation` or `empty` trip types, not `private` trips. Could also be used as a lookup in an agency's internal driver system."
+            }
+          }
+        },
+        "fare_attributes": {
+          "required": [
+            "payment_type",
+            "fare_type"
+          ],
+          "properties": {
+            "payment_type": {
+              "type": "string",
+              "enum": [
+                "account_number",
+                "cash",
+                "credit_card",
+                "mobile_app",
+                "no_payment",
+                "phone",
+                "voucher",
+                "test"
+              ]
+            },
+            "fare_type": {
+              "description": "Indicator of which rate was charged.",
+              "type": "string",
+              "enum": [
+                "meter_fare",
+                "upfront_pricing",
+                "flat_rate"
+              ]
+            },
+            "tolls": {
+              "$ref": "#/$defs/data-types_currency-cost",
+              "description": "Sum of any and all tolls charged for the trip, such as bridge tolls."
+            },
+            "base_rate": {
+              "$ref": "#/$defs/data-types_currency-cost",
+              "description": "Minimum fare to be charged as soon as the trip starts."
+            },
+            "exit_fee": {
+              "$ref": "#/$defs/data-types_currency-cost",
+              "description": "Fee to exit location, like an airport."
+            },
+            "other_fees": {
+              "$ref": "#/$defs/data-types_currency-cost",
+              "description": "Amount of any fees charged to the customer. Includes baggage fees, cleaning fee. Excludes other fees returned."
+            },
+            "tip": {
+              "$ref": "#/$defs/data-types_currency-cost",
+              "description": "Amount of tip paid by customer."
+            },
+            "extra_amount": {
+              "$ref": "#/$defs/data-types_currency-cost",
+              "description": "Miscellaneous extra amounts charged to customer not covered by other fields."
+            },
+            "taxes": {
+              "$ref": "#/$defs/data-types_currency-cost",
+              "description": "Amount of taxes paid for the ride."
+            },
+            "surcharge": {
+              "$ref": "#/$defs/data-types_currency-cost",
+              "description": "Any surcharge pricing."
+            }
+          }
+        },
+        "accessibility_attributes": {
+          "$ref": "#/$defs/modes_car-share_accessibility-attributes",
+          "description": "The accessibility options utilized for a given trip. Required if available."
+        }
+      }
+    },
+    "modes_delivery-robots_accessibility-attributes": {
+      "title": "modes/delivery-robots/accessibility-attributes",
+      "description": "Accessibility options definition for the `delivery-robots` mode.",
+      "type": "object",
+      "x-stoplight": {
+        "id": "zsnl5o3q9d0a0"
+      },
+      "additionalProperties": false,
+      "properties": {
+        "audio_cue": {
+          "type": "boolean",
+          "description": "Is the device equipped with audio cues upon delivery."
+        },
+        "visual_cue": {
+          "type": "boolean",
+          "description": "Is the device equipped with visual cues upon delivery."
+        },
+        "remote_open": {
+          "type": "boolean",
+          "description": "Can the device door be remotely opened to retrieve cargo upon delivery."
+        }
+      }
+    },
+    "modes_delivery-robots_trip": {
+      "title": "modes/delivery-robots/trip",
+      "description": "Trip definition for the `delivery-robots` mode.",
+      "type": "object",
+      "x-stoplight": {
+        "id": "0gzaszwxukf5a"
+      },
+      "required": [
+        "trip_type"
+      ],
+      "properties": {
+        "journey_id": {
+          "$ref": "#/$defs/data-types_uuid",
+          "description": "The `journey_id` field shall have a consistent value in overlapping trips. Journeys may be point-to-point, multi-segment,\nor multi-segment overlapping."
+        },
+        "trip_type": {
+          "enum": [
+            "delivery",
+            "return",
+            "advertising",
+            "mapping",
+            "roaming"
+          ]
+        },
+        "trip_attributes": {
+          "required": [
+            "driver_type"
+          ],
+          "properties": {
+            "driver_type": {
+              "enum": [
+                "human",
+                "semi_autonomous",
+                "autonomous"
+              ]
+            },
+            "driver_id": {
+              "$ref": "#/$defs/data-types_uuid",
+              "description": "Consistent unique identifier of the primary driver. Could be based on software version or an internal human driver id."
+            },
+            "app_name": {
+              "$ref": "#/$defs/data-types_string",
+              "description": "Name of the app used to reserve the trip which could be provider's app or 3rd party app."
+            },
+            "requested_time": {
+              "$ref": "#/$defs/data-types_timestamp",
+              "description": "When the customer requested the trip."
+            },
+            "has_payload": {
+              "type": "boolean",
+              "description": "is there any payload for any delivery included in the device at trip start."
+            }
+          }
+        },
+        "fare_attributes": {
+          "properties": {
+            "payment_type": {
+              "type": "string",
+              "enum": [
+                "account_number",
+                "cash",
+                "credit_card",
+                "mobile_app",
+                "no_payment",
+                "phone",
+                "test",
+                "voucher"
+              ]
+            },
+            "price": {
+              "$ref": "#/$defs/data-types_currency-cost"
+            }
+          }
+        },
+        "accessibility_attributes": {
+          "$ref": "#/$defs/modes_delivery-robots_accessibility-attributes",
+          "description": "The accessibility options available on a given delivery robot device. Required if available."
+        }
+      }
+    },
+    "modes_micromobility_accessibility-attributes": {
+      "title": "modes/micromobility/accessibility-attributes",
+      "description": "Accessibility options definition for the `micromobility` mode.",
+      "type": "array",
+      "x-stoplight": {
+        "id": "15do56zc6v30i"
+      },
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "adaptive"
+        ]
+      }
+    },
+    "modes_micromobility_trip": {
+      "title": "modes/micromobility/trip",
+      "description": "Trip definition for the `micromobility` mode.",
+      "type": "object",
+      "x-stoplight": {
+        "id": "mtd16mz6d70ve"
+      },
+      "properties": {
+        "trip_type": {
+          "enum": [
+            "rider",
+            "rebalance",
+            "maintenance"
+          ]
+        },
+        "accessibility_attributes": {
+          "$ref": "#/$defs/modes_micromobility_accessibility-attributes",
+          "description": "The accessibility options utilized for a given trip. Required if available."
+        }
+      }
+    },
+    "modes_passenger-services_accessibility-attributes": {
+      "title": "modes/passenger-services/accessibility-attributes",
+      "description": "Accessibility options definition for the `passenger-services` mode.",
+      "type": "array",
+      "x-stoplight": {
+        "id": "62ab40s0bfzrw"
+      },
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "wheelchair_accessible"
+        ]
+      }
+    },
+    "modes_passenger-services_trip": {
+      "title": "modes/passenger-services/trip",
+      "description": "Trip definition for the `passenger-services` mode.",
+      "type": "object",
+      "x-stoplight": {
+        "id": "8nlne62fv8f5k"
+      },
+      "required": [
+        "trip_type"
+      ],
+      "properties": {
+        "journey_id": {
+          "$ref": "#/$defs/data-types_uuid",
+          "description": "A unique journey ID for associating collections of trips. The `journey_id` field shall have a consistent value in\noverlapping trips, e.g. \"pooled\" or \"shared\" rides with different start and/or end locations. Journeys may be\npoint-to-point, multi-segment, or multi-segment overlapping."
+        },
+        "journey_attributes": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "shift_id": {
+              "$ref": "#/$defs/data-types_uuid",
+              "description": "A unique identifier for an entire driver's work shift, tied across multiple journeys and therefore trips."
+            }
+          }
+        },
+        "trip_type": {
+          "enum": [
+            "private",
+            "shared",
+            "reservation",
+            "empty"
+          ]
+        },
+        "trip_attributes": {
+          "required": [
+            "hail_type",
+            "passenger_count",
+            "requested_time",
+            "quoted_trip_start_time"
+          ],
+          "properties": {
+            "hail_type": {
+              "enum": [
+                "street_hail",
+                "phone_dispatch",
+                "phone",
+                "text",
+                "app"
+              ]
+            },
+            "app_name": {
+              "$ref": "#/$defs/data-types_string",
+              "description": "Name of the app used to reserve the trip which could be provider's app or 3rd party app."
+            },
+            "passenger_count": {
+              "$ref": "#/$defs/data-types_integer-positive",
+              "description": "Unique count of passengers transported during trip duration."
+            },
+            "requested_time": {
+              "$ref": "#/$defs/data-types_timestamp",
+              "description": "When the customer requested the trip."
+            },
+            "requested_trip_start_location": {
+              "$ref": "#/$defs/data-types_gps",
+              "description": "Location where the customer requested the trip to start (required if this is within jurisdictional boundaries)."
+            },
+            "quoted_trip_start_time": {
+              "$ref": "#/$defs/data-types_timestamp",
+              "description": "Time the trip was estimated or scheduled to start, that was provided to the passenger."
+            },
+            "dispatch_time": {
+              "$ref": "#/$defs/data-types_timestamp",
+              "description": "Time the vehicle was dispatched to the customer (required if trip was dispatched)."
+            },
+            "trip_wait_time": {
+              "$ref": "#/$defs/data-types_integer-positive",
+              "description": "(milliseconds) Part of the passenger trip where the vehicle was moving slow or stopped (e.g. <12mph), which is a different fare rate in some jurisdictions."
+            },
+            "trip_fare_time": {
+              "$ref": "#/$defs/data-types_integer-positive",
+              "description": "(milliseconds) part of the passenger trip where the vehicle was moving more quickly (e.g. >12mph), which is a different fare rate in some jurisdictions."
+            },
+            "pickup_address": {
+              "$ref": "#/$defs/data-types_string",
+              "description": "Street address where the trip originated from."
+            },
+            "dropoff_address": {
+              "$ref": "#/$defs/data-types_string",
+              "description": "Street address where the trip ended."
+            },
+            "permit_license_number": {
+              "$ref": "#/$defs/data-types_string",
+              "description": "The permit license number of the organization that dispatched the vehicle."
+            },
+            "driver_id": {
+              "$ref": "#/$defs/data-types_string",
+              "description": "Universal identifier of a specific driver, static across operators, like a driver's license number. Could also be used as a lookup in an agency's internal driver system."
+            },
+            "wheelchair_transported": {
+              "type": "boolean",
+              "description": "is there any payload for any delivery included in the device at trip start."
+            },
+            "cancellation_reason": {
+              "$ref": "#/$defs/data-types_string",
+              "description": "The reason why a _driver_ cancelled a reservation. (required if a driver cancelled a trip, and a `driver_cancellation` event_type was part of the trip)"
+            }
+          }
+        },
+        "fare_attributes": {
+          "required": [
+            "payment_type",
+            "fare_type"
+          ],
+          "properties": {
+            "payment_type": {
+              "type": "string",
+              "enum": [
+                "account_number",
+                "cash",
+                "credit_card",
+                "mobile_app",
+                "no_payment",
+                "paratransit",
+                "phone",
+                "test",
+                "voucher"
+              ]
+            },
+            "fare_type": {
+              "description": "Indicator of which rate was charged.",
+              "type": "string",
+              "enum": [
+                "meter_fare",
+                "upfront_pricing",
+                "flat_rate"
+              ]
+            },
+            "meter_fare_amount": {
+              "$ref": "#/$defs/data-types_currency-cost",
+              "description": "If `upfront_pricing` is used as a `fare_type` include what the metered fare would have been if `meter_fare` would have been used. Allows cost comparison in evaluation of programs and pilots."
+            },
+            "tolls": {
+              "$ref": "#/$defs/data-types_currency-cost",
+              "description": "Sum of any and all tolls charged for the trip, such as bridge tolls."
+            },
+            "base_rate": {
+              "$ref": "#/$defs/data-types_currency-cost",
+              "description": "Minimum fare to be charged as soon as the trip starts."
+            },
+            "exit_fee": {
+              "$ref": "#/$defs/data-types_currency-cost",
+              "description": "Fee to exit location, like an airport."
+            },
+            "other_fees": {
+              "$ref": "#/$defs/data-types_currency-cost",
+              "description": "Amount of any fees charged to the customer. Includes baggage fees, cleaning fee. Excludes other fees returned."
+            },
+            "tip": {
+              "$ref": "#/$defs/data-types_currency-cost",
+              "description": "Amount of tip paid by customer."
+            },
+            "extra_amount": {
+              "$ref": "#/$defs/data-types_currency-cost",
+              "description": "Miscellaneous extra amounts charged to customer not covered by other fields."
+            },
+            "taxes": {
+              "$ref": "#/$defs/data-types_currency-cost",
+              "description": "Amount of taxes paid for the ride."
+            },
+            "surcharge": {
+              "$ref": "#/$defs/data-types_currency-cost",
+              "description": "Any surcharge pricing."
+            },
+            "commission": {
+              "$ref": "#/$defs/data-types_currency-cost",
+              "description": "Any extra commission for the ride."
+            },
+            "driver_trip_pay": {
+              "$ref": "#/$defs/data-types_currency-cost",
+              "description": "The payment the driver received for the trip."
+            },
+            "rate_code_id": {
+              "type": "string",
+              "enum": [
+                "meter_fare",
+                "shared",
+                "out_of_town",
+                "disabled",
+                "upfront_pricing",
+                "promo_rate"
+              ]
+            }
+          }
+        },
+        "accessibility_attributes": {
+          "$ref": "#/$defs/modes_passenger-services_accessibility-attributes",
+          "description": "The accessibility options utilized for a given trip. Required if available."
+        }
+      }
+    }
+  }
+}

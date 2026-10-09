@@ -1,0 +1,14 @@
+generated: '2026-10-09'
+method: none
+source: https://github.com/openmobilityfoundation/mobility-data-specification
+name: Open Mobility Foundation plans
+audience: unclear
+pricing_basis: none
+published: false
+delivery:
+  type: unclear
+plan_count: 0
+plans: []
+note: OMF publishes open specifications (MDS, CDS) and OpenAPI definitions, not a priced API service; no API pricing
+  page exists. Implementations are hosted by agencies and providers. OMF membership tiers were not read in this
+  pass.

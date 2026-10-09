@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/open-mobility-foundation/main/json-schema/open-mobility-foundation-response-version-schema.json",
+  "title": "response/version",
+  "description": "Response bodies must be a UTF-8 encoded JSON object and must minimally include the MDS `version`.",
+  "x-generated": "2026-10-09",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/open-mobility-foundation-mds-policy-openapi.yml#/components/schemas/response_version",
+  "type": "object",
+  "x-stoplight": {
+    "id": "ivd8jadc3rqf7"
+  },
+  "required": [
+    "version"
+  ],
+  "properties": {
+    "version": {
+      "$ref": "#/$defs/data-types_version"
+    }
+  },
+  "$defs": {
+    "data-types_version": {
+      "title": "data-type/version",
+      "description": "The version of MDS this data represents.",
+      "type": "string",
+      "x-stoplight": {
+        "id": "bt49ntcbcuxbh"
+      },
+      "pattern": "^2\\.(\\d|[1-9]\\d+)\\.(\\d|[1-9]\\d+)$"
+    }
+  }
+}

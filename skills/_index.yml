@@ -1,0 +1,42 @@
+generated: '2026-10-09'
+method: generated
+source: Packaged Agent Skills generated from the MDS 2.0 OpenAPI definitions under openapi/. No provider-published
+  skills or AGENTS.md found (404 in mobility-data-specification and mds-openapi repos).
+skills:
+- file: open-mobility-foundation-pull-hourly-provider-data.md
+  name: open-mobility-foundation-pull-hourly-provider-data
+  description: Pull hourly trips, telemetry and events from an MDS Provider API
+  api: openapi/open-mobility-foundation-mds-provider-openapi.yml
+  operations:
+  - get-vehicles-status
+  - get-trips-end_time
+  - get-telemetry-telemetry_time
+  - get-events-historical-event_time
+  - get-events-recent-start_time-end_time
+- file: open-mobility-foundation-register-vehicles-and-report-activity.md
+  name: open-mobility-foundation-register-vehicles-and-report-activity
+  description: Register vehicles with a city Agency API and push events, telemetry and trips
+  api: openapi/open-mobility-foundation-mds-agency-openapi.yml
+  operations:
+  - post-vehicles
+  - put-vehicles
+  - get-vehicles-status
+  - post-events
+  - post-telemetry
+  - post-trips
+- file: open-mobility-foundation-discover-policy-requirements.md
+  name: open-mobility-foundation-discover-policy-requirements
+  description: Read an agency MDS requirements document and active policies
+  api: openapi/open-mobility-foundation-mds-policy-openapi.yml
+  operations:
+  - get-requirements
+  - get-policies
+  - get-policies-policy_id
+  - get-policies.json
+- file: open-mobility-foundation-query-mobility-metrics.md
+  name: open-mobility-foundation-query-mobility-metrics
+  description: Discover and query aggregated MDS metrics
+  api: openapi/open-mobility-foundation-mds-metrics-openapi.yml
+  operations:
+  - get-metrics
+  - post-metrics

@@ -1,0 +1,77 @@
+generated: '2026-10-09'
+method: searched
+source: https://www.openmobilityfoundation.org/privacy-policy/
+note: >-
+  Read from the Open Mobility Foundation's own Website Privacy Statement (dated June 2019) and Terms and
+  Conditions page, both linked from the site footer. The Terms page carries only trademark language and
+  speaks to no regulatory signal. The privacy statement names no GDPR/CCPA data-subject rights process, no
+  subprocessor list, no data residency, no breach-notification commitment and no Global Privacy Control
+  handling; those signals are left unrecorded rather than inferred.
+signals:
+  data_retention:
+    url: https://www.openmobilityfoundation.org/privacy-policy/
+    section: Retention of Your Personal Information
+    evidence:
+    - source: https://www.openmobilityfoundation.org/privacy-policy/
+      http_status: 200
+      fetched: '2026-10-09'
+      quote: >-
+        We will only retain your information as long as we have a business need for it in order to carry
+        out OMF operations, to satisfy our mission and to enforce our rights. Subject to applicable law, such
+        retention needs may continue even after you choose to cancel your membership or stop receiving
+        ongoing communications from us.
+    - source: https://www.openmobilityfoundation.org/privacy-policy/
+      http_status: 200
+      fetched: '2026-10-09'
+      quote: >-
+        The archived records and content of your contributions are generally retained in perpetuity for
+        legal licensure, public policy and record provenance obligations that apply to OMF technical or
+        policy contributions.
+    note: >-
+      A purpose-bound retention rule with no fixed period, plus an explicit statement that contribution
+      records to the specifications are kept indefinitely. No retention schedule in days or years is published.
+  subprocessors:
+    url: https://www.openmobilityfoundation.org/privacy-policy/
+    section: Instances Where OMF May Share Your Personal Information
+    evidence:
+    - source: https://www.openmobilityfoundation.org/privacy-policy/
+      http_status: 200
+      fetched: '2026-10-09'
+      quote: >-
+        With OMF vendors, consultants or service providers so they may carry out services on our behalf. We
+        will only provide personal information to these organizations when required for them to provide
+        services and such organizations are contractually required to protect your information and limit its
+        uses to the purposes for which it was shared;
+    note: >-
+      Establishes that service providers receive personal data under contractual protection and purpose
+      limitation. It does NOT name any subprocessor and no subprocessor list was found on the site.
+  age_assurance:
+    url: https://www.openmobilityfoundation.org/privacy-policy/
+    section: Personal Information from Children
+    evidence:
+    - source: https://www.openmobilityfoundation.org/privacy-policy/
+      http_status: 200
+      fetched: '2026-10-09'
+      quote: >-
+        If you have reason to believe a child under the age of thirteen (13) has provided personal
+        information to OMF, please contact us immediately at omf_admin@openmobilityfoundation.org and we will
+        delete all such data.
+    note: >-
+      A children's-data posture (no knowing collection, under-13 threshold, deletion on report). It is a
+      notice-and-delete commitment, not an age-verification or age-assurance mechanism.
+  data_subject_request:
+    url: https://www.openmobilityfoundation.org/privacy-policy/
+    section: Collection and Use of Personal Information
+    channel: omf_admin@openmobilityfoundation.org
+    evidence:
+    - source: https://www.openmobilityfoundation.org/privacy-policy/
+      http_status: 200
+      fetched: '2026-10-09'
+      quote: >-
+        To send promotional outreach and announcements to you if you have chosen to receive such
+        communication. Please note that you have the right to withdraw or change your preferences for
+        marketing communications at anytime;
+    note: >-
+      The only individual right the statement names is withdrawal from marketing communications (plus
+      deletion of data reported as a child's). No access, correction, deletion or portability request
+      process, and no response period, is published; the general contact is omf_admin@openmobilityfoundation.org.

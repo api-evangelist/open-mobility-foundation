@@ -1,0 +1,47 @@
+generated: '2026-10-09'
+method: searched
+source: https://github.com/openmobilityfoundation/mobility-data-specification/releases
+scheme: semver
+current_version: 2.1.0
+entries:
+- version: 2.1.0
+  date: '2026-07-09'
+  breaking: false
+  highlights:
+  - Modes overhaul
+  - New endpoint for incidents and crashes
+  - Full support for delivery of goods
+  - Transit fixed route support connecting to GTFS
+  - For-hire autonomous vehicles
+  url: https://github.com/openmobilityfoundation/mobility-data-specification/releases/tag/2.1.0
+- version: 2.0.2
+  date: '2025-10-27'
+  breaking: false
+  highlights:
+  - Minor fixes and typos
+  - Update GBFS recommendation to 3.0
+  - Multiple new provider IDs added
+  - Include stop_id in Events
+  url: https://github.com/openmobilityfoundation/mobility-data-specification/releases/tag/2.0.2
+- version: 2.0.1
+  date: '2023-12-19'
+  breaking: false
+  highlights:
+  - Minor fixes and typos
+  - Clarify vehicles included in /vehicles endpoint
+  - Reports endpoint START_DATE clarification
+  url: https://github.com/openmobilityfoundation/mobility-data-specification/releases/tag/2.0.1
+- version: 2.0.0
+  date: '2023-05-09'
+  breaking: true
+  highlights:
+  - MDS 2.0 major release
+  url: https://github.com/openmobilityfoundation/mobility-data-specification/releases/tag/2.0.0
+- version: 1.2.0
+  date: '2021-11-18'
+  breaking: false
+  highlights:
+  - MDS 1.2.0 minor release
+  url: https://github.com/openmobilityfoundation/mobility-data-specification/releases/tag/1.2.0
+note: Dates are the GitHub release feed <updated> timestamps (releases.atom). 2.1.0 highlights from its release
+  notes; 2.0.0 breaking per semver MAJOR. The saved OpenAPI files are from mds-openapi v2.0.

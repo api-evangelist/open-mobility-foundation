@@ -1,0 +1,13 @@
+title: response/version
+description: Response bodies must be a UTF-8 encoded JSON object and must minimally include the MDS `version`.
+type: object
+
+x-stoplight:
+  id: ivd8jadc3rqf7
+
+required:
+  - version
+
+properties:
+  version:
+    $ref: ../data-types/version.yaml

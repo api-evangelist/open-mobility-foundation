@@ -1,0 +1,14 @@
+generated: '2026-10-09'
+method: searched
+source: openapi/open-mobility-foundation-mds-metrics-openapi.yml
+docs: https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/general-information.md#oauth-20
+note: The specs declare http bearer (not oauth2) securitySchemes. Only the Metrics API names scopes; General Information
+  says OAuth 2.0 client_credentials is RECOMMENDED and producers MAY choose to specify token scopes, so other scopes
+  are implementation-defined.
+scopes:
+- name: metrics:read
+  description: Scope claim expected in the JWT for MDS Metrics endpoints (one of two accepted scopes).
+  api: mds-metrics
+- name: metrics:read:provider
+  description: Alternative scope claim accepted by MDS Metrics endpoints.
+  api: mds-metrics

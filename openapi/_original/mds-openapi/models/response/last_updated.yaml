@@ -1,0 +1,13 @@
+title: response/last_updated
+type: object
+
+x-stoplight:
+  id: z6u8eu7rlkd1j
+
+required:
+  - last_updated
+
+properties:
+  last_updated:
+    $ref: ../data-types/timestamp.yaml
+    description: Timestamp indicating the last time the data in this feed was updated.
