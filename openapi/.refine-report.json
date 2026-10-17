@@ -1,12 +1,12 @@
 {
   "provider": "open-mobility-foundation",
   "sources": [
-    "open-mobility-foundation-mds-agency-openapi.yml",
-    "open-mobility-foundation-mds-geography-openapi.yml",
-    "open-mobility-foundation-mds-jurisdiction-openapi.yml",
-    "open-mobility-foundation-mds-metrics-openapi.yml",
-    "open-mobility-foundation-mds-policy-openapi.yml",
-    "open-mobility-foundation-mds-provider-openapi.yml"
+    "_original/open-mobility-foundation-mds-agency-openapi.yml",
+    "_original/open-mobility-foundation-mds-geography-openapi.yml",
+    "_original/open-mobility-foundation-mds-jurisdiction-openapi.yml",
+    "_original/open-mobility-foundation-mds-metrics-openapi.yml",
+    "_original/open-mobility-foundation-mds-policy-openapi.yml",
+    "_original/open-mobility-foundation-mds-provider-openapi.yml"
   ],
   "outputs": [
     "open-mobility-foundation-events-api-openapi.yml",
@@ -25,18 +25,11 @@
     "open-mobility-foundation-requirements-api-openapi.yml",
     "open-mobility-foundation-value-api-openapi.yml"
   ],
-  "archived": [
-    "archived openapi/open-mobility-foundation-mds-agency-openapi.yml",
-    "archived openapi/open-mobility-foundation-mds-geography-openapi.yml",
-    "archived openapi/open-mobility-foundation-mds-jurisdiction-openapi.yml",
-    "archived openapi/open-mobility-foundation-mds-metrics-openapi.yml",
-    "archived openapi/open-mobility-foundation-mds-policy-openapi.yml",
-    "archived openapi/open-mobility-foundation-mds-provider-openapi.yml"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
-    "sourced from openapi/_original/ (0 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "sourced from openapi/_original/ (6 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "open-mobility-foundation-mds-agency-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "open-mobility-foundation-mds-agency-openapi.yml: tagged paths POST /vehicles -> Vehicles",
     "open-mobility-foundation-mds-agency-openapi.yml: tagged paths PUT /vehicles -> Vehicles",
@@ -108,7 +101,23 @@
     "tag 'Telemetry' spans 2 source specs (open-mobility-foundation-mds-agency-openapi.yml, open-mobility-foundation-mds-provider-openapi.yml): per-path servers applied",
     "tag 'Trips' spans 2 source specs (open-mobility-foundation-mds-agency-openapi.yml, open-mobility-foundation-mds-provider-openapi.yml): per-path servers applied",
     "tag 'Vehicles' spans 2 source specs (open-mobility-foundation-mds-agency-openapi.yml, open-mobility-foundation-mds-provider-openapi.yml): per-path servers applied",
-    "apis.yml register: written (+15 apis, 15 total)"
+    "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "open-mobility-foundation-events-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "open-mobility-foundation-geographies-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "open-mobility-foundation-geographies-json-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "open-mobility-foundation-jurisdictions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "open-mobility-foundation-jurisdictions-json-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "open-mobility-foundation-metrics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "open-mobility-foundation-policies-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "open-mobility-foundation-policies-json-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "open-mobility-foundation-reports-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "open-mobility-foundation-requirements-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "open-mobility-foundation-stops-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "open-mobility-foundation-telemetry-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "open-mobility-foundation-trips-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "open-mobility-foundation-value-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "open-mobility-foundation-vehicles-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

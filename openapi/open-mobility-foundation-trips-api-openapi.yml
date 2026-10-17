@@ -131,6 +131,41 @@ paths:
       - Trips
 components:
   schemas:
+    data-types_currency-cost:
+      title: data-types/currency-cost
+      description: Represents an optional cost defined in a [`currency`](./currency.yaml).
+      x-stoplight:
+        id: 1l6vqu5tyd5at
+      type:
+      - integer
+      - 'null'
+      minimum: 0
+      examples:
+      - 500
+      - 520
+      - 1000
+    response_error_unregistered:
+      title: response/error_unregistered
+      description: An item with that identifier is not registered.
+      type: object
+      x-stoplight:
+        id: cw4q7ycy1a17h
+      required:
+      - item
+      - error
+      - error_description
+      properties:
+        error:
+          const: unregistered
+        error_description:
+          type: string
+          examples:
+          - This device_id is not registered.
+          - This stop_id is unregistered
+        error_details:
+          type: array
+          items:
+            type: string
     modes_car-share_accessibility-attributes:
       title: modes/car-share/accessibility-attributes
       description: Accessibility options definition for the `car-share` mode.
@@ -142,16 +177,132 @@ components:
         type: string
         enum:
         - wheelchair_accessible
-    data-types_string:
-      title: data-types/string
-      description: A length-limited string type.
-      examples:
-      - ABC123
-      maxLength: 255
-      pattern: ^(.*)$
-      type: string
+    response_error_bad_param:
+      title: response/error_bad_param
+      description: A validation error occurred.
+      type: object
       x-stoplight:
-        id: 2vqv7166161kh
+        id: vekidez6dfa4u
+      required:
+      - item
+      - error
+      - error_description
+      - error_details
+      properties:
+        error:
+          const: bad_param
+        error_description:
+          type: string
+          examples:
+          - A validation error occurred
+        error_details:
+          type: array
+          description: Array of parameters with errors.
+          minItems: 1
+          items:
+            type: string
+    response_bulk:
+      title: response/bulk
+      type: object
+      description: For multi-record POST and PUT calls, e.g. sending Events using the Agency API, the bulk-response structure describes a list of results.
+      x-stoplight:
+        id: sdj75536ytrso
+      required:
+      - success
+      - total
+      properties:
+        success:
+          $ref: '#/components/schemas/data-types_integer-positive'
+          description: Number of successfully written records.
+        total:
+          $ref: '#/components/schemas/data-types_integer-positive'
+          description: Total number of provided records.
+        failures:
+          type: array
+    data-types_integer-positive:
+      title: data-types/integer-positive
+      description: An integer greater than or equal to 0.
+      minimum: 0
+      type: integer
+      x-stoplight:
+        id: nfkphjmpm8yay
+    modes_micromobility_accessibility-attributes:
+      title: modes/micromobility/accessibility-attributes
+      description: Accessibility options definition for the `micromobility` mode.
+      type: array
+      x-stoplight:
+        id: 15do56zc6v30i
+      uniqueItems: true
+      items:
+        type: string
+        enum:
+        - adaptive
+    data-types_gps:
+      title: data-types/gps
+      properties:
+        altitude:
+          description: Altitude above mean sea level in meters.
+          type: number
+        heading:
+          description: Degrees - clockwise starting at 0 degrees at true North.
+          type: number
+        horizontal_accuracy:
+          description: Horizontal accuracy in meters.
+          type: number
+        lat:
+          description: Latitude coordinate.
+          maximum: 90
+          minimum: -90
+          type: number
+        lng:
+          description: Longitude coordinate.
+          maximum: 180
+          minimum: -180
+          type: number
+        satellites:
+          $ref: '#/components/schemas/data-types_integer-positive'
+          description: Number of GPS or GNSS satellites.
+        speed:
+          description: Estimated speed in meters / sec as reported by the GPS chipset.
+          type: number
+        vertical_accuracy:
+          description: Vertical accuracy in meters.
+          type: number
+      required:
+      - lat
+      - lng
+      type: object
+      x-stoplight:
+        id: 8aooo5ag7x7vh
+    modes_micromobility_trip:
+      title: modes/micromobility/trip
+      description: Trip definition for the `micromobility` mode.
+      type: object
+      x-stoplight:
+        id: mtd16mz6d70ve
+      properties:
+        trip_type:
+          enum:
+          - rider
+          - rebalance
+          - maintenance
+        accessibility_attributes:
+          $ref: '#/components/schemas/modes_micromobility_accessibility-attributes'
+          description: The accessibility options utilized for a given trip. Required if available.
+    data-types_currency:
+      title: data-types/currency
+      default: USD
+      description: An [ISO 4217 Alphabetic Currency Code](https://en.wikipedia.org/wiki/ISO_4217#Active_codes) representing currency of the payee. If null, USD cents is implied.
+      examples:
+      - USD
+      - EUR
+      - GBP
+      pattern: ^[A-Z]{3}$
+      type:
+      - string
+      - 'null'
+      x-stoplight:
+        id: 85j2txhx6x32o
     modes_delivery-robots_accessibility-attributes:
       title: modes/delivery-robots/accessibility-attributes
       description: Accessibility options definition for the `delivery-robots` mode.
@@ -169,6 +320,17 @@ components:
         remote_open:
           type: boolean
           description: Can the device door be remotely opened to retrieve cargo upon delivery.
+    modes_passenger-services_accessibility-attributes:
+      title: modes/passenger-services/accessibility-attributes
+      description: Accessibility options definition for the `passenger-services` mode.
+      type: array
+      x-stoplight:
+        id: 62ab40s0bfzrw
+      uniqueItems: true
+      items:
+        type: string
+        enum:
+        - wheelchair_accessible
     modes_car-share_trip:
       title: modes/care-share/trip
       description: Trip definition for the `car-share` mode.
@@ -271,149 +433,27 @@ components:
         accessibility_attributes:
           $ref: '#/components/schemas/modes_car-share_accessibility-attributes'
           description: The accessibility options utilized for a given trip. Required if available.
-    data-types_uuid:
-      title: data-types/uuid
-      description: A UUID used to uniquely identity an object.
+    data-types_string:
+      title: data-types/string
+      description: A length-limited string type.
+      examples:
+      - ABC123
+      maxLength: 255
+      pattern: ^(.*)$
       type: string
       x-stoplight:
-        id: np9kodwmy2kqa
-      format: uuid
-      pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+        id: 2vqv7166161kh
+    data-types_timestamp:
+      title: data-types/timestamp
+      description: Integer milliseconds since Unix epoch.
       examples:
-      - 3c9604d6-b5ee-11e8-96f8-529269fb1459
-    data-types_currency:
-      title: data-types/currency
-      default: USD
-      description: An [ISO 4217 Alphabetic Currency Code](https://en.wikipedia.org/wiki/ISO_4217#Active_codes) representing currency of the payee. If null, USD cents is implied.
-      examples:
-      - USD
-      - EUR
-      - GBP
-      pattern: ^[A-Z]{3}$
-      type:
-      - string
-      - 'null'
+      - 1514764800000
+      - 1681855703000
+      minimum: 1514764800000
+      multipleOf: 1
+      type: number
       x-stoplight:
-        id: 85j2txhx6x32o
-    modes_micromobility_accessibility-attributes:
-      title: modes/micromobility/accessibility-attributes
-      description: Accessibility options definition for the `micromobility` mode.
-      type: array
-      x-stoplight:
-        id: 15do56zc6v30i
-      uniqueItems: true
-      items:
-        type: string
-        enum:
-        - adaptive
-    response_error:
-      title: response/error
-      description: An error message for troubleshooting.
-      type: object
-      x-stoplight:
-        id: 90yc58ni8u0ch
-      required:
-      - error
-      - error_description
-      - error_details
-      properties:
-        error:
-          type: string
-          description: Error message string.
-        error_description:
-          type: string
-          description: Human readable error description (can be localized).
-        error_details:
-          type: array
-          description: Human readable error description (can be localized).
-          minItems: 1
-          items:
-            type: string
-    data-types_gps:
-      title: data-types/gps
-      properties:
-        altitude:
-          description: Altitude above mean sea level in meters.
-          type: number
-        heading:
-          description: Degrees - clockwise starting at 0 degrees at true North.
-          type: number
-        horizontal_accuracy:
-          description: Horizontal accuracy in meters.
-          type: number
-        lat:
-          description: Latitude coordinate.
-          maximum: 90
-          minimum: -90
-          type: number
-        lng:
-          description: Longitude coordinate.
-          maximum: 180
-          minimum: -180
-          type: number
-        satellites:
-          $ref: '#/components/schemas/data-types_integer-positive'
-          description: Number of GPS or GNSS satellites.
-        speed:
-          description: Estimated speed in meters / sec as reported by the GPS chipset.
-          type: number
-        vertical_accuracy:
-          description: Vertical accuracy in meters.
-          type: number
-      required:
-      - lat
-      - lng
-      type: object
-      x-stoplight:
-        id: 8aooo5ag7x7vh
-    modes_micromobility_trip:
-      title: modes/micromobility/trip
-      description: Trip definition for the `micromobility` mode.
-      type: object
-      x-stoplight:
-        id: mtd16mz6d70ve
-      properties:
-        trip_type:
-          enum:
-          - rider
-          - rebalance
-          - maintenance
-        accessibility_attributes:
-          $ref: '#/components/schemas/modes_micromobility_accessibility-attributes'
-          description: The accessibility options utilized for a given trip. Required if available.
-    response_error_unregistered:
-      title: response/error_unregistered
-      description: An item with that identifier is not registered.
-      type: object
-      x-stoplight:
-        id: cw4q7ycy1a17h
-      required:
-      - item
-      - error
-      - error_description
-      properties:
-        error:
-          const: unregistered
-        error_description:
-          type: string
-          examples:
-          - This device_id is not registered.
-          - This stop_id is unregistered
-        error_details:
-          type: array
-          items:
-            type: string
-    modes_passenger-services_accessibility-attributes:
-      title: modes/passenger-services/accessibility-attributes
-      description: Accessibility options definition for the `passenger-services` mode.
-      type: array
-      x-stoplight:
-        id: 62ab40s0bfzrw
-      uniqueItems: true
-      items:
-        type: string
-        enum:
-        - wheelchair_accessible
+        id: vliol1hqlxw6y
     trip:
       title: models/trip
       description: A trip represents a journey taken by a _mobility as a service_ customer with a geo-tagged start and stop point.
@@ -515,79 +555,22 @@ components:
         - $ref: '#/components/schemas/modes_delivery-robots_trip'
         - $ref: '#/components/schemas/modes_micromobility_trip'
         - $ref: '#/components/schemas/modes_passenger-services_trip'
-    modes_delivery-robots_trip:
-      title: modes/delivery-robots/trip
-      description: Trip definition for the `delivery-robots` mode.
+    data-types_uuid:
+      title: data-types/uuid
+      description: A UUID used to uniquely identity an object.
+      type: string
+      x-stoplight:
+        id: np9kodwmy2kqa
+      format: uuid
+      pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+      examples:
+      - 3c9604d6-b5ee-11e8-96f8-529269fb1459
+    response_error_missing_param:
+      title: response/error_missing_param
+      description: A required parameter is missing.
       type: object
       x-stoplight:
-        id: 0gzaszwxukf5a
-      required:
-      - trip_type
-      properties:
-        journey_id:
-          $ref: '#/components/schemas/data-types_uuid'
-          description: 'The `journey_id` field shall have a consistent value in overlapping trips. Journeys may be point-to-point, multi-segment,
-
-            or multi-segment overlapping.'
-        trip_type:
-          enum:
-          - delivery
-          - return
-          - advertising
-          - mapping
-          - roaming
-        trip_attributes:
-          required:
-          - driver_type
-          properties:
-            driver_type:
-              enum:
-              - human
-              - semi_autonomous
-              - autonomous
-            driver_id:
-              $ref: '#/components/schemas/data-types_uuid'
-              description: Consistent unique identifier of the primary driver. Could be based on software version or an internal human driver id.
-            app_name:
-              $ref: '#/components/schemas/data-types_string'
-              description: Name of the app used to reserve the trip which could be provider's app or 3rd party app.
-            requested_time:
-              $ref: '#/components/schemas/data-types_timestamp'
-              description: When the customer requested the trip.
-            has_payload:
-              type: boolean
-              description: is there any payload for any delivery included in the device at trip start.
-        fare_attributes:
-          properties:
-            payment_type:
-              type: string
-              enum:
-              - account_number
-              - cash
-              - credit_card
-              - mobile_app
-              - no_payment
-              - phone
-              - test
-              - voucher
-            price:
-              $ref: '#/components/schemas/data-types_currency-cost'
-        accessibility_attributes:
-          $ref: '#/components/schemas/modes_delivery-robots_accessibility-attributes'
-          description: The accessibility options available on a given delivery robot device. Required if available.
-    data-types_integer-positive:
-      title: data-types/integer-positive
-      description: An integer greater than or equal to 0.
-      minimum: 0
-      type: integer
-      x-stoplight:
-        id: nfkphjmpm8yay
-    response_error_bad_param:
-      title: response/error_bad_param
-      description: A validation error occurred.
-      type: object
-      x-stoplight:
-        id: vekidez6dfa4u
+        id: huc7x2g2wfq5a
       required:
       - item
       - error
@@ -595,14 +578,14 @@ components:
       - error_details
       properties:
         error:
-          const: bad_param
+          const: missing_param
         error_description:
           type: string
           examples:
-          - A validation error occurred
+          - A required parameter is missing.
         error_details:
           type: array
-          description: Array of parameters with errors.
+          description: Array of missing parameters.
           minItems: 1
           items:
             type: string
@@ -760,72 +743,98 @@ components:
         accessibility_attributes:
           $ref: '#/components/schemas/modes_passenger-services_accessibility-attributes'
           description: The accessibility options utilized for a given trip. Required if available.
-    response_bulk:
-      title: response/bulk
+    modes_delivery-robots_trip:
+      title: modes/delivery-robots/trip
+      description: Trip definition for the `delivery-robots` mode.
       type: object
-      description: For multi-record POST and PUT calls, e.g. sending Events using the Agency API, the bulk-response structure describes a list of results.
       x-stoplight:
-        id: sdj75536ytrso
+        id: 0gzaszwxukf5a
       required:
-      - success
-      - total
+      - trip_type
       properties:
-        success:
-          $ref: '#/components/schemas/data-types_integer-positive'
-          description: Number of successfully written records.
-        total:
-          $ref: '#/components/schemas/data-types_integer-positive'
-          description: Total number of provided records.
-        failures:
-          type: array
-    response_error_missing_param:
-      title: response/error_missing_param
-      description: A required parameter is missing.
+        journey_id:
+          $ref: '#/components/schemas/data-types_uuid'
+          description: 'The `journey_id` field shall have a consistent value in overlapping trips. Journeys may be point-to-point, multi-segment,
+
+            or multi-segment overlapping.'
+        trip_type:
+          enum:
+          - delivery
+          - return
+          - advertising
+          - mapping
+          - roaming
+        trip_attributes:
+          required:
+          - driver_type
+          properties:
+            driver_type:
+              enum:
+              - human
+              - semi_autonomous
+              - autonomous
+            driver_id:
+              $ref: '#/components/schemas/data-types_uuid'
+              description: Consistent unique identifier of the primary driver. Could be based on software version or an internal human driver id.
+            app_name:
+              $ref: '#/components/schemas/data-types_string'
+              description: Name of the app used to reserve the trip which could be provider's app or 3rd party app.
+            requested_time:
+              $ref: '#/components/schemas/data-types_timestamp'
+              description: When the customer requested the trip.
+            has_payload:
+              type: boolean
+              description: is there any payload for any delivery included in the device at trip start.
+        fare_attributes:
+          properties:
+            payment_type:
+              type: string
+              enum:
+              - account_number
+              - cash
+              - credit_card
+              - mobile_app
+              - no_payment
+              - phone
+              - test
+              - voucher
+            price:
+              $ref: '#/components/schemas/data-types_currency-cost'
+        accessibility_attributes:
+          $ref: '#/components/schemas/modes_delivery-robots_accessibility-attributes'
+          description: The accessibility options available on a given delivery robot device. Required if available.
+    response_error:
+      title: response/error
+      description: An error message for troubleshooting.
       type: object
       x-stoplight:
-        id: huc7x2g2wfq5a
+        id: 90yc58ni8u0ch
       required:
-      - item
       - error
       - error_description
       - error_details
       properties:
         error:
-          const: missing_param
+          type: string
+          description: Error message string.
         error_description:
           type: string
-          examples:
-          - A required parameter is missing.
+          description: Human readable error description (can be localized).
         error_details:
           type: array
-          description: Array of missing parameters.
+          description: Human readable error description (can be localized).
           minItems: 1
           items:
             type: string
-    data-types_currency-cost:
-      title: data-types/currency-cost
-      description: Represents an optional cost defined in a [`currency`](./currency.yaml).
+    data-types_version:
+      title: data-type/version
+      description: The version of MDS this data represents.
+      type: string
       x-stoplight:
-        id: 1l6vqu5tyd5at
-      type:
-      - integer
-      - 'null'
-      minimum: 0
+        id: bt49ntcbcuxbh
+      pattern: ^2\.(\d|[1-9]\d+)\.(\d|[1-9]\d+)$
       examples:
-      - 500
-      - 520
-      - 1000
-    data-types_timestamp:
-      title: data-types/timestamp
-      description: Integer milliseconds since Unix epoch.
-      examples:
-      - 1514764800000
-      - 1681855703000
-      minimum: 1514764800000
-      multipleOf: 1
-      type: number
-      x-stoplight:
-        id: vliol1hqlxw6y
+      - 2.0.0
     data-types_iso-dayhour:
       title: data-types/iso-dayhour
       description: An ISO 8601 extended datetime representing an UTC hour between 00 and 23 `YYYY-MM-DDTHH`; valid for dates in 1970 and later.
@@ -847,15 +856,6 @@ components:
       properties:
         version:
           $ref: '#/components/schemas/data-types_version'
-    data-types_version:
-      title: data-type/version
-      description: The version of MDS this data represents.
-      type: string
-      x-stoplight:
-        id: bt49ntcbcuxbh
-      pattern: ^2\.(\d|[1-9]\d+)\.(\d|[1-9]\d+)$
-      examples:
-      - 2.0.0
   securitySchemes:
     bearer:
       type: http

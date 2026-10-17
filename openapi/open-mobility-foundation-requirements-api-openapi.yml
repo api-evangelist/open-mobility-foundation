@@ -50,28 +50,6 @@ paths:
       - Requirements
 components:
   schemas:
-    data-types_iso-duration:
-      title: data-types/iso-duration
-      type: string
-      description: 'An [ISO 8601 duration](https://en.wikipedia.org/wiki/ISO_8601#Durations) string, defining the amount of intervening time
-
-        in a time interval.'
-      x-stoplight:
-        id: ll9uuz5vjj9hj
-      examples:
-      - P1M
-      - PT1M
-      pattern: ^P(?!$)(\d+(?:\.\d+)?Y)?(\d+(?:\.\d+)?M)?(\d+(?:\.\d+)?W)?(\d+(?:\.\d+)?D)?(T(?=\d)(\d+(?:\.\d+)?H)?(\d+(?:\.\d+)?M)?(\d+(?:\.\d+)?S)?)?$
-    data-types_string:
-      title: data-types/string
-      description: A length-limited string type.
-      examples:
-      - ABC123
-      maxLength: 255
-      pattern: ^(.*)$
-      type: string
-      x-stoplight:
-        id: 2vqv7166161kh
     requirements:
       title: models/requirements
       description: Enumerates all of the parts of MDS, CDS, GBFS, and other specifications that an agency requires from providers for certain programs.
@@ -309,16 +287,25 @@ components:
           minItems: 1
           items:
             $ref: '#/components/schemas/requirements/$defs/program'
-    data-types_uuid:
-      title: data-types/uuid
-      description: A UUID used to uniquely identity an object.
+    data-types_iso-duration:
+      title: data-types/iso-duration
       type: string
+      description: 'An [ISO 8601 duration](https://en.wikipedia.org/wiki/ISO_8601#Durations) string, defining the amount of intervening time
+
+        in a time interval.'
       x-stoplight:
-        id: np9kodwmy2kqa
-      format: uuid
-      pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+        id: ll9uuz5vjj9hj
       examples:
-      - 3c9604d6-b5ee-11e8-96f8-529269fb1459
+      - P1M
+      - PT1M
+      pattern: ^P(?!$)(\d+(?:\.\d+)?Y)?(\d+(?:\.\d+)?M)?(\d+(?:\.\d+)?W)?(\d+(?:\.\d+)?D)?(T(?=\d)(\d+(?:\.\d+)?H)?(\d+(?:\.\d+)?M)?(\d+(?:\.\d+)?S)?)?$
+    data-types_integer-positive:
+      title: data-types/integer-positive
+      description: An integer greater than or equal to 0.
+      minimum: 0
+      type: integer
+      x-stoplight:
+        id: nfkphjmpm8yay
     data-types_mode:
       title: data-types/modes
       description: The modes supported in MDS.
@@ -330,6 +317,25 @@ components:
       - delivery-robots
       - micromobility
       - passenger-services
+    data-types_uuid-array:
+      title: data-types/uuid-array
+      description: Array of UUID.
+      type: array
+      x-stoplight:
+        id: v932clitbqv31
+      uniqueItems: true
+      items:
+        $ref: '#/components/schemas/data-types_uuid'
+    data-types_timezone:
+      title: data-types/timezone
+      description: '[TZ Database Name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) (default: UTC)'
+      type: string
+      x-stoplight:
+        id: sv8rgu97fxmop
+      default: UTC
+      examples:
+      - America/Los_Angeles
+      - Europe/London
     data-types_currency:
       title: data-types/currency
       default: USD
@@ -344,16 +350,24 @@ components:
       - 'null'
       x-stoplight:
         id: 85j2txhx6x32o
-    data-types_timezone:
-      title: data-types/timezone
-      description: '[TZ Database Name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) (default: UTC)'
+    data-types_vehicle-type:
+      title: data-types/vehicle-type
+      description: The allowed types of of vehicles in MDS. Based off of `form_factor` in [GBFS vehicle_types](https://github.com/MobilityData/gbfs/blob/master/gbfs.md#vehicle_typesjson), with some additional to support MDS modes.
       type: string
       x-stoplight:
-        id: sv8rgu97fxmop
-      default: UTC
-      examples:
-      - America/Los_Angeles
-      - Europe/London
+        id: gbhhyditnvs5w
+      enum:
+      - bicycle
+      - bus
+      - cargo_bicycle
+      - car
+      - delivery_robot
+      - moped
+      - motorcycle
+      - scooter_standing
+      - scooter_seated
+      - truck
+      - other
     data-types_language-tag:
       title: data-types/language-tag
       description: An [IETF BCP 47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag string.
@@ -364,6 +378,55 @@ components:
       examples:
       - en-US
       - es-US
+    data-types_vehicle-type-array:
+      title: data-types/vehicle-type-array
+      description: An array of `vehicle_type`.
+      type: array
+      x-stoplight:
+        id: 85v330buxsong
+      uniqueItems: true
+      items:
+        $ref: '#/components/schemas/data-types_vehicle-type'
+    data-types_version:
+      title: data-type/version
+      description: The version of MDS this data represents.
+      type: string
+      x-stoplight:
+        id: bt49ntcbcuxbh
+      pattern: ^2\.(\d|[1-9]\d+)\.(\d|[1-9]\d+)$
+      examples:
+      - 2.0.0
+    data-types_string:
+      title: data-types/string
+      description: A length-limited string type.
+      examples:
+      - ABC123
+      maxLength: 255
+      pattern: ^(.*)$
+      type: string
+      x-stoplight:
+        id: 2vqv7166161kh
+    data-types_timestamp:
+      title: data-types/timestamp
+      description: Integer milliseconds since Unix epoch.
+      examples:
+      - 1514764800000
+      - 1681855703000
+      minimum: 1514764800000
+      multipleOf: 1
+      type: number
+      x-stoplight:
+        id: vliol1hqlxw6y
+    data-types_uuid:
+      title: data-types/uuid
+      description: A UUID used to uniquely identity an object.
+      type: string
+      x-stoplight:
+        id: np9kodwmy2kqa
+      format: uuid
+      pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+      examples:
+      - 3c9604d6-b5ee-11e8-96f8-529269fb1459
     response_error:
       title: response/error
       description: An error message for troubleshooting.
@@ -387,69 +450,6 @@ components:
           minItems: 1
           items:
             type: string
-    data-types_uuid-array:
-      title: data-types/uuid-array
-      description: Array of UUID.
-      type: array
-      x-stoplight:
-        id: v932clitbqv31
-      uniqueItems: true
-      items:
-        $ref: '#/components/schemas/data-types_uuid'
-    data-types_vehicle-type-array:
-      title: data-types/vehicle-type-array
-      description: An array of `vehicle_type`.
-      type: array
-      x-stoplight:
-        id: 85v330buxsong
-      uniqueItems: true
-      items:
-        $ref: '#/components/schemas/data-types_vehicle-type'
-    data-types_integer-positive:
-      title: data-types/integer-positive
-      description: An integer greater than or equal to 0.
-      minimum: 0
-      type: integer
-      x-stoplight:
-        id: nfkphjmpm8yay
-    data-types_version:
-      title: data-type/version
-      description: The version of MDS this data represents.
-      type: string
-      x-stoplight:
-        id: bt49ntcbcuxbh
-      pattern: ^2\.(\d|[1-9]\d+)\.(\d|[1-9]\d+)$
-      examples:
-      - 2.0.0
-    data-types_vehicle-type:
-      title: data-types/vehicle-type
-      description: The allowed types of of vehicles in MDS. Based off of `form_factor` in [GBFS vehicle_types](https://github.com/MobilityData/gbfs/blob/master/gbfs.md#vehicle_typesjson), with some additional to support MDS modes.
-      type: string
-      x-stoplight:
-        id: gbhhyditnvs5w
-      enum:
-      - bicycle
-      - bus
-      - cargo_bicycle
-      - car
-      - delivery_robot
-      - moped
-      - motorcycle
-      - scooter_standing
-      - scooter_seated
-      - truck
-      - other
-    data-types_timestamp:
-      title: data-types/timestamp
-      description: Integer milliseconds since Unix epoch.
-      examples:
-      - 1514764800000
-      - 1681855703000
-      minimum: 1514764800000
-      multipleOf: 1
-      type: number
-      x-stoplight:
-        id: vliol1hqlxw6y
 x-stoplight:
   id: q6wapocoxbhs1
 x-bundled-from: https://github.com/openmobilityfoundation/mds-openapi/blob/v2.0/reference/policy.yaml (commit 0c07bc3d294237dd41c6273f059efb11b8149c66); external $refs into ../models/ inlined under components.schemas, no other changes

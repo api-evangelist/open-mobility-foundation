@@ -114,6 +114,37 @@ paths:
       - Policies
 components:
   schemas:
+    data-types_propulsion-type-array:
+      title: data-types/propulsion-type-array
+      description: Array of propulsion types, allowing multiple values.
+      items:
+        $ref: '#/components/schemas/data-types_propulsion-type'
+      type: array
+      uniqueItems: true
+      x-stoplight:
+        id: 4ao4xw23z8wrf
+    response_last_updated:
+      title: response/last_updated
+      type: object
+      x-stoplight:
+        id: z6u8eu7rlkd1j
+      required:
+      - last_updated
+      properties:
+        last_updated:
+          $ref: '#/components/schemas/data-types_timestamp'
+          description: Timestamp indicating the last time the data in this feed was updated.
+    data-types_mode:
+      title: data-types/modes
+      description: The modes supported in MDS.
+      type: string
+      x-stoplight:
+        id: rjul1mcjyy8y2
+      enum:
+      - car-share
+      - delivery-robots
+      - micromobility
+      - passenger-services
     data-types_propulsion-type:
       title: data-types/propulsion-type
       description: The allowed types of propulsion in MDS. Based off of `propulsion_type` in [GBFS vehicle_types](https://github.com/MobilityData/gbfs/blob/master/gbfs.md#vehicle_typesjson)
@@ -129,16 +160,6 @@ components:
       type: string
       x-stoplight:
         id: 1ucdttnwhf2bo
-    data-types_string:
-      title: data-types/string
-      description: A length-limited string type.
-      examples:
-      - ABC123
-      maxLength: 255
-      pattern: ^(.*)$
-      type: string
-      x-stoplight:
-        id: 2vqv7166161kh
     data-types_event-type:
       title: data-types/event-type
       description: Events are possible transitions between vehicle states.
@@ -193,36 +214,15 @@ components:
       type: string
       x-stoplight:
         id: lsm5td7gknbxz
-    data-types_days:
-      title: data-types/days
-      description: An array of days of the week.
-      items:
-        $ref: '#/components/schemas/data-types_day'
+    data-types_uuid-array:
+      title: data-types/uuid-array
+      description: Array of UUID.
       type: array
+      x-stoplight:
+        id: v932clitbqv31
       uniqueItems: true
-      x-stoplight:
-        id: g7wntphhazfhv
-    data-types_uuid:
-      title: data-types/uuid
-      description: A UUID used to uniquely identity an object.
-      type: string
-      x-stoplight:
-        id: np9kodwmy2kqa
-      format: uuid
-      pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
-      examples:
-      - 3c9604d6-b5ee-11e8-96f8-529269fb1459
-    data-types_mode:
-      title: data-types/modes
-      description: The modes supported in MDS.
-      type: string
-      x-stoplight:
-        id: rjul1mcjyy8y2
-      enum:
-      - car-share
-      - delivery-robots
-      - micromobility
-      - passenger-services
+      items:
+        $ref: '#/components/schemas/data-types_uuid'
     data-types_currency:
       title: data-types/currency
       default: USD
@@ -237,6 +237,24 @@ components:
       - 'null'
       x-stoplight:
         id: 85j2txhx6x32o
+    data-types_vehicle-type:
+      title: data-types/vehicle-type
+      description: The allowed types of of vehicles in MDS. Based off of `form_factor` in [GBFS vehicle_types](https://github.com/MobilityData/gbfs/blob/master/gbfs.md#vehicle_typesjson), with some additional to support MDS modes.
+      type: string
+      x-stoplight:
+        id: gbhhyditnvs5w
+      enum:
+      - bicycle
+      - bus
+      - cargo_bicycle
+      - car
+      - delivery_robot
+      - moped
+      - motorcycle
+      - scooter_standing
+      - scooter_seated
+      - truck
+      - other
     data-types_language-tag:
       title: data-types/language-tag
       description: An [IETF BCP 47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag string.
@@ -247,83 +265,6 @@ components:
       examples:
       - en-US
       - es-US
-    response_last_updated:
-      title: response/last_updated
-      type: object
-      x-stoplight:
-        id: z6u8eu7rlkd1j
-      required:
-      - last_updated
-      properties:
-        last_updated:
-          $ref: '#/components/schemas/data-types_timestamp'
-          description: Timestamp indicating the last time the data in this feed was updated.
-    response_error:
-      title: response/error
-      description: An error message for troubleshooting.
-      type: object
-      x-stoplight:
-        id: 90yc58ni8u0ch
-      required:
-      - error
-      - error_description
-      - error_details
-      properties:
-        error:
-          type: string
-          description: Error message string.
-        error_description:
-          type: string
-          description: Human readable error description (can be localized).
-        error_details:
-          type: array
-          description: Human readable error description (can be localized).
-          minItems: 1
-          items:
-            type: string
-    data-types_day:
-      title: data-types/day
-      description: A day of the week.
-      enum:
-      - sun
-      - mon
-      - tue
-      - wed
-      - thu
-      - fri
-      - sat
-      type: string
-      x-stoplight:
-        id: g5u1fwovxmhc3
-    response_version:
-      title: response/version
-      description: Response bodies must be a UTF-8 encoded JSON object and must minimally include the MDS `version`.
-      type: object
-      x-stoplight:
-        id: ivd8jadc3rqf7
-      required:
-      - version
-      properties:
-        version:
-          $ref: '#/components/schemas/data-types_version'
-    data-types_propulsion-type-array:
-      title: data-types/propulsion-type-array
-      description: Array of propulsion types, allowing multiple values.
-      items:
-        $ref: '#/components/schemas/data-types_propulsion-type'
-      type: array
-      uniqueItems: true
-      x-stoplight:
-        id: 4ao4xw23z8wrf
-    data-types_uuid-array:
-      title: data-types/uuid-array
-      description: Array of UUID.
-      type: array
-      x-stoplight:
-        id: v932clitbqv31
-      uniqueItems: true
-      items:
-        $ref: '#/components/schemas/data-types_uuid'
     data-types_vehicle-type-array:
       title: data-types/vehicle-type-array
       description: An array of `vehicle_type`.
@@ -333,16 +274,6 @@ components:
       uniqueItems: true
       items:
         $ref: '#/components/schemas/data-types_vehicle-type'
-    data-types_iso-time:
-      title: data-types/iso-time
-      description: Time-of-day expressed as ISO 8601 `hh:mm:ss`.
-      examples:
-      - '23:59:59'
-      - 00:00:01
-      pattern: ([0-2][0-3]|[01]\d):[0-5]\d:[0-5]\d
-      type: string
-      x-stoplight:
-        id: v656sfdmwq9s0
     policy:
       title: models/policy
       description: A policy describes the digital relationship between _mobility as a service_ providers and the agencies that regulate them.
@@ -404,24 +335,67 @@ components:
       pattern: ^2\.(\d|[1-9]\d+)\.(\d|[1-9]\d+)$
       examples:
       - 2.0.0
-    data-types_vehicle-type:
-      title: data-types/vehicle-type
-      description: The allowed types of of vehicles in MDS. Based off of `form_factor` in [GBFS vehicle_types](https://github.com/MobilityData/gbfs/blob/master/gbfs.md#vehicle_typesjson), with some additional to support MDS modes.
+    data-types_string:
+      title: data-types/string
+      description: A length-limited string type.
+      examples:
+      - ABC123
+      maxLength: 255
+      pattern: ^(.*)$
       type: string
       x-stoplight:
-        id: gbhhyditnvs5w
+        id: 2vqv7166161kh
+    data-types_timestamp:
+      title: data-types/timestamp
+      description: Integer milliseconds since Unix epoch.
+      examples:
+      - 1514764800000
+      - 1681855703000
+      minimum: 1514764800000
+      multipleOf: 1
+      type: number
+      x-stoplight:
+        id: vliol1hqlxw6y
+    data-types_vehicle-state:
+      title: data-types/vehicle-state
+      description: The state of a vehicle.
+      type: string
+      x-stoplight:
+        id: 3j1h7u4vvc7kr
       enum:
-      - bicycle
-      - bus
-      - cargo_bicycle
-      - car
-      - delivery_robot
-      - moped
-      - motorcycle
-      - scooter_standing
-      - scooter_seated
-      - truck
-      - other
+      - removed
+      - available
+      - non_operational
+      - reserved
+      - on_trip
+      - stopped
+      - non_contactable
+      - missing
+      - elsewhere
+    data-types_uuid:
+      title: data-types/uuid
+      description: A UUID used to uniquely identity an object.
+      type: string
+      x-stoplight:
+        id: np9kodwmy2kqa
+      format: uuid
+      pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+      examples:
+      - 3c9604d6-b5ee-11e8-96f8-529269fb1459
+    data-types_day:
+      title: data-types/day
+      description: A day of the week.
+      enum:
+      - sun
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+      - sat
+      type: string
+      x-stoplight:
+        id: g5u1fwovxmhc3
     policy-rule:
       title: models/policy-rule
       description: An individual rule in a policy.
@@ -601,33 +575,59 @@ components:
             type: 'null'
           rate_applies_when:
             type: 'null'
-    data-types_vehicle-state:
-      title: data-types/vehicle-state
-      description: The state of a vehicle.
+    response_error:
+      title: response/error
+      description: An error message for troubleshooting.
+      type: object
+      x-stoplight:
+        id: 90yc58ni8u0ch
+      required:
+      - error
+      - error_description
+      - error_details
+      properties:
+        error:
+          type: string
+          description: Error message string.
+        error_description:
+          type: string
+          description: Human readable error description (can be localized).
+        error_details:
+          type: array
+          description: Human readable error description (can be localized).
+          minItems: 1
+          items:
+            type: string
+    data-types_days:
+      title: data-types/days
+      description: An array of days of the week.
+      items:
+        $ref: '#/components/schemas/data-types_day'
+      type: array
+      uniqueItems: true
+      x-stoplight:
+        id: g7wntphhazfhv
+    data-types_iso-time:
+      title: data-types/iso-time
+      description: Time-of-day expressed as ISO 8601 `hh:mm:ss`.
+      examples:
+      - '23:59:59'
+      - 00:00:01
+      pattern: ([0-2][0-3]|[01]\d):[0-5]\d:[0-5]\d
       type: string
       x-stoplight:
-        id: 3j1h7u4vvc7kr
-      enum:
-      - removed
-      - available
-      - non_operational
-      - reserved
-      - on_trip
-      - stopped
-      - non_contactable
-      - missing
-      - elsewhere
-    data-types_timestamp:
-      title: data-types/timestamp
-      description: Integer milliseconds since Unix epoch.
-      examples:
-      - 1514764800000
-      - 1681855703000
-      minimum: 1514764800000
-      multipleOf: 1
-      type: number
+        id: v656sfdmwq9s0
+    response_version:
+      title: response/version
+      description: Response bodies must be a UTF-8 encoded JSON object and must minimally include the MDS `version`.
+      type: object
       x-stoplight:
-        id: vliol1hqlxw6y
+        id: ivd8jadc3rqf7
+      required:
+      - version
+      properties:
+        version:
+          $ref: '#/components/schemas/data-types_version'
 x-stoplight:
   id: q6wapocoxbhs1
 x-bundled-from: https://github.com/openmobilityfoundation/mds-openapi/blob/v2.0/reference/policy.yaml (commit 0c07bc3d294237dd41c6273f059efb11b8149c66); external $refs into ../models/ inlined under components.schemas, no other changes

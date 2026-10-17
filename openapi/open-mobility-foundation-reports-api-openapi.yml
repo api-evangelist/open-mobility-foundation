@@ -97,47 +97,6 @@ paths:
       - Reports
 components:
   schemas:
-    response_bulk:
-      title: response/bulk
-      type: object
-      description: For multi-record POST and PUT calls, e.g. sending Events using the Agency API, the bulk-response structure describes a list of results.
-      x-stoplight:
-        id: sdj75536ytrso
-      required:
-      - success
-      - total
-      properties:
-        success:
-          $ref: '#/components/schemas/data-types_integer-positive'
-          description: Number of successfully written records.
-        total:
-          $ref: '#/components/schemas/data-types_integer-positive'
-          description: Total number of provided records.
-        failures:
-          type: array
-    response_error:
-      title: response/error
-      description: An error message for troubleshooting.
-      type: object
-      x-stoplight:
-        id: 90yc58ni8u0ch
-      required:
-      - error
-      - error_description
-      - error_details
-      properties:
-        error:
-          type: string
-          description: Error message string.
-        error_description:
-          type: string
-          description: Human readable error description (can be localized).
-        error_details:
-          type: array
-          description: Human readable error description (can be localized).
-          minItems: 1
-          items:
-            type: string
     data-types_integer-positive:
       title: data-types/integer-positive
       description: An integer greater than or equal to 0.
@@ -204,6 +163,47 @@ components:
           minItems: 1
           items:
             type: string
+    response_error:
+      title: response/error
+      description: An error message for troubleshooting.
+      type: object
+      x-stoplight:
+        id: 90yc58ni8u0ch
+      required:
+      - error
+      - error_description
+      - error_details
+      properties:
+        error:
+          type: string
+          description: Error message string.
+        error_description:
+          type: string
+          description: Human readable error description (can be localized).
+        error_details:
+          type: array
+          description: Human readable error description (can be localized).
+          minItems: 1
+          items:
+            type: string
+    response_bulk:
+      title: response/bulk
+      type: object
+      description: For multi-record POST and PUT calls, e.g. sending Events using the Agency API, the bulk-response structure describes a list of results.
+      x-stoplight:
+        id: sdj75536ytrso
+      required:
+      - success
+      - total
+      properties:
+        success:
+          $ref: '#/components/schemas/data-types_integer-positive'
+          description: Number of successfully written records.
+        total:
+          $ref: '#/components/schemas/data-types_integer-positive'
+          description: Total number of provided records.
+        failures:
+          type: array
   securitySchemes:
     bearer:
       type: http

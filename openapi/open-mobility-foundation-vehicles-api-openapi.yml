@@ -324,6 +324,364 @@ paths:
       - Vehicles
 components:
   schemas:
+    data-types_propulsion-type-array:
+      title: data-types/propulsion-type-array
+      description: Array of propulsion types, allowing multiple values.
+      items:
+        $ref: '#/components/schemas/data-types_propulsion-type'
+      type: array
+      uniqueItems: true
+      x-stoplight:
+        id: 4ao4xw23z8wrf
+    event:
+      title: models/event
+      description: Events represent changes in [Vehicle Status](./vehicle-status.yaml).
+      type: object
+      x-stoplight:
+        id: 34niv0zuhmwmg
+      required:
+      - device_id
+      - provider_id
+      - event_id
+      - vehicle_state
+      - event_types
+      - timestamp
+      allOf:
+      - properties:
+          device_id:
+            $ref: '#/components/schemas/data-types_uuid'
+            description: A unique device ID in UUID format.
+          provider_id:
+            $ref: '#/components/schemas/data-types_uuid'
+            description: A UUID for the Provider, unique within MDS. See MDS [provider list](https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/providers.csv).
+          data_provider_id:
+            $ref: '#/components/schemas/data-types_uuid'
+            description: If different than `provider_id`, a UUID for the data solution provider managing the data feed in this endpoint.
+          event_id:
+            $ref: '#/components/schemas/data-types_uuid'
+            description: A unique event ID in UUID format.
+          vehicle_state:
+            $ref: '#/components/schemas/data-types_vehicle-state'
+            description: The state of the vehicle as of this event.
+          event_types:
+            $ref: '#/components/schemas/data-types_event-type-array'
+            description: Vehicle event types for state change.
+          timestamp:
+            $ref: '#/components/schemas/data-types_timestamp'
+            description: Date/time that event occurred.
+          publication_time:
+            $ref: '#/components/schemas/data-types_timestamp'
+            description: Date/time event became available through the status changes endpoint.
+          location:
+            $ref: '#/components/schemas/data-types_gps'
+            description: Location of the event.
+          event_geographies:
+            $ref: '#/components/schemas/data-types_uuid-array'
+            description: Array of Geography UUIDs consisting of every Geography that contains the location of the status change. See Geography Driven Events. Required if location is not present.
+          battery_percent:
+            $ref: '#/components/schemas/data-types_integer-positive'
+            description: Percent battery charge of vehicle, expressed between 0 and 100.
+            maximum: 100
+          fuel_percent:
+            $ref: '#/components/schemas/data-types_integer-positive'
+            description: Percent fuel in vehicle, expressed between 0 and 100.
+            maximum: 100
+          trip_ids:
+            $ref: '#/components/schemas/data-types_uuid-array'
+            description: Trip UUIDs (foreign key to /trips endpoint), conditionally required for different modes.
+          associated_ticket:
+            $ref: '#/components/schemas/data-types_string'
+            description: Identifier for an associated ticket inside an Agency-maintained 311 or CRM system.
+      - oneOf:
+        - title: modes/car-share
+          $ref: '#/components/schemas/modes_car-share_event'
+        - title: modes/delivery-robots
+          $ref: '#/components/schemas/modes_delivery-robots_event'
+        - title: modes/micromobility
+          $ref: '#/components/schemas/modes_micromobility_event'
+        - title: modes/passenger-services
+          $ref: '#/components/schemas/modes_passenger-services_event'
+      - anyOf:
+        - title: Location-based event
+          required:
+          - location
+        - title: Geography-driven event
+          required:
+          - event_geographies
+          properties:
+            event_geographies:
+              minItems: 1
+    response_error_unregistered:
+      title: response/error_unregistered
+      description: An item with that identifier is not registered.
+      type: object
+      x-stoplight:
+        id: cw4q7ycy1a17h
+      required:
+      - item
+      - error
+      - error_description
+      properties:
+        error:
+          const: unregistered
+        error_description:
+          type: string
+          examples:
+          - This device_id is not registered.
+          - This stop_id is unregistered
+        error_details:
+          type: array
+          items:
+            type: string
+    response_paging:
+      title: response/paging
+      type: object
+      x-stoplight:
+        id: y6kgbr644ng4u
+      properties:
+        links:
+          description: If pagination is used for endpoints that support it, the pagination must comply with the [JSON API](http://jsonapi.org/format/#fetching-pagination) specification.
+          type: object
+          required:
+          - next
+          additionalProperties: false
+          properties:
+            first:
+              type:
+              - 'null'
+              - string
+              title: The URL to the first page of data.
+              examples:
+              - https://data.provider.co/trips/first
+              format: uri
+            last:
+              type:
+              - 'null'
+              - string
+              title: The URL to the last page of data.
+              examples:
+              - https://data.provider.co/trips/last
+              format: uri
+            prev:
+              type:
+              - 'null'
+              - string
+              title: The URL to the previous page of data.
+              examples:
+              - https://data.provider.co/trips/prev
+              format: uri
+            next:
+              type:
+              - 'null'
+              - string
+              title: The URL to the next page of data.
+              examples:
+              - https://data.provider.co/trips/next
+              format: uri
+    modes_car-share_vehicle:
+      title: modes/car-share/vehicle
+      description: Vehicle definition for the `car-share` mode.
+      type: object
+      x-stoplight:
+        id: ept949jym2d7l
+      properties:
+        accessibility_attributes:
+          $ref: '#/components/schemas/modes_car-share_accessibility-attributes'
+          description: The accessibility options available on a given vehicle. Required if available.
+        vehicle_attributes:
+          type: object
+          description: Many of these attributes come from fields in [GBFS vehicle_types](https://github.com/MobilityData/gbfs/blob/v2.3/gbfs.md#vehicle_typesjson).
+          additionalProperties: false
+          required:
+          - year
+          - make
+          - model
+          - color
+          - vin
+          - license_plate
+          properties:
+            year:
+              $ref: '#/components/schemas/data-types_minimum-year'
+            make:
+              $ref: '#/components/schemas/data-types_string'
+            model:
+              $ref: '#/components/schemas/data-types_string'
+            color:
+              $ref: '#/components/schemas/data-types_string'
+            vin:
+              $ref: '#/components/schemas/data-types_string'
+              description: The vehicle's Vehicle Identification Number.
+            placard_number:
+              $ref: '#/components/schemas/data-types_string'
+              description: The registered placard number of the vehicle.
+            license_plate:
+              $ref: '#/components/schemas/data-types_string'
+              description: The registered vehicle license/number/registration plate identifier on the vehicle.
+            inspection_date:
+              $ref: '#/components/schemas/data-types_iso-date'
+              description: The date of the last inspection of the vehicle in ISO 8601 `YYYY-MM-DD`.
+            snow_shovel:
+              type: boolean
+              description: Vehicle has a shovel for removing snow or ice from around vehicle or vehicle path.
+            snow_brush:
+              type: boolean
+              description: Vehicle has brushes for removing snow or ice from vehicle.
+            bike_rack:
+              type: boolean
+              description: Vehicle has car roof or trunk mounted bike rack.
+            park_access:
+              type: boolean
+              description: Vehicle has an access pass to a national/regional/municipal park system.
+            toll_transponder:
+              type: boolean
+              description: Vehicle has a toll transponder for national/regional toll system.
+            phone_charger:
+              type: boolean
+              description: Vehicle has a place to charge a cellphone.
+            sunshade:
+              type: boolean
+              description: Vehicle has a sunshade available (i.e. for windshield).
+            cargo_volume_capacity:
+              $ref: '#/components/schemas/data-types_integer-positive'
+              description: Cargo volume available in the vehicle, expressed in liters. For cars, it corresponds to the space between the boot floor, including the storage under the hatch, to the rear shelf in the trunk.
+            cargo_load_capacity:
+              $ref: '#/components/schemas/data-types_integer-positive'
+              description: The capacity of the vehicle cargo space (excluding passengers), expressed in kilograms.
+            door_count:
+              $ref: '#/components/schemas/data-types_integer-positive'
+              description: The number of doors this vehicle type has.
+            wheel_count:
+              $ref: '#/components/schemas/data-types_integer-positive'
+              description: The number of doors this vehicle type has.
+            air_conditioning:
+              type: boolean
+              description: Vehicle has air conditioning.
+            gear_switch:
+              type: string
+              enum:
+              - automatic
+              - manual
+            convertible:
+              type: boolean
+              description: Vehicle has a retractable roof.
+            cruise_control:
+              type: boolean
+              description: Vehicle has a cruise control system.
+            navigation:
+              type: boolean
+              description: Vehicle has a built-in navigation system.
+    response_error_bad_param:
+      title: response/error_bad_param
+      description: A validation error occurred.
+      type: object
+      x-stoplight:
+        id: vekidez6dfa4u
+      required:
+      - item
+      - error
+      - error_description
+      - error_details
+      properties:
+        error:
+          const: bad_param
+        error_description:
+          type: string
+          examples:
+          - A validation error occurred
+        error_details:
+          type: array
+          description: Array of parameters with errors.
+          minItems: 1
+          items:
+            type: string
+    modes_car-share_accessibility-attributes:
+      title: modes/car-share/accessibility-attributes
+      description: Accessibility options definition for the `car-share` mode.
+      type: array
+      x-stoplight:
+        id: e9mpudr8layzh
+      uniqueItems: true
+      items:
+        type: string
+        enum:
+        - wheelchair_accessible
+    modes_delivery-robots_vehicle:
+      title: modes/delivery-robots/vehicle
+      description: Vehicle definition for the `delivery-robots` mode.
+      type: object
+      x-stoplight:
+        id: 01xpq0lxoywf6
+      properties:
+        accessibility_attributes:
+          $ref: '#/components/schemas/modes_delivery-robots_accessibility-attributes'
+          description: The accessibility options available on a given delivery robot device. Required if available.
+        vehicle_attributes:
+          type: object
+          additionalProperties: false
+          properties:
+            year:
+              $ref: '#/components/schemas/data-types_minimum-year'
+            make:
+              $ref: '#/components/schemas/data-types_string'
+            model:
+              $ref: '#/components/schemas/data-types_string'
+            color:
+              $ref: '#/components/schemas/data-types_string'
+            inspection_date:
+              $ref: '#/components/schemas/data-types_iso-date'
+              description: The date of the last inspection of the vehicle in ISO 8601 `YYYY-MM-DD`.
+            equipped_cameras:
+              $ref: '#/components/schemas/data-types_integer-positive'
+              description: The number of cameras equipped on device.
+            equipped_lighting:
+              $ref: '#/components/schemas/data-types_integer-positive'
+              description: The  number of lights used to illuminate the environment on the the device.
+            wheel_count:
+              $ref: '#/components/schemas/data-types_integer-positive'
+              description: The number of wheels on the device.
+            width:
+              $ref: '#/components/schemas/data-types_integer-positive'
+              description: The width in meters of the device.
+            length:
+              $ref: '#/components/schemas/data-types_integer-positive'
+              description: The length in meters of the device.
+            height:
+              $ref: '#/components/schemas/data-types_integer-positive'
+              description: The height in meters of the device (minus flexible elements like flags).
+            weight:
+              $ref: '#/components/schemas/data-types_integer-positive'
+              description: The weight in kilograms rounded up of the device not including cargo.
+            top_speed:
+              $ref: '#/components/schemas/data-types_integer-positive'
+              description: The theoretical top speed in meters per second of the device.
+            storage_capacity:
+              $ref: '#/components/schemas/data-types_integer-positive'
+              description: The volume in cubic centimeters of cargo space available not including any cargo.
+    response_bulk:
+      title: response/bulk
+      type: object
+      description: For multi-record POST and PUT calls, e.g. sending Events using the Agency API, the bulk-response structure describes a list of results.
+      x-stoplight:
+        id: sdj75536ytrso
+      required:
+      - success
+      - total
+      properties:
+        success:
+          $ref: '#/components/schemas/data-types_integer-positive'
+          description: Number of successfully written records.
+        total:
+          $ref: '#/components/schemas/data-types_integer-positive'
+          description: Total number of provided records.
+        failures:
+          type: array
+    data-types_integer-positive:
+      title: data-types/integer-positive
+      description: An integer greater than or equal to 0.
+      minimum: 0
+      type: integer
+      x-stoplight:
+        id: nfkphjmpm8yay
     data-types_propulsion-type:
       title: data-types/propulsion-type
       description: The allowed types of propulsion in MDS. Based off of `propulsion_type` in [GBFS vehicle_types](https://github.com/MobilityData/gbfs/blob/master/gbfs.md#vehicle_typesjson)
@@ -339,6 +697,127 @@ components:
       type: string
       x-stoplight:
         id: 1ucdttnwhf2bo
+    modes_micromobility_accessibility-attributes:
+      title: modes/micromobility/accessibility-attributes
+      description: Accessibility options definition for the `micromobility` mode.
+      type: array
+      x-stoplight:
+        id: 15do56zc6v30i
+      uniqueItems: true
+      items:
+        type: string
+        enum:
+        - adaptive
+    data-types_event-type-array:
+      title: data-types/event-type-array
+      description: Array of events indicating a change to a vehicle's state.
+      items:
+        $ref: '#/components/schemas/data-types_event-type'
+      minItems: 1
+      type: array
+      uniqueItems: true
+      x-stoplight:
+        id: 1dq8fejw6intb
+    data-types_event-type:
+      title: data-types/event-type
+      description: Events are possible transitions between vehicle states.
+      enum:
+      - agency_drop_off
+      - agency_pick_up
+      - battery_charged
+      - battery_low
+      - changed_geographies
+      - charging_end
+      - charging_start
+      - comms_lost
+      - comms_restored
+      - compliance_pick_up
+      - customer_cancellation
+      - decommissioned
+      - driver_cancellation
+      - fueling_end
+      - fueling_start
+      - located
+      - maintenance
+      - maintenance_end
+      - maintenance_pick_up
+      - not_located
+      - off_hours
+      - on_hours
+      - order_drop_off
+      - order_pick_up
+      - passenger_cancellation
+      - provider_cancellation
+      - provider_drop_off
+      - rebalance_pick_up
+      - recommission
+      - remote_end
+      - remote_start
+      - reservation_cancel
+      - reservation_start
+      - reservation_stop
+      - service_end
+      - service_start
+      - system_resume
+      - system_suspend
+      - trip_cancel
+      - trip_end
+      - trip_enter_jurisdiction
+      - trip_leave_jurisdiction
+      - trip_pause
+      - trip_resume
+      - trip_start
+      - trip_stop
+      - unspecified
+      type: string
+      x-stoplight:
+        id: lsm5td7gknbxz
+    data-types_gps:
+      title: data-types/gps
+      properties:
+        altitude:
+          description: Altitude above mean sea level in meters.
+          type: number
+        heading:
+          description: Degrees - clockwise starting at 0 degrees at true North.
+          type: number
+        horizontal_accuracy:
+          description: Horizontal accuracy in meters.
+          type: number
+        lat:
+          description: Latitude coordinate.
+          maximum: 90
+          minimum: -90
+          type: number
+        lng:
+          description: Longitude coordinate.
+          maximum: 180
+          minimum: -180
+          type: number
+        satellites:
+          $ref: '#/components/schemas/data-types_integer-positive'
+          description: Number of GPS or GNSS satellites.
+        speed:
+          description: Estimated speed in meters / sec as reported by the GPS chipset.
+          type: number
+        vertical_accuracy:
+          description: Vertical accuracy in meters.
+          type: number
+      required:
+      - lat
+      - lng
+      type: object
+      x-stoplight:
+        id: 8aooo5ag7x7vh
+    data-types_uuid-array:
+      title: data-types/uuid-array
+      description: Array of UUID.
+      type: array
+      x-stoplight:
+        id: v932clitbqv31
+      uniqueItems: true
+      items:
+        $ref: '#/components/schemas/data-types_uuid'
     modes_delivery-robots_event:
       title: modes/delivery-robots/event
       description: Event definition for the `delivery-robots` mode.
@@ -467,360 +946,40 @@ components:
         properties:
           trip_ids:
             minItems: 1
-    modes_car-share_accessibility-attributes:
-      title: modes/car-share/accessibility-attributes
-      description: Accessibility options definition for the `car-share` mode.
-      type: array
-      x-stoplight:
-        id: e9mpudr8layzh
-      uniqueItems: true
-      items:
-        type: string
-        enum:
-        - wheelchair_accessible
-    data-types_string:
-      title: data-types/string
-      description: A length-limited string type.
-      examples:
-      - ABC123
-      maxLength: 255
-      pattern: ^(.*)$
-      type: string
-      x-stoplight:
-        id: 2vqv7166161kh
-    modes_delivery-robots_accessibility-attributes:
-      title: modes/delivery-robots/accessibility-attributes
-      description: Accessibility options definition for the `delivery-robots` mode.
+    modes_passenger-services_vehicle:
+      title: modes/passenger-services/vehicle
+      description: Vehicle definition for the `passenger-services` mode.
       type: object
       x-stoplight:
-        id: zsnl5o3q9d0a0
-      additionalProperties: false
+        id: jlsmrsrzxthi6
       properties:
-        audio_cue:
-          type: boolean
-          description: Is the device equipped with audio cues upon delivery.
-        visual_cue:
-          type: boolean
-          description: Is the device equipped with visual cues upon delivery.
-        remote_open:
-          type: boolean
-          description: Can the device door be remotely opened to retrieve cargo upon delivery.
-    data-types_event-type:
-      title: data-types/event-type
-      description: Events are possible transitions between vehicle states.
-      enum:
-      - agency_drop_off
-      - agency_pick_up
-      - battery_charged
-      - battery_low
-      - changed_geographies
-      - charging_end
-      - charging_start
-      - comms_lost
-      - comms_restored
-      - compliance_pick_up
-      - customer_cancellation
-      - decommissioned
-      - driver_cancellation
-      - fueling_end
-      - fueling_start
-      - located
-      - maintenance
-      - maintenance_end
-      - maintenance_pick_up
-      - not_located
-      - off_hours
-      - on_hours
-      - order_drop_off
-      - order_pick_up
-      - passenger_cancellation
-      - provider_cancellation
-      - provider_drop_off
-      - rebalance_pick_up
-      - recommission
-      - remote_end
-      - remote_start
-      - reservation_cancel
-      - reservation_start
-      - reservation_stop
-      - service_end
-      - service_start
-      - system_resume
-      - system_suspend
-      - trip_cancel
-      - trip_end
-      - trip_enter_jurisdiction
-      - trip_leave_jurisdiction
-      - trip_pause
-      - trip_resume
-      - trip_start
-      - trip_stop
-      - unspecified
-      type: string
-      x-stoplight:
-        id: lsm5td7gknbxz
-    modes_passenger-services_event:
-      title: modes/passenger-services/event
-      description: Event definition for the `passenger-services` mode.
-      type: object
-      x-stoplight:
-        id: diqnymt2vyq3m
-      oneOf:
-      - title: vehicle_state - removed
-        properties:
-          vehicle_state:
-            const: removed
-          event_types:
-            items:
-              enum:
-              - comms_restored
-              - decommissioned
-              - maintenance_pick_up
-      - title: vehicle_state - available
-        properties:
-          vehicle_state:
-            const: available
-          event_types:
-            items:
-              enum:
-              - comms_restored
-              - driver_cancellation
-              - passenger_cancellation
-              - provider_cancellation
-              - service_start
-              - trip_end
-              - trip_enter_jurisdiction
-      - title: vehicle_state - non_operational
-        properties:
-          vehicle_state:
-            const: non_operational
-          event_types:
-            items:
-              enum:
-              - comms_restored
-              - maintenance
-              - maintenance_end
-              - recommissioned
-              - service_end
-              - trip_enter_jurisdiction
-      - title: vehicle_state - reserved
-        properties:
-          vehicle_state:
-            const: reserved
-          event_types:
-            items:
-              enum:
-              - comms_restored
-              - reservation_start
-              - trip_enter_jurisdiction
-      - title: vehicle_state - on_trip
-        properties:
-          vehicle_state:
-            const: on_trip
-          event_types:
-            items:
-              enum:
-              - comms_restored
-              - trip_enter_jurisdiction
-              - trip_resume
-              - trip_start
-      - title: vehicle_state - non_contactable
-        properties:
-          vehicle_state:
-            const: non_contactable
-          event_types:
-            items:
-              enum:
-              - comms_lost
-      - title: vehicle_state - stopped
-        properties:
-          vehicle_state:
-            const: stopped
-          event_types:
-            items:
-              enum:
-              - comms_restored
-              - reservation_stop
-              - trip_stop
-      - title: vehicle_state - elsewhere
-        properties:
-          vehicle_state:
-            const: elsewhere
-          event_types:
-            items:
-              enum:
-              - comms_restored
-              - trip_leave_jurisdiction
-      if:
-        properties:
-          event_types:
-            contains:
-            - driver_cancellation
-            - passenger_cancellation
-            - provider_cancellation
-            - reservation_start
-            - reservation_stop
-            - trip_end
-            - trip_enter_jurisdiction
-            - trip_leave_jurisdiction
-            - trip_resume
-            - trip_start
-            - trip_stop
-      then:
-        properties:
-          trip_ids:
-            minItems: 1
-    event:
-      title: models/event
-      description: Events represent changes in [Vehicle Status](./vehicle-status.yaml).
-      type: object
-      x-stoplight:
-        id: 34niv0zuhmwmg
-      required:
-      - device_id
-      - provider_id
-      - event_id
-      - vehicle_state
-      - event_types
-      - timestamp
-      allOf:
-      - properties:
-          device_id:
-            $ref: '#/components/schemas/data-types_uuid'
-            description: A unique device ID in UUID format.
-          provider_id:
-            $ref: '#/components/schemas/data-types_uuid'
-            description: A UUID for the Provider, unique within MDS. See MDS [provider list](https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/providers.csv).
-          data_provider_id:
-            $ref: '#/components/schemas/data-types_uuid'
-            description: If different than `provider_id`, a UUID for the data solution provider managing the data feed in this endpoint.
-          event_id:
-            $ref: '#/components/schemas/data-types_uuid'
-            description: A unique event ID in UUID format.
-          vehicle_state:
-            $ref: '#/components/schemas/data-types_vehicle-state'
-            description: The state of the vehicle as of this event.
-          event_types:
-            $ref: '#/components/schemas/data-types_event-type-array'
-            description: Vehicle event types for state change.
-          timestamp:
-            $ref: '#/components/schemas/data-types_timestamp'
-            description: Date/time that event occurred.
-          publication_time:
-            $ref: '#/components/schemas/data-types_timestamp'
-            description: Date/time event became available through the status changes endpoint.
-          location:
-            $ref: '#/components/schemas/data-types_gps'
-            description: Location of the event.
-          event_geographies:
-            $ref: '#/components/schemas/data-types_uuid-array'
-            description: Array of Geography UUIDs consisting of every Geography that contains the location of the status change. See Geography Driven Events. Required if location is not present.
-          battery_percent:
-            $ref: '#/components/schemas/data-types_integer-positive'
-            description: Percent battery charge of vehicle, expressed between 0 and 100.
-            maximum: 100
-          fuel_percent:
-            $ref: '#/components/schemas/data-types_integer-positive'
-            description: Percent fuel in vehicle, expressed between 0 and 100.
-            maximum: 100
-          trip_ids:
-            $ref: '#/components/schemas/data-types_uuid-array'
-            description: Trip UUIDs (foreign key to /trips endpoint), conditionally required for different modes.
-          associated_ticket:
-            $ref: '#/components/schemas/data-types_string'
-            description: Identifier for an associated ticket inside an Agency-maintained 311 or CRM system.
-      - oneOf:
-        - title: modes/car-share
-          $ref: '#/components/schemas/modes_car-share_event'
-        - title: modes/delivery-robots
-          $ref: '#/components/schemas/modes_delivery-robots_event'
-        - title: modes/micromobility
-          $ref: '#/components/schemas/modes_micromobility_event'
-        - title: modes/passenger-services
-          $ref: '#/components/schemas/modes_passenger-services_event'
-      - anyOf:
-        - title: Location-based event
-          required:
-          - location
-        - title: Geography-driven event
-          required:
-          - event_geographies
+        accessibility_attributes:
+          $ref: '#/components/schemas/modes_passenger-services_accessibility-attributes'
+          description: The accessibility options available on a given vehicle. Required if available.
+        vehicle_attributes:
+          type: object
+          additionalProperties: false
           properties:
-            event_geographies:
-              minItems: 1
-    vehicle:
-      title: models/vehicle
-      description: Vehicle object in MDS.
-      type: object
-      x-stoplight:
-        id: e7es4zmeat7ai
-      required:
-      - device_id
-      - provider_id
-      - vehicle_id
-      - vehicle_type
-      - propulsion_types
-      allOf:
-      - properties:
-          device_id:
-            $ref: '#/components/schemas/data-types_uuid'
-            description: A unique device ID in UUID format.
-          provider_id:
-            $ref: '#/components/schemas/data-types_uuid'
-            description: A UUID for the Provider, unique within MDS. See MDS [provider list](https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/providers.csv).
-          data_provider_id:
-            $ref: '#/components/schemas/data-types_uuid'
-            description: If different than `provider_id`, a UUID for the data solution provider managing the data feed in this endpoint.
-          vehicle_id:
-            $ref: '#/components/schemas/data-types_string'
-            description: A unique vehicle identifier (visible code, license plate, etc), visible on the vehicle itself.
-          vehicle_type:
-            $ref: '#/components/schemas/data-types_vehicle-type'
-            description: The type of vehicle.
-          vehicle_attributes:
-            type: object
-          propulsion_types:
-            $ref: '#/components/schemas/data-types_propulsion-type-array'
-            description: The type of propulsion; allows multiple values.
-            minItems: 1
-          accessibility_attributes:
-            type:
-            - array
-            - object
-          battery_capacity:
-            $ref: '#/components/schemas/data-types_integer-positive'
-            description: Capacity of battery expressed as milliamp hours (mAh).
-          fuel_capacity:
-            $ref: '#/components/schemas/data-types_integer-positive'
-            description: Capacity of fuel tank (liquid, solid, gaseous) expressed in liters.
-          maximum_speed:
-            $ref: '#/components/schemas/data-types_integer-positive'
-            description: Maximum speed (kph) possible with vehicle under normal, flat incline, smooth surface conditions. Applicable if the device has a built-in or intelligent speed limiter/governor.
-      - oneOf:
-        - $ref: '#/components/schemas/modes_car-share_vehicle'
-        - $ref: '#/components/schemas/modes_delivery-robots_vehicle'
-        - $ref: '#/components/schemas/modes_micromobility_vehicle'
-        - $ref: '#/components/schemas/modes_passenger-services_vehicle'
-    data-types_uuid:
-      title: data-types/uuid
-      description: A UUID used to uniquely identity an object.
-      type: string
-      x-stoplight:
-        id: np9kodwmy2kqa
-      format: uuid
-      pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
-      examples:
-      - 3c9604d6-b5ee-11e8-96f8-529269fb1459
-    data-types_event-type-array:
-      title: data-types/event-type-array
-      description: Array of events indicating a change to a vehicle's state.
-      items:
-        $ref: '#/components/schemas/data-types_event-type'
-      minItems: 1
-      type: array
-      uniqueItems: true
-      x-stoplight:
-        id: 1dq8fejw6intb
+            year:
+              $ref: '#/components/schemas/data-types_minimum-year'
+            make:
+              $ref: '#/components/schemas/data-types_string'
+            model:
+              $ref: '#/components/schemas/data-types_string'
+            color:
+              $ref: '#/components/schemas/data-types_string'
+            vin:
+              $ref: '#/components/schemas/data-types_string'
+              description: The vehicle's Vehicle Identification Number.
+            placard_number:
+              $ref: '#/components/schemas/data-types_string'
+              description: The registered placard number of the vehicle.
+            license_plate:
+              $ref: '#/components/schemas/data-types_string'
+              description: The registered vehicle license/number/registration plate identifier on the vehicle.
+            inspection_date:
+              $ref: '#/components/schemas/data-types_iso-date'
+              description: The date of the last inspection of the vehicle in ISO 8601 `YYYY-MM-DD`.
     data-types_iso-date:
       title: data-types/iso-date
       description: Date expressed as ISO 8601 `YYYY-MM-DD`; valid for dates in 1970 and later.
@@ -948,6 +1107,314 @@ components:
         properties:
           trip_ids:
             minItems: 1
+    modes_delivery-robots_accessibility-attributes:
+      title: modes/delivery-robots/accessibility-attributes
+      description: Accessibility options definition for the `delivery-robots` mode.
+      type: object
+      x-stoplight:
+        id: zsnl5o3q9d0a0
+      additionalProperties: false
+      properties:
+        audio_cue:
+          type: boolean
+          description: Is the device equipped with audio cues upon delivery.
+        visual_cue:
+          type: boolean
+          description: Is the device equipped with visual cues upon delivery.
+        remote_open:
+          type: boolean
+          description: Can the device door be remotely opened to retrieve cargo upon delivery.
+    modes_passenger-services_accessibility-attributes:
+      title: modes/passenger-services/accessibility-attributes
+      description: Accessibility options definition for the `passenger-services` mode.
+      type: array
+      x-stoplight:
+        id: 62ab40s0bfzrw
+      uniqueItems: true
+      items:
+        type: string
+        enum:
+        - wheelchair_accessible
+    data-types_vehicle-type:
+      title: data-types/vehicle-type
+      description: The allowed types of of vehicles in MDS. Based off of `form_factor` in [GBFS vehicle_types](https://github.com/MobilityData/gbfs/blob/master/gbfs.md#vehicle_typesjson), with some additional to support MDS modes.
+      type: string
+      x-stoplight:
+        id: gbhhyditnvs5w
+      enum:
+      - bicycle
+      - bus
+      - cargo_bicycle
+      - car
+      - delivery_robot
+      - moped
+      - motorcycle
+      - scooter_standing
+      - scooter_seated
+      - truck
+      - other
+    response_error_already_registered:
+      title: response/error_already_registered
+      description: An item with that identifier is already registered.
+      type: object
+      x-stoplight:
+        id: 3hzf84lqgzawp
+      required:
+      - item
+      - error
+      - error_description
+      properties:
+        error:
+          const: already_registered
+        error_description:
+          type: string
+          examples:
+          - A vehicle with that device_id is already registered.
+          - A stop with that stop_id is already registered.
+        error_details:
+          type: array
+          items:
+            type: string
+    telemetry:
+      title: models/telemetry
+      description: 'A standard point of vehicle telemetry. References to latitude and longitude imply coordinates encoded in the
+
+        [WGS 84 (EPSG:4326)](https://en.wikipedia.org/wiki/World_Geodetic_System) standard GPS or GNSS projection expressed
+
+        as [Decimal Degrees](https://en.wikipedia.org/wiki/Decimal_degrees).'
+      type: object
+      x-stoplight:
+        id: 47oju05zyh09f
+      required:
+      - device_id
+      - provider_id
+      - telemetry_id
+      - timestamp
+      - trip_ids
+      - journey_id
+      - location
+      properties:
+        device_id:
+          $ref: '#/components/schemas/data-types_uuid'
+          description: A unique device ID in UUID format.
+        provider_id:
+          $ref: '#/components/schemas/data-types_uuid'
+          description: A UUID for the Provider, unique within MDS. See MDS [provider list](https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/providers.csv).
+        data_provider_id:
+          $ref: '#/components/schemas/data-types_uuid'
+          description: If different than `provider_id`, a UUID for the data solution provider managing the data feed in this endpoint.
+        telemetry_id:
+          $ref: '#/components/schemas/data-types_uuid'
+          description: ID used for uniquely-identifying a Telemetry entry.
+        timestamp:
+          $ref: '#/components/schemas/data-types_timestamp'
+          description: Date/time that event occurred.
+        trip_ids:
+          oneOf:
+          - $ref: '#/components/schemas/data-types_uuid-array'
+            minItems: 1
+            description: If telemetry occurred during a trip, the ID of the trip(s).
+          - type: 'null'
+            description: If not in a trip, null.
+        journey_id:
+          oneOf:
+          - $ref: '#/components/schemas/data-types_uuid'
+            description: If telemetry occurred during a trip and journeys are used for the mode, the ID of the journey.
+          - type: 'null'
+            description: If not in a trip, null.
+        stop_id:
+          $ref: '#/components/schemas/data-types_uuid'
+          description: Stop that the vehicle is currently located at.
+        location:
+          $ref: '#/components/schemas/data-types_gps'
+          description: Telemetry position data.
+        location_type:
+          type: string
+          enum:
+          - street
+          - sidewalk
+          - crosswalk
+          - garage
+          - bike_lane
+        battery_percent:
+          $ref: '#/components/schemas/data-types_integer-positive'
+          description: Percent battery charge of vehicle, expressed between 0 and 100.
+          maximum: 100
+        fuel_percent:
+          $ref: '#/components/schemas/data-types_integer-positive'
+          description: Percent fuel in vehicle, expressed between 0 and 100.
+          maximum: 100
+        tipped_over:
+          type: boolean
+          description: If detectable and known, is the device tipped over or not?
+          default: false
+    data-types_version:
+      title: data-type/version
+      description: The version of MDS this data represents.
+      type: string
+      x-stoplight:
+        id: bt49ntcbcuxbh
+      pattern: ^2\.(\d|[1-9]\d+)\.(\d|[1-9]\d+)$
+      examples:
+      - 2.0.0
+    modes_passenger-services_event:
+      title: modes/passenger-services/event
+      description: Event definition for the `passenger-services` mode.
+      type: object
+      x-stoplight:
+        id: diqnymt2vyq3m
+      oneOf:
+      - title: vehicle_state - removed
+        properties:
+          vehicle_state:
+            const: removed
+          event_types:
+            items:
+              enum:
+              - comms_restored
+              - decommissioned
+              - maintenance_pick_up
+      - title: vehicle_state - available
+        properties:
+          vehicle_state:
+            const: available
+          event_types:
+            items:
+              enum:
+              - comms_restored
+              - driver_cancellation
+              - passenger_cancellation
+              - provider_cancellation
+              - service_start
+              - trip_end
+              - trip_enter_jurisdiction
+      - title: vehicle_state - non_operational
+        properties:
+          vehicle_state:
+            const: non_operational
+          event_types:
+            items:
+              enum:
+              - comms_restored
+              - maintenance
+              - maintenance_end
+              - recommissioned
+              - service_end
+              - trip_enter_jurisdiction
+      - title: vehicle_state - reserved
+        properties:
+          vehicle_state:
+            const: reserved
+          event_types:
+            items:
+              enum:
+              - comms_restored
+              - reservation_start
+              - trip_enter_jurisdiction
+      - title: vehicle_state - on_trip
+        properties:
+          vehicle_state:
+            const: on_trip
+          event_types:
+            items:
+              enum:
+              - comms_restored
+              - trip_enter_jurisdiction
+              - trip_resume
+              - trip_start
+      - title: vehicle_state - non_contactable
+        properties:
+          vehicle_state:
+            const: non_contactable
+          event_types:
+            items:
+              enum:
+              - comms_lost
+      - title: vehicle_state - stopped
+        properties:
+          vehicle_state:
+            const: stopped
+          event_types:
+            items:
+              enum:
+              - comms_restored
+              - reservation_stop
+              - trip_stop
+      - title: vehicle_state - elsewhere
+        properties:
+          vehicle_state:
+            const: elsewhere
+          event_types:
+            items:
+              enum:
+              - comms_restored
+              - trip_leave_jurisdiction
+      if:
+        properties:
+          event_types:
+            contains:
+            - driver_cancellation
+            - passenger_cancellation
+            - provider_cancellation
+            - reservation_start
+            - reservation_stop
+            - trip_end
+            - trip_enter_jurisdiction
+            - trip_leave_jurisdiction
+            - trip_resume
+            - trip_start
+            - trip_stop
+      then:
+        properties:
+          trip_ids:
+            minItems: 1
+    data-types_string:
+      title: data-types/string
+      description: A length-limited string type.
+      examples:
+      - ABC123
+      maxLength: 255
+      pattern: ^(.*)$
+      type: string
+      x-stoplight:
+        id: 2vqv7166161kh
+    data-types_timestamp:
+      title: data-types/timestamp
+      description: Integer milliseconds since Unix epoch.
+      examples:
+      - 1514764800000
+      - 1681855703000
+      minimum: 1514764800000
+      multipleOf: 1
+      type: number
+      x-stoplight:
+        id: vliol1hqlxw6y
+    data-types_vehicle-state:
+      title: data-types/vehicle-state
+      description: The state of a vehicle.
+      type: string
+      x-stoplight:
+        id: 3j1h7u4vvc7kr
+      enum:
+      - removed
+      - available
+      - non_operational
+      - reserved
+      - on_trip
+      - stopped
+      - non_contactable
+      - missing
+      - elsewhere
+    data-types_uuid:
+      title: data-types/uuid
+      description: A UUID used to uniquely identity an object.
+      type: string
+      x-stoplight:
+        id: np9kodwmy2kqa
+      format: uuid
+      pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+      examples:
+      - 3c9604d6-b5ee-11e8-96f8-529269fb1459
     data-types_minimum-year:
       title: data-types/minimum-year
       description: Represents a minimum for fields that capture a year as an integer. Derived from Unix timestamp 0.
@@ -955,6 +1422,162 @@ components:
       type: integer
       x-stoplight:
         id: fa7v7itv8mti4
+    response_error_missing_param:
+      title: response/error_missing_param
+      description: A required parameter is missing.
+      type: object
+      x-stoplight:
+        id: huc7x2g2wfq5a
+      required:
+      - item
+      - error
+      - error_description
+      - error_details
+      properties:
+        error:
+          const: missing_param
+        error_description:
+          type: string
+          examples:
+          - A required parameter is missing.
+        error_details:
+          type: array
+          description: Array of missing parameters.
+          minItems: 1
+          items:
+            type: string
+    vehicle-status:
+      title: models/vehicles-status
+      description: A vehicle status record represents the current or last-known event and telemetry from a [vehicle](./vehicle.yaml).
+      type: object
+      x-stoplight:
+        id: cuu383rzjelef
+      required:
+      - device_id
+      - provider_id
+      - last_event
+      - last_telemetry
+      properties:
+        device_id:
+          $ref: '#/components/schemas/data-types_uuid'
+          description: A unique device ID in UUID format.
+        provider_id:
+          $ref: '#/components/schemas/data-types_uuid'
+          description: A UUID for the Provider, unique within MDS. See MDS [provider list](https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/providers.csv).
+        data_provider_id:
+          $ref: '#/components/schemas/data-types_uuid'
+          description: If different than `provider_id`, a UUID for the data solution provider managing the data feed in this endpoint.
+        last_event:
+          $ref: '#/components/schemas/event'
+        last_telemetry:
+          $ref: '#/components/schemas/telemetry'
+    vehicle:
+      title: models/vehicle
+      description: Vehicle object in MDS.
+      type: object
+      x-stoplight:
+        id: e7es4zmeat7ai
+      required:
+      - device_id
+      - provider_id
+      - vehicle_id
+      - vehicle_type
+      - propulsion_types
+      allOf:
+      - properties:
+          device_id:
+            $ref: '#/components/schemas/data-types_uuid'
+            description: A unique device ID in UUID format.
+          provider_id:
+            $ref: '#/components/schemas/data-types_uuid'
+            description: A UUID for the Provider, unique within MDS. See MDS [provider list](https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/providers.csv).
+          data_provider_id:
+            $ref: '#/components/schemas/data-types_uuid'
+            description: If different than `provider_id`, a UUID for the data solution provider managing the data feed in this endpoint.
+          vehicle_id:
+            $ref: '#/components/schemas/data-types_string'
+            description: A unique vehicle identifier (visible code, license plate, etc), visible on the vehicle itself.
+          vehicle_type:
+            $ref: '#/components/schemas/data-types_vehicle-type'
+            description: The type of vehicle.
+          vehicle_attributes:
+            type: object
+          propulsion_types:
+            $ref: '#/components/schemas/data-types_propulsion-type-array'
+            description: The type of propulsion; allows multiple values.
+            minItems: 1
+          accessibility_attributes:
+            type:
+            - array
+            - object
+          battery_capacity:
+            $ref: '#/components/schemas/data-types_integer-positive'
+            description: Capacity of battery expressed as milliamp hours (mAh).
+          fuel_capacity:
+            $ref: '#/components/schemas/data-types_integer-positive'
+            description: Capacity of fuel tank (liquid, solid, gaseous) expressed in liters.
+          maximum_speed:
+            $ref: '#/components/schemas/data-types_integer-positive'
+            description: Maximum speed (kph) possible with vehicle under normal, flat incline, smooth surface conditions. Applicable if the device has a built-in or intelligent speed limiter/governor.
+      - oneOf:
+        - $ref: '#/components/schemas/modes_car-share_vehicle'
+        - $ref: '#/components/schemas/modes_delivery-robots_vehicle'
+        - $ref: '#/components/schemas/modes_micromobility_vehicle'
+        - $ref: '#/components/schemas/modes_passenger-services_vehicle'
+    modes_micromobility_vehicle:
+      title: modes/micromobility/vehicle
+      description: Vehicle definition for the `micromobility` mode.
+      type: object
+      x-stoplight:
+        id: f0dry8u608trk
+      properties:
+        accessibility_attributes:
+          $ref: '#/components/schemas/modes_micromobility_accessibility-attributes'
+          description: The accessibility options available on a given vehicle. Required if available.
+        vehicle_attributes:
+          type: object
+          additionalProperties: false
+          properties:
+            year:
+              $ref: '#/components/schemas/data-types_minimum-year'
+            make:
+              $ref: '#/components/schemas/data-types_string'
+            model:
+              $ref: '#/components/schemas/data-types_string'
+    response_error:
+      title: response/error
+      description: An error message for troubleshooting.
+      type: object
+      x-stoplight:
+        id: 90yc58ni8u0ch
+      required:
+      - error
+      - error_description
+      - error_details
+      properties:
+        error:
+          type: string
+          description: Error message string.
+        error_description:
+          type: string
+          description: Human readable error description (can be localized).
+        error_details:
+          type: array
+          description: Human readable error description (can be localized).
+          minItems: 1
+          items:
+            type: string
+    response_version:
+      title: response/version
+      description: Response bodies must be a UTF-8 encoded JSON object and must minimally include the MDS `version`.
+      type: object
+      x-stoplight:
+        id: ivd8jadc3rqf7
+      required:
+      - version
+      properties:
+        version:
+          $ref: '#/components/schemas/data-types_version'
     modes_micromobility_event:
       title: modes/micromobility/event
       description: Event definition for the `micromobility` mode.
@@ -1076,629 +1699,6 @@ components:
         properties:
           trip_ids:
             minItems: 1
-    modes_micromobility_accessibility-attributes:
-      title: modes/micromobility/accessibility-attributes
-      description: Accessibility options definition for the `micromobility` mode.
-      type: array
-      x-stoplight:
-        id: 15do56zc6v30i
-      uniqueItems: true
-      items:
-        type: string
-        enum:
-        - adaptive
-    modes_delivery-robots_vehicle:
-      title: modes/delivery-robots/vehicle
-      description: Vehicle definition for the `delivery-robots` mode.
-      type: object
-      x-stoplight:
-        id: 01xpq0lxoywf6
-      properties:
-        accessibility_attributes:
-          $ref: '#/components/schemas/modes_delivery-robots_accessibility-attributes'
-          description: The accessibility options available on a given delivery robot device. Required if available.
-        vehicle_attributes:
-          type: object
-          additionalProperties: false
-          properties:
-            year:
-              $ref: '#/components/schemas/data-types_minimum-year'
-            make:
-              $ref: '#/components/schemas/data-types_string'
-            model:
-              $ref: '#/components/schemas/data-types_string'
-            color:
-              $ref: '#/components/schemas/data-types_string'
-            inspection_date:
-              $ref: '#/components/schemas/data-types_iso-date'
-              description: The date of the last inspection of the vehicle in ISO 8601 `YYYY-MM-DD`.
-            equipped_cameras:
-              $ref: '#/components/schemas/data-types_integer-positive'
-              description: The number of cameras equipped on device.
-            equipped_lighting:
-              $ref: '#/components/schemas/data-types_integer-positive'
-              description: The  number of lights used to illuminate the environment on the the device.
-            wheel_count:
-              $ref: '#/components/schemas/data-types_integer-positive'
-              description: The number of wheels on the device.
-            width:
-              $ref: '#/components/schemas/data-types_integer-positive'
-              description: The width in meters of the device.
-            length:
-              $ref: '#/components/schemas/data-types_integer-positive'
-              description: The length in meters of the device.
-            height:
-              $ref: '#/components/schemas/data-types_integer-positive'
-              description: The height in meters of the device (minus flexible elements like flags).
-            weight:
-              $ref: '#/components/schemas/data-types_integer-positive'
-              description: The weight in kilograms rounded up of the device not including cargo.
-            top_speed:
-              $ref: '#/components/schemas/data-types_integer-positive'
-              description: The theoretical top speed in meters per second of the device.
-            storage_capacity:
-              $ref: '#/components/schemas/data-types_integer-positive'
-              description: The volume in cubic centimeters of cargo space available not including any cargo.
-    response_error:
-      title: response/error
-      description: An error message for troubleshooting.
-      type: object
-      x-stoplight:
-        id: 90yc58ni8u0ch
-      required:
-      - error
-      - error_description
-      - error_details
-      properties:
-        error:
-          type: string
-          description: Error message string.
-        error_description:
-          type: string
-          description: Human readable error description (can be localized).
-        error_details:
-          type: array
-          description: Human readable error description (can be localized).
-          minItems: 1
-          items:
-            type: string
-    response_version:
-      title: response/version
-      description: Response bodies must be a UTF-8 encoded JSON object and must minimally include the MDS `version`.
-      type: object
-      x-stoplight:
-        id: ivd8jadc3rqf7
-      required:
-      - version
-      properties:
-        version:
-          $ref: '#/components/schemas/data-types_version'
-    modes_car-share_vehicle:
-      title: modes/car-share/vehicle
-      description: Vehicle definition for the `car-share` mode.
-      type: object
-      x-stoplight:
-        id: ept949jym2d7l
-      properties:
-        accessibility_attributes:
-          $ref: '#/components/schemas/modes_car-share_accessibility-attributes'
-          description: The accessibility options available on a given vehicle. Required if available.
-        vehicle_attributes:
-          type: object
-          description: Many of these attributes come from fields in [GBFS vehicle_types](https://github.com/MobilityData/gbfs/blob/v2.3/gbfs.md#vehicle_typesjson).
-          additionalProperties: false
-          required:
-          - year
-          - make
-          - model
-          - color
-          - vin
-          - license_plate
-          properties:
-            year:
-              $ref: '#/components/schemas/data-types_minimum-year'
-            make:
-              $ref: '#/components/schemas/data-types_string'
-            model:
-              $ref: '#/components/schemas/data-types_string'
-            color:
-              $ref: '#/components/schemas/data-types_string'
-            vin:
-              $ref: '#/components/schemas/data-types_string'
-              description: The vehicle's Vehicle Identification Number.
-            placard_number:
-              $ref: '#/components/schemas/data-types_string'
-              description: The registered placard number of the vehicle.
-            license_plate:
-              $ref: '#/components/schemas/data-types_string'
-              description: The registered vehicle license/number/registration plate identifier on the vehicle.
-            inspection_date:
-              $ref: '#/components/schemas/data-types_iso-date'
-              description: The date of the last inspection of the vehicle in ISO 8601 `YYYY-MM-DD`.
-            snow_shovel:
-              type: boolean
-              description: Vehicle has a shovel for removing snow or ice from around vehicle or vehicle path.
-            snow_brush:
-              type: boolean
-              description: Vehicle has brushes for removing snow or ice from vehicle.
-            bike_rack:
-              type: boolean
-              description: Vehicle has car roof or trunk mounted bike rack.
-            park_access:
-              type: boolean
-              description: Vehicle has an access pass to a national/regional/municipal park system.
-            toll_transponder:
-              type: boolean
-              description: Vehicle has a toll transponder for national/regional toll system.
-            phone_charger:
-              type: boolean
-              description: Vehicle has a place to charge a cellphone.
-            sunshade:
-              type: boolean
-              description: Vehicle has a sunshade available (i.e. for windshield).
-            cargo_volume_capacity:
-              $ref: '#/components/schemas/data-types_integer-positive'
-              description: Cargo volume available in the vehicle, expressed in liters. For cars, it corresponds to the space between the boot floor, including the storage under the hatch, to the rear shelf in the trunk.
-            cargo_load_capacity:
-              $ref: '#/components/schemas/data-types_integer-positive'
-              description: The capacity of the vehicle cargo space (excluding passengers), expressed in kilograms.
-            door_count:
-              $ref: '#/components/schemas/data-types_integer-positive'
-              description: The number of doors this vehicle type has.
-            wheel_count:
-              $ref: '#/components/schemas/data-types_integer-positive'
-              description: The number of doors this vehicle type has.
-            air_conditioning:
-              type: boolean
-              description: Vehicle has air conditioning.
-            gear_switch:
-              type: string
-              enum:
-              - automatic
-              - manual
-            convertible:
-              type: boolean
-              description: Vehicle has a retractable roof.
-            cruise_control:
-              type: boolean
-              description: Vehicle has a cruise control system.
-            navigation:
-              type: boolean
-              description: Vehicle has a built-in navigation system.
-    data-types_gps:
-      title: data-types/gps
-      properties:
-        altitude:
-          description: Altitude above mean sea level in meters.
-          type: number
-        heading:
-          description: Degrees - clockwise starting at 0 degrees at true North.
-          type: number
-        horizontal_accuracy:
-          description: Horizontal accuracy in meters.
-          type: number
-        lat:
-          description: Latitude coordinate.
-          maximum: 90
-          minimum: -90
-          type: number
-        lng:
-          description: Longitude coordinate.
-          maximum: 180
-          minimum: -180
-          type: number
-        satellites:
-          $ref: '#/components/schemas/data-types_integer-positive'
-          description: Number of GPS or GNSS satellites.
-        speed:
-          description: Estimated speed in meters / sec as reported by the GPS chipset.
-          type: number
-        vertical_accuracy:
-          description: Vertical accuracy in meters.
-          type: number
-      required:
-      - lat
-      - lng
-      type: object
-      x-stoplight:
-        id: 8aooo5ag7x7vh
-    response_error_unregistered:
-      title: response/error_unregistered
-      description: An item with that identifier is not registered.
-      type: object
-      x-stoplight:
-        id: cw4q7ycy1a17h
-      required:
-      - item
-      - error
-      - error_description
-      properties:
-        error:
-          const: unregistered
-        error_description:
-          type: string
-          examples:
-          - This device_id is not registered.
-          - This stop_id is unregistered
-        error_details:
-          type: array
-          items:
-            type: string
-    data-types_propulsion-type-array:
-      title: data-types/propulsion-type-array
-      description: Array of propulsion types, allowing multiple values.
-      items:
-        $ref: '#/components/schemas/data-types_propulsion-type'
-      type: array
-      uniqueItems: true
-      x-stoplight:
-        id: 4ao4xw23z8wrf
-    modes_passenger-services_vehicle:
-      title: modes/passenger-services/vehicle
-      description: Vehicle definition for the `passenger-services` mode.
-      type: object
-      x-stoplight:
-        id: jlsmrsrzxthi6
-      properties:
-        accessibility_attributes:
-          $ref: '#/components/schemas/modes_passenger-services_accessibility-attributes'
-          description: The accessibility options available on a given vehicle. Required if available.
-        vehicle_attributes:
-          type: object
-          additionalProperties: false
-          properties:
-            year:
-              $ref: '#/components/schemas/data-types_minimum-year'
-            make:
-              $ref: '#/components/schemas/data-types_string'
-            model:
-              $ref: '#/components/schemas/data-types_string'
-            color:
-              $ref: '#/components/schemas/data-types_string'
-            vin:
-              $ref: '#/components/schemas/data-types_string'
-              description: The vehicle's Vehicle Identification Number.
-            placard_number:
-              $ref: '#/components/schemas/data-types_string'
-              description: The registered placard number of the vehicle.
-            license_plate:
-              $ref: '#/components/schemas/data-types_string'
-              description: The registered vehicle license/number/registration plate identifier on the vehicle.
-            inspection_date:
-              $ref: '#/components/schemas/data-types_iso-date'
-              description: The date of the last inspection of the vehicle in ISO 8601 `YYYY-MM-DD`.
-    data-types_uuid-array:
-      title: data-types/uuid-array
-      description: Array of UUID.
-      type: array
-      x-stoplight:
-        id: v932clitbqv31
-      uniqueItems: true
-      items:
-        $ref: '#/components/schemas/data-types_uuid'
-    modes_passenger-services_accessibility-attributes:
-      title: modes/passenger-services/accessibility-attributes
-      description: Accessibility options definition for the `passenger-services` mode.
-      type: array
-      x-stoplight:
-        id: 62ab40s0bfzrw
-      uniqueItems: true
-      items:
-        type: string
-        enum:
-        - wheelchair_accessible
-    response_error_bad_param:
-      title: response/error_bad_param
-      description: A validation error occurred.
-      type: object
-      x-stoplight:
-        id: vekidez6dfa4u
-      required:
-      - item
-      - error
-      - error_description
-      - error_details
-      properties:
-        error:
-          const: bad_param
-        error_description:
-          type: string
-          examples:
-          - A validation error occurred
-        error_details:
-          type: array
-          description: Array of parameters with errors.
-          minItems: 1
-          items:
-            type: string
-    data-types_integer-positive:
-      title: data-types/integer-positive
-      description: An integer greater than or equal to 0.
-      minimum: 0
-      type: integer
-      x-stoplight:
-        id: nfkphjmpm8yay
-    response_bulk:
-      title: response/bulk
-      type: object
-      description: For multi-record POST and PUT calls, e.g. sending Events using the Agency API, the bulk-response structure describes a list of results.
-      x-stoplight:
-        id: sdj75536ytrso
-      required:
-      - success
-      - total
-      properties:
-        success:
-          $ref: '#/components/schemas/data-types_integer-positive'
-          description: Number of successfully written records.
-        total:
-          $ref: '#/components/schemas/data-types_integer-positive'
-          description: Total number of provided records.
-        failures:
-          type: array
-    response_paging:
-      title: response/paging
-      type: object
-      x-stoplight:
-        id: y6kgbr644ng4u
-      properties:
-        links:
-          description: If pagination is used for endpoints that support it, the pagination must comply with the [JSON API](http://jsonapi.org/format/#fetching-pagination) specification.
-          type: object
-          required:
-          - next
-          additionalProperties: false
-          properties:
-            first:
-              type:
-              - 'null'
-              - string
-              title: The URL to the first page of data.
-              examples:
-              - https://data.provider.co/trips/first
-              format: uri
-            last:
-              type:
-              - 'null'
-              - string
-              title: The URL to the last page of data.
-              examples:
-              - https://data.provider.co/trips/last
-              format: uri
-            prev:
-              type:
-              - 'null'
-              - string
-              title: The URL to the previous page of data.
-              examples:
-              - https://data.provider.co/trips/prev
-              format: uri
-            next:
-              type:
-              - 'null'
-              - string
-              title: The URL to the next page of data.
-              examples:
-              - https://data.provider.co/trips/next
-              format: uri
-    data-types_timestamp:
-      title: data-types/timestamp
-      description: Integer milliseconds since Unix epoch.
-      examples:
-      - 1514764800000
-      - 1681855703000
-      minimum: 1514764800000
-      multipleOf: 1
-      type: number
-      x-stoplight:
-        id: vliol1hqlxw6y
-    modes_micromobility_vehicle:
-      title: modes/micromobility/vehicle
-      description: Vehicle definition for the `micromobility` mode.
-      type: object
-      x-stoplight:
-        id: f0dry8u608trk
-      properties:
-        accessibility_attributes:
-          $ref: '#/components/schemas/modes_micromobility_accessibility-attributes'
-          description: The accessibility options available on a given vehicle. Required if available.
-        vehicle_attributes:
-          type: object
-          additionalProperties: false
-          properties:
-            year:
-              $ref: '#/components/schemas/data-types_minimum-year'
-            make:
-              $ref: '#/components/schemas/data-types_string'
-            model:
-              $ref: '#/components/schemas/data-types_string'
-    data-types_version:
-      title: data-type/version
-      description: The version of MDS this data represents.
-      type: string
-      x-stoplight:
-        id: bt49ntcbcuxbh
-      pattern: ^2\.(\d|[1-9]\d+)\.(\d|[1-9]\d+)$
-      examples:
-      - 2.0.0
-    telemetry:
-      title: models/telemetry
-      description: 'A standard point of vehicle telemetry. References to latitude and longitude imply coordinates encoded in the
-
-        [WGS 84 (EPSG:4326)](https://en.wikipedia.org/wiki/World_Geodetic_System) standard GPS or GNSS projection expressed
-
-        as [Decimal Degrees](https://en.wikipedia.org/wiki/Decimal_degrees).'
-      type: object
-      x-stoplight:
-        id: 47oju05zyh09f
-      required:
-      - device_id
-      - provider_id
-      - telemetry_id
-      - timestamp
-      - trip_ids
-      - journey_id
-      - location
-      properties:
-        device_id:
-          $ref: '#/components/schemas/data-types_uuid'
-          description: A unique device ID in UUID format.
-        provider_id:
-          $ref: '#/components/schemas/data-types_uuid'
-          description: A UUID for the Provider, unique within MDS. See MDS [provider list](https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/providers.csv).
-        data_provider_id:
-          $ref: '#/components/schemas/data-types_uuid'
-          description: If different than `provider_id`, a UUID for the data solution provider managing the data feed in this endpoint.
-        telemetry_id:
-          $ref: '#/components/schemas/data-types_uuid'
-          description: ID used for uniquely-identifying a Telemetry entry.
-        timestamp:
-          $ref: '#/components/schemas/data-types_timestamp'
-          description: Date/time that event occurred.
-        trip_ids:
-          oneOf:
-          - $ref: '#/components/schemas/data-types_uuid-array'
-            minItems: 1
-            description: If telemetry occurred during a trip, the ID of the trip(s).
-          - type: 'null'
-            description: If not in a trip, null.
-        journey_id:
-          oneOf:
-          - $ref: '#/components/schemas/data-types_uuid'
-            description: If telemetry occurred during a trip and journeys are used for the mode, the ID of the journey.
-          - type: 'null'
-            description: If not in a trip, null.
-        stop_id:
-          $ref: '#/components/schemas/data-types_uuid'
-          description: Stop that the vehicle is currently located at.
-        location:
-          $ref: '#/components/schemas/data-types_gps'
-          description: Telemetry position data.
-        location_type:
-          type: string
-          enum:
-          - street
-          - sidewalk
-          - crosswalk
-          - garage
-          - bike_lane
-        battery_percent:
-          $ref: '#/components/schemas/data-types_integer-positive'
-          description: Percent battery charge of vehicle, expressed between 0 and 100.
-          maximum: 100
-        fuel_percent:
-          $ref: '#/components/schemas/data-types_integer-positive'
-          description: Percent fuel in vehicle, expressed between 0 and 100.
-          maximum: 100
-        tipped_over:
-          type: boolean
-          description: If detectable and known, is the device tipped over or not?
-          default: false
-    data-types_vehicle-type:
-      title: data-types/vehicle-type
-      description: The allowed types of of vehicles in MDS. Based off of `form_factor` in [GBFS vehicle_types](https://github.com/MobilityData/gbfs/blob/master/gbfs.md#vehicle_typesjson), with some additional to support MDS modes.
-      type: string
-      x-stoplight:
-        id: gbhhyditnvs5w
-      enum:
-      - bicycle
-      - bus
-      - cargo_bicycle
-      - car
-      - delivery_robot
-      - moped
-      - motorcycle
-      - scooter_standing
-      - scooter_seated
-      - truck
-      - other
-    response_error_already_registered:
-      title: response/error_already_registered
-      description: An item with that identifier is already registered.
-      type: object
-      x-stoplight:
-        id: 3hzf84lqgzawp
-      required:
-      - item
-      - error
-      - error_description
-      properties:
-        error:
-          const: already_registered
-        error_description:
-          type: string
-          examples:
-          - A vehicle with that device_id is already registered.
-          - A stop with that stop_id is already registered.
-        error_details:
-          type: array
-          items:
-            type: string
-    response_error_missing_param:
-      title: response/error_missing_param
-      description: A required parameter is missing.
-      type: object
-      x-stoplight:
-        id: huc7x2g2wfq5a
-      required:
-      - item
-      - error
-      - error_description
-      - error_details
-      properties:
-        error:
-          const: missing_param
-        error_description:
-          type: string
-          examples:
-          - A required parameter is missing.
-        error_details:
-          type: array
-          description: Array of missing parameters.
-          minItems: 1
-          items:
-            type: string
-    data-types_vehicle-state:
-      title: data-types/vehicle-state
-      description: The state of a vehicle.
-      type: string
-      x-stoplight:
-        id: 3j1h7u4vvc7kr
-      enum:
-      - removed
-      - available
-      - non_operational
-      - reserved
-      - on_trip
-      - stopped
-      - non_contactable
-      - missing
-      - elsewhere
-    vehicle-status:
-      title: models/vehicles-status
-      description: A vehicle status record represents the current or last-known event and telemetry from a [vehicle](./vehicle.yaml).
-      type: object
-      x-stoplight:
-        id: cuu383rzjelef
-      required:
-      - device_id
-      - provider_id
-      - last_event
-      - last_telemetry
-      properties:
-        device_id:
-          $ref: '#/components/schemas/data-types_uuid'
-          description: A unique device ID in UUID format.
-        provider_id:
-          $ref: '#/components/schemas/data-types_uuid'
-          description: A UUID for the Provider, unique within MDS. See MDS [provider list](https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/providers.csv).
-        data_provider_id:
-          $ref: '#/components/schemas/data-types_uuid'
-          description: If different than `provider_id`, a UUID for the data solution provider managing the data feed in this endpoint.
-        last_event:
-          $ref: '#/components/schemas/event'
-        last_telemetry:
-          $ref: '#/components/schemas/telemetry'
     response_last_updated:
       title: response/last_updated
       type: object

@@ -55,16 +55,6 @@ paths:
       - Value
 components:
   schemas:
-    data-types_uuid:
-      title: data-types/uuid
-      description: A UUID used to uniquely identity an object.
-      type: string
-      x-stoplight:
-        id: np9kodwmy2kqa
-      format: uuid
-      pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
-      examples:
-      - 3c9604d6-b5ee-11e8-96f8-529269fb1459
     data-types_timestamp:
       title: data-types/timestamp
       description: Integer milliseconds since Unix epoch.
@@ -76,6 +66,16 @@ components:
       type: number
       x-stoplight:
         id: vliol1hqlxw6y
+    data-types_uuid:
+      title: data-types/uuid
+      description: A UUID used to uniquely identity an object.
+      type: string
+      x-stoplight:
+        id: np9kodwmy2kqa
+      format: uuid
+      pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+      examples:
+      - 3c9604d6-b5ee-11e8-96f8-529269fb1459
 x-stoplight:
   id: q6wapocoxbhs1
 x-bundled-from: https://github.com/openmobilityfoundation/mds-openapi/blob/v2.0/reference/policy.yaml (commit 0c07bc3d294237dd41c6273f059efb11b8149c66); external $refs into ../models/ inlined under components.schemas, no other changes

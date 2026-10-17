@@ -52,69 +52,6 @@ paths:
       - Jurisdictions.json
 components:
   schemas:
-    data-types_string:
-      title: data-types/string
-      description: A length-limited string type.
-      examples:
-      - ABC123
-      maxLength: 255
-      pattern: ^(.*)$
-      type: string
-      x-stoplight:
-        id: 2vqv7166161kh
-    data-types_version:
-      title: data-type/version
-      description: The version of MDS this data represents.
-      type: string
-      x-stoplight:
-        id: bt49ntcbcuxbh
-      pattern: ^2\.(\d|[1-9]\d+)\.(\d|[1-9]\d+)$
-      examples:
-      - 2.0.0
-    response_error:
-      title: response/error
-      description: An error message for troubleshooting.
-      type: object
-      x-stoplight:
-        id: 90yc58ni8u0ch
-      required:
-      - error
-      - error_description
-      - error_details
-      properties:
-        error:
-          type: string
-          description: Error message string.
-        error_description:
-          type: string
-          description: Human readable error description (can be localized).
-        error_details:
-          type: array
-          description: Human readable error description (can be localized).
-          minItems: 1
-          items:
-            type: string
-    response_version:
-      title: response/version
-      description: Response bodies must be a UTF-8 encoded JSON object and must minimally include the MDS `version`.
-      type: object
-      x-stoplight:
-        id: ivd8jadc3rqf7
-      required:
-      - version
-      properties:
-        version:
-          $ref: '#/components/schemas/data-types_version'
-    data-types_uuid:
-      title: data-types/uuid
-      description: A UUID used to uniquely identity an object.
-      type: string
-      x-stoplight:
-        id: np9kodwmy2kqa
-      format: uuid
-      pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
-      examples:
-      - 3c9604d6-b5ee-11e8-96f8-529269fb1459
     data-types_mode:
       title: data-types/modes
       description: The modes supported in MDS.
@@ -126,28 +63,6 @@ components:
       - delivery-robots
       - micromobility
       - passenger-services
-    data-types_timestamp:
-      title: data-types/timestamp
-      description: Integer milliseconds since Unix epoch.
-      examples:
-      - 1514764800000
-      - 1681855703000
-      minimum: 1514764800000
-      multipleOf: 1
-      type: number
-      x-stoplight:
-        id: vliol1hqlxw6y
-    response_last_updated:
-      title: response/last_updated
-      type: object
-      x-stoplight:
-        id: z6u8eu7rlkd1j
-      required:
-      - last_updated
-      properties:
-        last_updated:
-          $ref: '#/components/schemas/data-types_timestamp'
-          description: Timestamp indicating the last time the data in this feed was updated.
     jurisdiction:
       title: models/jurisdiction
       description: 'A jurisdiction is:
@@ -196,6 +111,91 @@ components:
         timestamp:
           $ref: '#/components/schemas/data-types_timestamp'
           description: Creation or update time of a Jurisdiction.
+    response_last_updated:
+      title: response/last_updated
+      type: object
+      x-stoplight:
+        id: z6u8eu7rlkd1j
+      required:
+      - last_updated
+      properties:
+        last_updated:
+          $ref: '#/components/schemas/data-types_timestamp'
+          description: Timestamp indicating the last time the data in this feed was updated.
+    data-types_version:
+      title: data-type/version
+      description: The version of MDS this data represents.
+      type: string
+      x-stoplight:
+        id: bt49ntcbcuxbh
+      pattern: ^2\.(\d|[1-9]\d+)\.(\d|[1-9]\d+)$
+      examples:
+      - 2.0.0
+    data-types_string:
+      title: data-types/string
+      description: A length-limited string type.
+      examples:
+      - ABC123
+      maxLength: 255
+      pattern: ^(.*)$
+      type: string
+      x-stoplight:
+        id: 2vqv7166161kh
+    data-types_timestamp:
+      title: data-types/timestamp
+      description: Integer milliseconds since Unix epoch.
+      examples:
+      - 1514764800000
+      - 1681855703000
+      minimum: 1514764800000
+      multipleOf: 1
+      type: number
+      x-stoplight:
+        id: vliol1hqlxw6y
+    response_error:
+      title: response/error
+      description: An error message for troubleshooting.
+      type: object
+      x-stoplight:
+        id: 90yc58ni8u0ch
+      required:
+      - error
+      - error_description
+      - error_details
+      properties:
+        error:
+          type: string
+          description: Error message string.
+        error_description:
+          type: string
+          description: Human readable error description (can be localized).
+        error_details:
+          type: array
+          description: Human readable error description (can be localized).
+          minItems: 1
+          items:
+            type: string
+    response_version:
+      title: response/version
+      description: Response bodies must be a UTF-8 encoded JSON object and must minimally include the MDS `version`.
+      type: object
+      x-stoplight:
+        id: ivd8jadc3rqf7
+      required:
+      - version
+      properties:
+        version:
+          $ref: '#/components/schemas/data-types_version'
+    data-types_uuid:
+      title: data-types/uuid
+      description: A UUID used to uniquely identity an object.
+      type: string
+      x-stoplight:
+        id: np9kodwmy2kqa
+      format: uuid
+      pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+      examples:
+      - 3c9604d6-b5ee-11e8-96f8-529269fb1459
 x-stoplight:
   id: 0c8f6q3fjyzbi
 x-bundled-from: https://github.com/openmobilityfoundation/mds-openapi/blob/v2.0/reference/jurisdiction.yaml (commit 0c07bc3d294237dd41c6273f059efb11b8149c66); external $refs into ../models/ inlined under components.schemas, no other changes
