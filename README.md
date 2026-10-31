@@ -64,5 +64,185 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Open Mobility Foundation is a company surfaced via the API Evangelist harvest backlog (source: spectral-ruleset-github) and added to the network as a stub for full-pipeline profiling.
-- https://www.openmobilityfoundation.org/
+The Open Mobility Foundation (OMF) is a city-governed, open source foundation that stewards open data standards such as the Mobility Data Specification (MDS) and the Curb Data Specification (CDS), used by cities and their technology partners to manage shared mobility (scooters, bike share, car share, taxis, TNCs, AVs, delivery robots) and digitize public space and curbs. It brings together public and private sector stakeholders to develop the standards, OpenAPI definitions and tools for the public right-of-way.
+
+**Areas:** Company · Mobility · Open Source · Open Standard · Transportation · Cities · Micromobility · Data Specifications
+
+## Open Mobility Foundation on APIs.io
+
+Everything profiled for Open Mobility Foundation is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/open-mobility-foundation/](https://apis.io/providers/open-mobility-foundation/)** — or go straight to one of the APIs or properties below.
+
+### APIs (15)
+
+- [Open Mobility Foundation Events API](https://apis.io/apis/open-mobility-foundation/open-mobility-foundation-events-api/) — The Events API from Open Mobility Foundation — 3 operation(s) for events.
+- [Open Mobility Foundation Geographies API](https://apis.io/apis/open-mobility-foundation/open-mobility-foundation-geographies-api/) — The Geographies API from Open Mobility Foundation — 2 operation(s) for geographies.
+- [Open Mobility Foundation Geographies.json API](https://apis.io/apis/open-mobility-foundation/open-mobility-foundation-geographies-json-api/) — The Geographies.json API from Open Mobility Foundation — 1 operation(s) for geographies.json.
+- [Open Mobility Foundation Jurisdictions API](https://apis.io/apis/open-mobility-foundation/open-mobility-foundation-jurisdictions-api/) — The Jurisdictions API from Open Mobility Foundation — 2 operation(s) for jurisdictions.
+- [Open Mobility Foundation Jurisdictions.json API](https://apis.io/apis/open-mobility-foundation/open-mobility-foundation-jurisdictions-json-api/) — The Jurisdictions.json API from Open Mobility Foundation — 1 operation(s) for jurisdictions.json.
+- [Open Mobility Foundation Metrics API](https://apis.io/apis/open-mobility-foundation/open-mobility-foundation-metrics-api/) — The Metrics API from Open Mobility Foundation — 1 operation(s) for metrics.
+- [Open Mobility Foundation Policies API](https://apis.io/apis/open-mobility-foundation/open-mobility-foundation-policies-api/) — The Policies API from Open Mobility Foundation — 2 operation(s) for policies.
+- [Open Mobility Foundation Policies.json API](https://apis.io/apis/open-mobility-foundation/open-mobility-foundation-policies-json-api/) — The Policies.json API from Open Mobility Foundation — 1 operation(s) for policies.json.
+- [Open Mobility Foundation Reports API](https://apis.io/apis/open-mobility-foundation/open-mobility-foundation-reports-api/) — The Reports API from Open Mobility Foundation — 2 operation(s) for reports.
+- [Open Mobility Foundation Requirements API](https://apis.io/apis/open-mobility-foundation/open-mobility-foundation-requirements-api/) — The Requirements API from Open Mobility Foundation — 1 operation(s) for requirements.
+- [Open Mobility Foundation Stops API](https://apis.io/apis/open-mobility-foundation/open-mobility-foundation-stops-api/) — The Stops API from Open Mobility Foundation — 2 operation(s) for stops.
+- [Open Mobility Foundation Telemetry API](https://apis.io/apis/open-mobility-foundation/open-mobility-foundation-telemetry-api/) — The Telemetry API from Open Mobility Foundation — 1 operation(s) for telemetry.
+- [Open Mobility Foundation Trips API](https://apis.io/apis/open-mobility-foundation/open-mobility-foundation-trips-api/) — The Trips API from Open Mobility Foundation — 1 operation(s) for trips.
+- [Open Mobility Foundation Value API](https://apis.io/apis/open-mobility-foundation/open-mobility-foundation-value-api/) — The Value API from Open Mobility Foundation — 1 operation(s) for value.
+- [Open Mobility Foundation Vehicles API](https://apis.io/apis/open-mobility-foundation/open-mobility-foundation-vehicles-api/) — The Vehicles API from Open Mobility Foundation — 4 operation(s) for vehicles.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [Open Mobility Foundation MDS MCP (candidate)](https://apis.io/servers/open-mobility-foundation/open-mobility-foundation-mds-mcp-candidate/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Open Mobility Foundation Agentic Access](https://apis.io/agentic-access/open-mobility-foundation/open-mobility-foundation-agentic-access/)
+
+#### JSON Schema (20)
+
+The data models the API reads and writes.
+
+- [column](https://apis.io/schemas/open-mobility-foundation/open-mobility-foundation-column/)
+- [data-types/iso-dayhourminute](https://apis.io/schemas/open-mobility-foundation/open-mobility-foundation-data-types-iso-dayhourminute/)
+- [data-types/iso-duration](https://apis.io/schemas/open-mobility-foundation/open-mobility-foundation-data-types-iso-duration/)
+- [data-types/timestamp](https://apis.io/schemas/open-mobility-foundation/open-mobility-foundation-data-types-timestamp/)
+- [data-types/uuid](https://apis.io/schemas/open-mobility-foundation/open-mobility-foundation-data-types-uuid/)
+- [models/event](https://apis.io/schemas/open-mobility-foundation/open-mobility-foundation-event/)
+- [models/geography](https://apis.io/schemas/open-mobility-foundation/open-mobility-foundation-geography/)
+- [models/jurisdiction](https://apis.io/schemas/open-mobility-foundation/open-mobility-foundation-jurisdiction/)
+- [measures](https://apis.io/schemas/open-mobility-foundation/open-mobility-foundation-measures/)
+- [models/mutable-stop](https://apis.io/schemas/open-mobility-foundation/open-mobility-foundation-mutable-stop/)
+- [models/policy](https://apis.io/schemas/open-mobility-foundation/open-mobility-foundation-policy/)
+- [query](https://apis.io/schemas/open-mobility-foundation/open-mobility-foundation-query/)
+- [models/report](https://apis.io/schemas/open-mobility-foundation/open-mobility-foundation-report/)
+- [models/requirements](https://apis.io/schemas/open-mobility-foundation/open-mobility-foundation-requirements/)
+- [response/last_updated](https://apis.io/schemas/open-mobility-foundation/open-mobility-foundation-response-last-updated/)
+- [response/version](https://apis.io/schemas/open-mobility-foundation/open-mobility-foundation-response-version/)
+- [models/stop](https://apis.io/schemas/open-mobility-foundation/open-mobility-foundation-stop/)
+- [models/telemetry](https://apis.io/schemas/open-mobility-foundation/open-mobility-foundation-telemetry/)
+- [models/trip](https://apis.io/schemas/open-mobility-foundation/open-mobility-foundation-trip/)
+- [models/vehicle](https://apis.io/schemas/open-mobility-foundation/open-mobility-foundation-vehicle/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Open Mobility Foundation Context](https://apis.io/jsonld/open-mobility-foundation/open-mobility-foundation-context/)
+
+#### Overlays (6)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Open Mobility Foundation Mds Agency Overlay](https://apis.io/overlays/open-mobility-foundation/open-mobility-foundation-mds-agency-overlay/)
+- [Open Mobility Foundation Mds Geography Overlay](https://apis.io/overlays/open-mobility-foundation/open-mobility-foundation-mds-geography-overlay/)
+- [Open Mobility Foundation Mds Jurisdiction Overlay](https://apis.io/overlays/open-mobility-foundation/open-mobility-foundation-mds-jurisdiction-overlay/)
+- [Open Mobility Foundation Mds Metrics Overlay](https://apis.io/overlays/open-mobility-foundation/open-mobility-foundation-mds-metrics-overlay/)
+- [Open Mobility Foundation Mds Policy Overlay](https://apis.io/overlays/open-mobility-foundation/open-mobility-foundation-mds-policy-overlay/)
+- [Open Mobility Foundation Mds Provider Overlay](https://apis.io/overlays/open-mobility-foundation/open-mobility-foundation-mds-provider-overlay/)
+
+#### Governance rules (2)
+
+Spectral rulesets for the provider's contracts.
+
+- [Open Mobility Foundation — mds openapi rules](https://apis.io/rules/open-mobility-foundation/open-mobility-foundation-mds-openapi-spectral-rules/)
+- [Open Mobility Foundation API Rules](https://apis.io/rules/open-mobility-foundation/open-mobility-foundation-rules/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Open Mobility Foundation Authentication](https://apis.io/security/open-mobility-foundation/open-mobility-foundation-authentication/)
+- [Open Mobility Foundation Domain Security](https://apis.io/security/open-mobility-foundation/open-mobility-foundation-domain-security/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Open Mobility Foundation Scopes](https://apis.io/scopes/open-mobility-foundation/open-mobility-foundation-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Open Mobility Foundation Plans Pricing](https://apis.io/plans/open-mobility-foundation/open-mobility-foundation-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Open Mobility Foundation Rate Limits](https://apis.io/rate-limits/open-mobility-foundation/open-mobility-foundation-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.openmobilityfoundation.org/)
+- [Documentation](https://github.com/openmobilityfoundation/mobility-data-specification)
+- [Support](https://www.openmobilityfoundation.org/get-in-touch/)
+- [Blog](https://www.openmobilityfoundation.org/blog/)
+- [Terms of service](https://www.openmobilityfoundation.org/terms-and-conditions/)
+- [Privacy policy](https://www.openmobilityfoundation.org/privacy-policy/)
+- [GitHub](https://github.com/openmobilityfoundation)
+
+## API Evangelist rating
+
+**Kin Score 41.6** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 64.3 |
+| Contract quality | 58.7 |
+| Contract governance | 35.6 |
+| Operational transparency | 28.9 |
+| Developer ergonomics | 30.4 |
+| Access clarity | 21.1 |
+
+**Agent readiness 28.3** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | — |
+
+**Regulatory alignment 34.3** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/open-mobility-foundation/](https://apis.io/providers/open-mobility-foundation/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Open Mobility Foundation: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/open-mobility-foundation/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
